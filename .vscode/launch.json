@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: ROS",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/race_demo/src/scripts/demo.py",
+            "console": "integratedTerminal",
+            "pythonPath": "/usr/bin/python3",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/devel/lib/python3/dist-packages:${env:PYTHONPATH}",
+                "ROS_PACKAGE_PATH": "${workspaceFolder}/src:${env:ROS_PACKAGE_PATH}",
+                "LD_LIBRARY_PATH": "${workspaceFolder}/devel/lib:${env:LD_LIBRARY_PATH}"
+            },
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
