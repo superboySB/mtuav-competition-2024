@@ -2,7 +2,8 @@
 第二届低空经济智能飞行管理挑战赛 性能赛（BIT-LINC）
 
 ## 环境配置
-我们默认手头是一个windows笔记本电脑，可以连接一些服务器来做这个比赛。（mac和linux图形界面本机可以自己研究）
+我们默认手头是一个windows笔记本电脑，可以连接一些服务器来做这个比赛。（mac和linux图形界面本机可以自己研究，此外从配置上看好像没有允许使用cuda-enabled的算法实现？）
+
 ### docker
 与去年一样，需要有docker支持，这里会自动拉取镜像
 ```sh
@@ -36,7 +37,7 @@ docker run -itd -p 8888:8888 --name race_user_sdk_container \
 ```
 相当于四个Docker容器。
 
-### 关闭sdk
+### 关闭sdk（重启前释放资源）
 如果需要关闭SDK服务，则运行下列内容关闭并清除三个容器，后续重新新建进行初始化
 ```sh
 cd scripts
@@ -83,28 +84,25 @@ docker commit race_user_sdk_container race_user:linc-xx
 ```sh
 docker login uav-challenge.tencentcloudcr.com --username 'tcr$user' --password gXWWpxhO9igRnXzYYV58UexxS1Gw8VQY
 ```
-然后提交镜像到docker hub
+<!-- 然后提交镜像到docker hub
 ```sh
 docker tag race_user:linc-xx uav-challenge.tencentcloudcr.com/uav_challenge_2024/{appkey}:{tag}
 docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/appkey:tag
-```
+``` -->
 根据比赛方给的appkey，我们内部使用
 ```sh
 docker tag race_user:linc-xx uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
-
+```
+<!-- ```sh
 docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
-```
-其中tag可以自己定义。
-
-## Tips
-### 1. docker_submit_tool
-可以在race_user_sdk_container容器的`/home/sdk_for_user/docker_submit_tool/`下看到`submit_client`和`submit.sh`，将它们拷贝到本地然后运行提交脚本
+``` -->
+其中tag可以自己定义。然后，在本地运行提交脚本
 ```sh
-docker cp race_user_sdk_container:/home/sdk_for_user/docker_submit_tool/submit_client .
-docker cp race_user_sdk_container:/home/sdk_for_user/docker_submit_tool/submit.sh .
-bash submit.sh
+cd scripts
+
+./submit.sh submit uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 ```
-提交频次有限，感觉应该用不上。
+
 
 ## Ref
 - 这里有去年的悲催经历：https://github.com/superboySB/mtuav-competition
