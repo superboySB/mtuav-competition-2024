@@ -30,10 +30,10 @@ docker run -itd -p 8888:8888 --name race_user_sdk_container \
 	--network race_net --ip 192.168.100.4 \
 	-e ROS_MASTER_URI=http://192.168.100.4:11311 \
 	-e ROS_IP=192.168.100.4 \
-	-v /home/race_log:/config \
+	-v /home/race_log/user_log:/home/race_log \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v /etc/timezone:/etc/timezone:ro \
-	marcobright2023/mtuav-competition-2024:user
+	uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:user
 ```
 相当于四个Docker容器。
 
