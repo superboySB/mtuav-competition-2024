@@ -2,6 +2,7 @@
 第二届低空经济智能飞行管理挑战赛 性能赛（BIT-LINC）
 
 ## 环境配置
+我们默认手头是一个windows笔记本电脑，可以连接一些服务器来做这个比赛。（mac和linux图形界面本机可以自己研究）
 ### docker
 与去年一样，需要有docker支持，这里会自动拉取镜像
 ```sh
@@ -44,11 +45,17 @@ chmod +x stop_race.sh
 ```
 
 ## 单机版本的代码开发
-进入user容器开搞
+我们进入user容器开搞
 ```sh
 docker exec -it race_user_sdk_container bash
 ```
 确保`rosnode list`包含`/competition_msg_handler_node`和`/map_client_node`。然后建议后续直接用vscode插件在容器里面开发吧。
+
+【可选】对于可视化平台，如果目前手头的服务器不支持公开ip的话，可能需要本机转发一下
+```sh
+ssh -L 8888:localhost:8888 -p 17003 ps@36.189.234.178
+```
+然后注意要导入`/home/sdk_for_user/map_utmm/`里面的本地地图才行。
 
 ### 容器内开发过程
 在`race_user_sdk_container`容器内的`/home/`目录拉自己的最新代码
@@ -56,6 +63,15 @@ docker exec -it race_user_sdk_container bash
 cd /home/
 git clone https://github.com/superboySB/mtuav-competition-2024
 cd mtuav-competition-2024
+```
+下面是一个基于python的简单demo，不包含复杂的算法设计和效率提升，是对竞赛SDK的简易流程示教，demo可以一直送完配置文件中的订单量。
+```sh
+# 编译
+catkin_make
+source devel/setup.bash
+
+# 运行
+rosrun race_demo demo.py
 ```
 
 ## 在线提交镜像
@@ -80,12 +96,15 @@ docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4
 ```
 其中tag可以自己定义。
 
-【可选】此外，也可以在race_user_sdk_container容器的`/home/sdk_for_user/docker_submit_tool/`下看到`submit_client`和`submit.sh`，将它们拷贝到本地然后运行提交脚本
+## Tips
+### 1. docker_submit_tool
+可以在race_user_sdk_container容器的`/home/sdk_for_user/docker_submit_tool/`下看到`submit_client`和`submit.sh`，将它们拷贝到本地然后运行提交脚本
 ```sh
 docker cp race_user_sdk_container:/home/sdk_for_user/docker_submit_tool/submit_client .
 docker cp race_user_sdk_container:/home/sdk_for_user/docker_submit_tool/submit.sh .
 bash submit.sh
 ```
+提交频次有限，感觉应该用不上。
 
 ## Ref
 - 这里有去年的悲催经历：https://github.com/superboySB/mtuav-competition
