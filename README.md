@@ -102,13 +102,13 @@ docker tag race_user:linc-xx uav-challenge.tencentcloudcr.com/uav_challenge_2024
 <!-- ```sh
 docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 ``` -->
-其中tag可以自己定义。然后，在本地运行提交脚本
+其中tag可以自己定义。然后，在本地（非container内部）运行提交官方给的脚本
 ```sh
 cd scripts
 
 ./submit.sh submit uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 ```
-
+如果没什么报错应该就认为是成功提交了一次镜像。
 
 ## Ref
 - 这里有去年的悲催经历：https://github.com/superboySB/mtuav-competition
