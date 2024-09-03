@@ -24,7 +24,7 @@ chmod +x start_race.sh
 ```
 这样会启动三个官方无人机、无人车、平台准备的container（建议初始化），然后再启动用户container（可重复利用）
 ```sh
-docker run -d -p 8888:8888 --name race_user_sdk_container \
+docker run -itd -p 8888:8888 --name race_user_sdk_container \
 	--network race_net --ip 192.168.100.4 \
 	-e ROS_MASTER_URI=http://192.168.100.4:11311 \
 	-e ROS_IP=192.168.100.4 \
@@ -43,7 +43,7 @@ chmod +x stop_race.sh
 ./stop_race.sh
 ```
 
-## 代码开发
+## 单机版本的代码开发
 进入user容器开搞
 ```sh
 docker exec -it race_user_sdk_container bash
@@ -57,7 +57,7 @@ cd /home/
 git clone https://github.com/superboySB/mtuav-competition-2024
 ```
 
-## 提交镜像
+## 在线提交镜像
 首先，确保`race_user_sdk_container`的`/home/`目录里面有比赛代码，并且比赛程序的启动方式已经写入到了`run.sh`文件中，便于别人启动docker会自动执行比赛程序。执行以下指令
 ```sh
 docker commit race_user_sdk_container race_user:linc-xx
