@@ -1,0 +1,1 @@
+FROM uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:user

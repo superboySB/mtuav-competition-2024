@@ -55,6 +55,7 @@ docker exec -it race_user_sdk_container bash
 ```sh
 cd /home/
 git clone https://github.com/superboySB/mtuav-competition-2024
+cd mtuav-competition-2024
 ```
 
 ## 在线提交镜像
@@ -81,7 +82,9 @@ docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4
 
 【可选】此外，也可以在race_user_sdk_container容器的`/home/sdk_for_user/docker_submit_tool/`下看到`submit_client`和`submit.sh`，将它们拷贝到本地然后运行提交脚本
 ```sh
-docker cp 
+docker cp race_user_sdk_container:/home/sdk_for_user/docker_submit_tool/submit_client .
+docker cp race_user_sdk_container:/home/sdk_for_user/docker_submit_tool/submit.sh .
+bash submit.sh
 ```
 
 ## Ref
