@@ -108,7 +108,10 @@ cd scripts
 
 ./submit.sh submit uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 ```
-如果没什么报错应该就认为是成功提交了一次镜像。
+如果没什么报错应该就认为是成功提交了一次镜像。然后可以查看自己在线提交的模型的动态与成绩
+```sh
+./submit.sh query
+```
 
 ## Ref
 - 这里有去年的悲催经历：https://github.com/superboySB/mtuav-competition
