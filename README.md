@@ -69,12 +69,14 @@ cd mtuav-competition-2024
 ```sh
 # 编译
 catkin_make
+
+# 激活环境
 source devel/setup.bash
 
 # 运行
 rosrun race_demo demo.py
 ```
-在解决了转发问题以后，可以本机在`http://localhost:8888/`里面看到可视化与console基本是较低延迟同步执行的。
+在解决了转发问题以后，可以本机在`http://localhost:8888/`里面看到可视化与console基本是较低延迟同步执行的。注意注意！！如果是为了提交代码，我们只做好编译就可以到下一步了。
 
 ## 本地测试run.sh && 在线提交docker镜像
 首先，确保`race_user_sdk_container`的`/home/`目录里面有比赛代码，并且比赛程序的启动方式已经写入到了`run.sh`文件中，自己测试工程worksapce下面的`/home/mtuav-competition-2024/run.sh`是否可以跑通,如果可以的话就直接替换掉比赛要求位置的同名文件
