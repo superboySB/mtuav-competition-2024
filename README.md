@@ -92,16 +92,11 @@ docker commit race_user_sdk_container race_user:{tag}
 ```sh
 docker login uav-challenge.tencentcloudcr.com --username 'tcr$user' --password gXWWpxhO9igRnXzYYV58UexxS1Gw8VQY
 ```
-<!-- 然后提交镜像到docker hub
-```sh
-docker tag race_user:linc-xx uav-challenge.tencentcloudcr.com/uav_challenge_2024/{appkey}:{tag}
-docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/appkey:tag
-``` -->
 根据比赛方给的appkey和secretKey，我们内部使用
 ```sh
 docker tag race_user:{tag} uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 
-docker push race_user:{tag} uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
+docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 ```
 其中tag可以自己定义。然后，在本地（非container内部）运行提交官方给的脚本
 ```sh
