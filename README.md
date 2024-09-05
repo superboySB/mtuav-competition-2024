@@ -26,7 +26,7 @@ chmod +x start_race.sh
 ```
 这样会启动三个官方无人机、无人车、平台准备的container（建议初始化），然后再启动用户container（可重复利用）
 ```sh
-docker run -itd -p 8888:8888 --name race_user_sdk_container \
+docker run -d -p 8888:8888 --name race_user_sdk_container \
 	--network race_net --ip 192.168.100.4 \
 	-e ROS_MASTER_URI=http://192.168.100.4:11311 \
 	-e ROS_IP=192.168.100.4 \
@@ -97,16 +97,15 @@ docker login uav-challenge.tencentcloudcr.com --username 'tcr$user' --password g
 docker tag race_user:linc-xx uav-challenge.tencentcloudcr.com/uav_challenge_2024/{appkey}:{tag}
 docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/appkey:tag
 ``` -->
-根据比赛方给的appkey，我们内部使用
+根据比赛方给的appkey和secretKey，我们内部使用
 ```sh
 docker tag race_user:{tag} uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
+
+docker push race_user:{tag} uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 ```
-<!-- ```sh
-docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
-``` -->
 其中tag可以自己定义。然后，在本地（非container内部）运行提交官方给的脚本
 ```sh
-cd scripts
+cd docker_submit_tool
 
 ./submit.sh submit uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 ```
