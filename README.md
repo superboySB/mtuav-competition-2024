@@ -59,9 +59,9 @@ ssh -L 8888:localhost:8888 -p 17003 ps@36.189.234.178
 然后注意要导入`/home/sdk_for_user/map_utmm/`里面的本地地图才行。
 
 ### 容器内开发过程
-在`race_user_sdk_container`容器内的`/home/`目录拉自己的最新代码
+在`race_user_sdk_container`容器内的`/root/`目录拉自己的最新代码
 ```sh
-cd /home/
+cd ~
 git clone https://github.com/superboySB/mtuav-competition-2024
 cd mtuav-competition-2024
 ```
@@ -81,14 +81,14 @@ rosrun race_demo demo.py
 ## 本地测试run.sh && 在线提交docker镜像
 首先，确保`race_user_sdk_container`的`/home/`目录里面有比赛代码，并且比赛程序的启动方式已经写入到了`run.sh`文件中，自己测试工程worksapce下面的`/home/mtuav-competition-2024/run.sh`是否可以跑通,如果可以的话就直接替换掉比赛要求位置的同名文件
 ```sh
-cp /home/mtuav-competition-2024/run.sh /home/run.sh
+cp ~/mtuav-competition-2024/run.sh /home/run.sh
 bash /home/run.sh
 ```
 运行完如果发现也没问题，那别人启动docker就会自动执行比赛程序。接下来执行以下指令
 ```sh
-docker commit race_user_sdk_container race_user:linc-xx
+docker commit race_user_sdk_container race_user:{tag}
 ```
-其中xx可以自己定义为版本号之类的玩意。然后登录腾讯云docker服务
+其中tag可以自己定义为版本号之类的玩意。然后登录腾讯云docker服务
 ```sh
 docker login uav-challenge.tencentcloudcr.com --username 'tcr$user' --password gXWWpxhO9igRnXzYYV58UexxS1Gw8VQY
 ```
@@ -99,7 +99,7 @@ docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/appkey:tag
 ``` -->
 根据比赛方给的appkey，我们内部使用
 ```sh
-docker tag race_user:linc-xx uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
+docker tag race_user:{tag} uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
 ```
 <!-- ```sh
 docker push uav-challenge.tencentcloudcr.com/uav_challenge_2024/3b0859ed3c9d2fd4d7f2a618b85ca413:{tag}
