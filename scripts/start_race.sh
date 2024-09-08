@@ -37,6 +37,7 @@ fi
 # docker run -d -p 8888:8888 --name race_user_sdk_container \
 # 	--network race_net --ip 192.168.100.4 \
 # 	-e ROS_MASTER_URI=http://192.168.100.4:11311 \
+# 	-p <your-favorite-port>:22 \
 # 	-e ROS_IP=192.168.100.4 \
 # 	-v /home/race_log:/config \
 # 	-v /etc/localtime:/etc/localtime:ro \
