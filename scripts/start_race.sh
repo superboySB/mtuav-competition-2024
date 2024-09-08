@@ -39,7 +39,7 @@ fi
 # 	-e ROS_MASTER_URI=http://192.168.100.4:11311 \
 # 	-p <your-favorite-port>:22 \
 # 	-e ROS_IP=192.168.100.4 \
-# 	-v /home/race_log:/config \
+# 	-v /home/race_log:/home/race_log \
 # 	-v /etc/localtime:/etc/localtime:ro \
 # 	-v /etc/timezone:/etc/timezone:ro \
 # 	marcobright2023/mtuav-competition-2024:user
