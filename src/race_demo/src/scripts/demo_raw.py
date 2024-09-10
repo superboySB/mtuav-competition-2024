@@ -254,9 +254,9 @@ class DemoPipeline:
                     car_sn, car_pos, car_init_pos, 5.0, WorkState.RELEASE_DRONE_OUT)
             elif self.state == WorkState.RELEASE_DRONE_OUT:
                 if(self.des_pos_reached(car_init_pos, car_pos, 0.5) and car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
-                    start_pos = Position(drone_pos.x, drone_pos.y, -120)
+                    start_pos = Position(drone_pos.x, drone_pos.y, -145)
                     middle_pos = Position(
-                        waybill['targetPosition']['x'], waybill['targetPosition']['y'], -120)
+                        waybill['targetPosition']['x'], waybill['targetPosition']['y'], -145)
                     end_pos = Position(
                         waybill['targetPosition']['x'],
                         waybill['targetPosition']['y'],
@@ -278,8 +278,8 @@ class DemoPipeline:
                     waybill['targetPosition']['y'],
                     waybill['targetPosition']['z'])
                 if(self.des_pos_reached(des_pos, drone_pos, 2.0) and drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
-                    start_pos = Position(drone_pos.x, drone_pos.y, -120)
-                    middle_pos = Position(car_init_pos.x, car_init_pos.y, -120)
+                    start_pos = Position(drone_pos.x, drone_pos.y, -145)
+                    middle_pos = Position(car_init_pos.x, car_init_pos.y, -145)
                     end_pos = Position(car_pos.x, car_pos.y, car_pos.z - 20)
                     route = [start_pos, middle_pos, end_pos]
                     self.fly_one_route(
