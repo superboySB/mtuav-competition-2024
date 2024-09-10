@@ -1,0 +1,3170 @@
+{
+    "controlType": "SIMPLE_FLIGHT",
+    "peerId": 50045970,
+    "port": 9999,
+    "sceneIp": "192.168.100.5",
+    "taskParam": {
+        "batteryConsuming": true,
+        "droneLimitConfig": {
+            "maxCargoSlots": 1,
+            "maxFlightRange": 10000,
+            "maxHoriAcc": 7.5,
+            "maxHoriFlySpeed": 10,
+            "maxTakeOffHeight": 120,
+            "maxVertAcc": 7.5,
+            "maxVertFlySpeed": 10,
+            "maxWeight": 5,
+            "minTakeOffHeight": 60
+        },
+        "droneParamList": [
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/meituan/bvlos/race/drone",
+                "droneSn": "SIM-DRONE-0001",
+                "guid": "GUID_14_600_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1723444030034,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49419368,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 49497179,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 600,
+                "tcpPort": 7000,
+                "udpPort": 7001
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/meituan/bvlos/race/drone",
+                "droneSn": "SIM-DRONE-0002",
+                "guid": "GUID_14_600_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1723444030036,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49897014,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 49497179,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 600,
+                "tcpPort": 7002,
+                "udpPort": 7003
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/meituan/bvlos/race/drone",
+                "droneSn": "SIM-DRONE-0003",
+                "guid": "GUID_14_600_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1723444030036,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49765735,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 49497179,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 600,
+                "tcpPort": 7004,
+                "udpPort": 7005
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/meituan/bvlos/race/drone",
+                "droneSn": "SIM-DRONE-0004",
+                "guid": "GUID_14_600_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1723444030038,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 50115891,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 49497179,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 600,
+                "tcpPort": 7006,
+                "udpPort": 7007
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/meituan/bvlos/race/drone",
+                "droneSn": "SIM-DRONE-0005",
+                "guid": "GUID_14_600_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1723444030038,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 50168759,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 49497179,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 600,
+                "tcpPort": 7008,
+                "udpPort": 7009
+            }
+        ],
+        "guid": "GUID_14_600_1",
+        "hasObstacles": false,
+        "loadingCargoPoint": {
+            "x": 190,
+            "y": 425,
+            "z": -16
+        },
+        "magvAviationOperationsBoundaryInfo": {
+            "bottomLeft": {
+                "x": 180,
+                "y": 430,
+                "z": -16
+            },
+            "bottomRight": {
+                "x": 200,
+                "y": 430,
+                "z": -16
+            },
+            "topLeft": {
+                "x": 180,
+                "y": 450,
+                "z": -16
+            },
+            "topRight": {
+                "x": 200,
+                "y": 450,
+                "z": -16
+            }
+        },
+        "magvBoundaryInfo": {
+            "bottomLeft": {
+                "x": 180,
+                "y": 420,
+                "z": -16
+            },
+            "bottomRight": {
+                "x": 200,
+                "y": 420,
+                "z": -16
+            },
+            "topLeft": {
+                "x": 180,
+                "y": 450,
+                "z": -16
+            },
+            "topRight": {
+                "x": 200,
+                "y": 450,
+                "z": -16
+            }
+        },
+        "magvLimitConfig": {
+            "maxHoriAcc": 1.0,
+            "maxHoriMoveSpeed": 1.4,
+            "maxHoriDec": 0.4,
+            "maxThetaSpeed": 3.0,
+            "maxThetaAcc": 2.5
+        },
+        "magvParamList": [
+            {
+                "birthplace": {
+                    "x": 184,
+                    "y": 434,
+                    "z": -16
+                },
+                "currentDir": "/opt/meituan/bvlos/race/magv",
+                "guid": "GUID_14_600_1",
+                "ip": "192.168.100.2",
+                "lastReportTime": 1723444030039,
+                "magvSn": "SIM-MAGV-0001",
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49832750,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 49497179,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 600,
+                "tcpPort": 3000,
+                "udpPort": 3001
+            },
+            {
+                "birthplace": {
+                    "x": 196,
+                    "y": 434,
+                    "z": -16
+                },
+                "currentDir": "/opt/meituan/bvlos/race/magv",
+                "guid": "GUID_14_600_1",
+                "ip": "192.168.100.2",
+                "lastReportTime": 1723444030041,
+                "magvSn": "SIM-MAGV-0002",
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49482026,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 49497179,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 600,
+                "tcpPort": 3002,
+                "udpPort": 3003
+            }
+        ],
+        "mapBoundaryInfo": {
+            "bottomLeft": {
+                "x": 100,
+                "y": 100,
+                "z": 0
+            },
+            "bottomRight": {
+                "x": 600,
+                "y": 100,
+                "z": 0
+            },
+            "heightLimit": 10,
+            "lowLimit": -150,
+            "topLeft": {
+                "x": 100,
+                "y": 600,
+                "z": 0
+            },
+            "topRight": {
+                "x": 600,
+                "y": 600,
+                "z": 0
+            }
+        },
+        "mapServerIp": "192.168.100.5",
+        "mapServerPort": 5050,
+        "taskId": 600,
+        "unloadingCargoStationList": [
+            {
+                "index": 1,
+                "name": "测试卸货点1",
+                "position": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                }
+            },
+            {
+                "index": 2,
+                "name": "测试卸货点2",
+                "position": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                }
+            }
+        ],
+        "waybillParamList": [
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 1,
+                    "name": "测试货物1",
+                    "weight": 2.671
+                },
+                "index": 1,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[0].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 2,
+                    "name": "测试货物2",
+                    "weight": 1.552
+                },
+                "index": 2,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[1].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 3,
+                    "name": "测试货物3",
+                    "weight": 1.336
+                },
+                "index": 3,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[2].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 4,
+                    "name": "测试货物4",
+                    "weight": 2.44
+                },
+                "index": 4,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[3].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 5,
+                    "name": "测试货物5",
+                    "weight": 1.346
+                },
+                "index": 5,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[4].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 6,
+                    "name": "测试货物6",
+                    "weight": 2.282
+                },
+                "index": 6,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[5].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 7,
+                    "name": "测试货物7",
+                    "weight": 1.935
+                },
+                "index": 7,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[6].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 8,
+                    "name": "测试货物8",
+                    "weight": 3.037
+                },
+                "index": 8,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[7].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 9,
+                    "name": "测试货物9",
+                    "weight": 2.825
+                },
+                "index": 9,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[8].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 10,
+                    "name": "测试货物10",
+                    "weight": 2.992
+                },
+                "index": 10,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[9].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 11,
+                    "name": "测试货物11",
+                    "weight": 2.106
+                },
+                "index": 11,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[10].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 12,
+                    "name": "测试货物12",
+                    "weight": 1.971
+                },
+                "index": 12,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[11].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 13,
+                    "name": "测试货物13",
+                    "weight": 3.616
+                },
+                "index": 13,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[12].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 14,
+                    "name": "测试货物14",
+                    "weight": 2.642
+                },
+                "index": 14,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[13].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 15,
+                    "name": "测试货物15",
+                    "weight": 1.519
+                },
+                "index": 15,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[14].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 16,
+                    "name": "测试货物16",
+                    "weight": 2.05
+                },
+                "index": 16,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[15].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 17,
+                    "name": "测试货物17",
+                    "weight": 3.223
+                },
+                "index": 17,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[16].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 18,
+                    "name": "测试货物18",
+                    "weight": 1.423
+                },
+                "index": 18,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[17].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 19,
+                    "name": "测试货物19",
+                    "weight": 2.328
+                },
+                "index": 19,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[18].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 20,
+                    "name": "测试货物20",
+                    "weight": 1.724
+                },
+                "index": 20,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[19].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 21,
+                    "name": "测试货物21",
+                    "weight": 2.409
+                },
+                "index": 21,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[20].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 22,
+                    "name": "测试货物22",
+                    "weight": 2.43
+                },
+                "index": 22,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[21].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 23,
+                    "name": "测试货物23",
+                    "weight": 2.098
+                },
+                "index": 23,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[22].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 24,
+                    "name": "测试货物24",
+                    "weight": 2.313
+                },
+                "index": 24,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[23].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 25,
+                    "name": "测试货物25",
+                    "weight": 1.213
+                },
+                "index": 25,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[24].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 26,
+                    "name": "测试货物26",
+                    "weight": 2.19
+                },
+                "index": 26,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[25].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 27,
+                    "name": "测试货物27",
+                    "weight": 3.857
+                },
+                "index": 27,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[26].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 28,
+                    "name": "测试货物28",
+                    "weight": 3.339
+                },
+                "index": 28,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[27].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 29,
+                    "name": "测试货物29",
+                    "weight": 3.272
+                },
+                "index": 29,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[28].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 30,
+                    "name": "测试货物30",
+                    "weight": 1.56
+                },
+                "index": 30,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[29].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 31,
+                    "name": "测试货物31",
+                    "weight": 3.216
+                },
+                "index": 31,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[30].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 32,
+                    "name": "测试货物32",
+                    "weight": 3.451
+                },
+                "index": 32,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[31].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 33,
+                    "name": "测试货物33",
+                    "weight": 2.313
+                },
+                "index": 33,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[32].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 34,
+                    "name": "测试货物34",
+                    "weight": 2.704
+                },
+                "index": 34,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[33].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 35,
+                    "name": "测试货物35",
+                    "weight": 2.813
+                },
+                "index": 35,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[34].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 36,
+                    "name": "测试货物36",
+                    "weight": 1.921
+                },
+                "index": 36,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[35].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 37,
+                    "name": "测试货物37",
+                    "weight": 3.797
+                },
+                "index": 37,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[36].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 38,
+                    "name": "测试货物38",
+                    "weight": 3.387
+                },
+                "index": 38,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[37].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 39,
+                    "name": "测试货物39",
+                    "weight": 3.941
+                },
+                "index": 39,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[38].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 40,
+                    "name": "测试货物40",
+                    "weight": 2.143
+                },
+                "index": 40,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[39].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 41,
+                    "name": "测试货物41",
+                    "weight": 1.463
+                },
+                "index": 41,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[40].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 42,
+                    "name": "测试货物42",
+                    "weight": 3.965
+                },
+                "index": 42,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[41].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 43,
+                    "name": "测试货物43",
+                    "weight": 2.946
+                },
+                "index": 43,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[42].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 44,
+                    "name": "测试货物44",
+                    "weight": 3.015
+                },
+                "index": 44,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[43].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 45,
+                    "name": "测试货物45",
+                    "weight": 1.054
+                },
+                "index": 45,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[44].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 46,
+                    "name": "测试货物46",
+                    "weight": 1.929
+                },
+                "index": 46,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[45].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 47,
+                    "name": "测试货物47",
+                    "weight": 3.032
+                },
+                "index": 47,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[46].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 48,
+                    "name": "测试货物48",
+                    "weight": 1.465
+                },
+                "index": 48,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[47].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 49,
+                    "name": "测试货物49",
+                    "weight": 1.731
+                },
+                "index": 49,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[48].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 50,
+                    "name": "测试货物50",
+                    "weight": 1.907
+                },
+                "index": 50,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[49].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 51,
+                    "name": "测试货物51",
+                    "weight": 3.294
+                },
+                "index": 51,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[50].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 52,
+                    "name": "测试货物52",
+                    "weight": 2.741
+                },
+                "index": 52,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[51].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 53,
+                    "name": "测试货物53",
+                    "weight": 2.629
+                },
+                "index": 53,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[52].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 54,
+                    "name": "测试货物54",
+                    "weight": 2.479
+                },
+                "index": 54,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[53].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 55,
+                    "name": "测试货物55",
+                    "weight": 2.247
+                },
+                "index": 55,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[54].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 56,
+                    "name": "测试货物56",
+                    "weight": 1.452
+                },
+                "index": 56,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[55].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 57,
+                    "name": "测试货物57",
+                    "weight": 3.698
+                },
+                "index": 57,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[56].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 58,
+                    "name": "测试货物58",
+                    "weight": 2.129
+                },
+                "index": 58,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[57].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 59,
+                    "name": "测试货物59",
+                    "weight": 3.777
+                },
+                "index": 59,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[58].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 60,
+                    "name": "测试货物60",
+                    "weight": 2.611
+                },
+                "index": 60,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[59].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 61,
+                    "name": "测试货物61",
+                    "weight": 3.339
+                },
+                "index": 61,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[60].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 62,
+                    "name": "测试货物62",
+                    "weight": 1.034
+                },
+                "index": 62,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[61].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 63,
+                    "name": "测试货物63",
+                    "weight": 1.315
+                },
+                "index": 63,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[62].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 64,
+                    "name": "测试货物64",
+                    "weight": 2.232
+                },
+                "index": 64,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[63].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 65,
+                    "name": "测试货物65",
+                    "weight": 1.469
+                },
+                "index": 65,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[64].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 66,
+                    "name": "测试货物66",
+                    "weight": 3.32
+                },
+                "index": 66,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[65].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 67,
+                    "name": "测试货物67",
+                    "weight": 1.12
+                },
+                "index": 67,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[66].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 68,
+                    "name": "测试货物68",
+                    "weight": 2.264
+                },
+                "index": 68,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[67].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 69,
+                    "name": "测试货物69",
+                    "weight": 1.473
+                },
+                "index": 69,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[68].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 70,
+                    "name": "测试货物70",
+                    "weight": 1.723
+                },
+                "index": 70,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[69].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 71,
+                    "name": "测试货物71",
+                    "weight": 3.865
+                },
+                "index": 71,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[70].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 72,
+                    "name": "测试货物72",
+                    "weight": 3.853
+                },
+                "index": 72,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[71].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 73,
+                    "name": "测试货物73",
+                    "weight": 1.042
+                },
+                "index": 73,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[72].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 74,
+                    "name": "测试货物74",
+                    "weight": 3.432
+                },
+                "index": 74,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[73].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 75,
+                    "name": "测试货物75",
+                    "weight": 2.28
+                },
+                "index": 75,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[74].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 76,
+                    "name": "测试货物76",
+                    "weight": 1.108
+                },
+                "index": 76,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[75].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 77,
+                    "name": "测试货物77",
+                    "weight": 3.16
+                },
+                "index": 77,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[76].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 78,
+                    "name": "测试货物78",
+                    "weight": 2.184
+                },
+                "index": 78,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[77].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 79,
+                    "name": "测试货物79",
+                    "weight": 3.313
+                },
+                "index": 79,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[78].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 80,
+                    "name": "测试货物80",
+                    "weight": 2.687
+                },
+                "index": 80,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[79].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 81,
+                    "name": "测试货物81",
+                    "weight": 2.498
+                },
+                "index": 81,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[80].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 82,
+                    "name": "测试货物82",
+                    "weight": 2.417
+                },
+                "index": 82,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[81].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 83,
+                    "name": "测试货物83",
+                    "weight": 2.261
+                },
+                "index": 83,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[82].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 84,
+                    "name": "测试货物84",
+                    "weight": 1.636
+                },
+                "index": 84,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[83].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 85,
+                    "name": "测试货物85",
+                    "weight": 3.171
+                },
+                "index": 85,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[84].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 86,
+                    "name": "测试货物86",
+                    "weight": 3.547
+                },
+                "index": 86,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[85].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 87,
+                    "name": "测试货物87",
+                    "weight": 2.519
+                },
+                "index": 87,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[86].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 88,
+                    "name": "测试货物88",
+                    "weight": 3.018
+                },
+                "index": 88,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[87].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 89,
+                    "name": "测试货物89",
+                    "weight": 2.21
+                },
+                "index": 89,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[88].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 90,
+                    "name": "测试货物90",
+                    "weight": 3.079
+                },
+                "index": 90,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[89].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 91,
+                    "name": "测试货物91",
+                    "weight": 2.97
+                },
+                "index": 91,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[90].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 92,
+                    "name": "测试货物92",
+                    "weight": 1.883
+                },
+                "index": 92,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[91].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 93,
+                    "name": "测试货物93",
+                    "weight": 3.289
+                },
+                "index": 93,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[92].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 94,
+                    "name": "测试货物94",
+                    "weight": 3.484
+                },
+                "index": 94,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[93].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 95,
+                    "name": "测试货物95",
+                    "weight": 1.702
+                },
+                "index": 95,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[94].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 96,
+                    "name": "测试货物96",
+                    "weight": 3.195
+                },
+                "index": 96,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[95].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 97,
+                    "name": "测试货物97",
+                    "weight": 3.058
+                },
+                "index": 97,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[96].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 98,
+                    "name": "测试货物98",
+                    "weight": 3.355
+                },
+                "index": 98,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[97].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 99,
+                    "name": "测试货物99",
+                    "weight": 3.53
+                },
+                "index": 99,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[98].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 100,
+                    "name": "测试货物100",
+                    "weight": 1.297
+                },
+                "index": 100,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[99].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 101,
+                    "name": "测试货物101",
+                    "weight": 1.044
+                },
+                "index": 101,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[100].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 102,
+                    "name": "测试货物102",
+                    "weight": 3.487
+                },
+                "index": 102,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[101].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 103,
+                    "name": "测试货物103",
+                    "weight": 3.927
+                },
+                "index": 103,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[102].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 104,
+                    "name": "测试货物104",
+                    "weight": 3.462
+                },
+                "index": 104,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[103].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 105,
+                    "name": "测试货物105",
+                    "weight": 3.351
+                },
+                "index": 105,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[104].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 106,
+                    "name": "测试货物106",
+                    "weight": 1.083
+                },
+                "index": 106,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[105].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 107,
+                    "name": "测试货物107",
+                    "weight": 1.186
+                },
+                "index": 107,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[106].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 108,
+                    "name": "测试货物108",
+                    "weight": 3.006
+                },
+                "index": 108,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[107].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 109,
+                    "name": "测试货物109",
+                    "weight": 2.435
+                },
+                "index": 109,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[108].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 110,
+                    "name": "测试货物110",
+                    "weight": 2.324
+                },
+                "index": 110,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[109].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 111,
+                    "name": "测试货物111",
+                    "weight": 1.169
+                },
+                "index": 111,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[110].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 112,
+                    "name": "测试货物112",
+                    "weight": 2.346
+                },
+                "index": 112,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[111].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 113,
+                    "name": "测试货物113",
+                    "weight": 1.926
+                },
+                "index": 113,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[112].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 114,
+                    "name": "测试货物114",
+                    "weight": 3.061
+                },
+                "index": 114,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[113].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 115,
+                    "name": "测试货物115",
+                    "weight": 3.721
+                },
+                "index": 115,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[114].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 116,
+                    "name": "测试货物116",
+                    "weight": 2.227
+                },
+                "index": 116,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[115].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 117,
+                    "name": "测试货物117",
+                    "weight": 1.962
+                },
+                "index": 117,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[116].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 118,
+                    "name": "测试货物118",
+                    "weight": 2.344
+                },
+                "index": 118,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[117].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 119,
+                    "name": "测试货物119",
+                    "weight": 3.731
+                },
+                "index": 119,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[118].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 590,
+                    "y": 392,
+                    "z": -16
+                },
+                "timeout": 1800
+            },
+            {
+                "betterTime": 1500,
+                "cargoParam": {
+                    "birthplace": {
+                        "x": 190,
+                        "y": 425,
+                        "z": -16
+                    },
+                    "index": 120,
+                    "name": "测试货物120",
+                    "weight": 3.217
+                },
+                "index": 120,
+                "loadingStationInfo": {
+                    "$ref": "$.taskParam.waybillParamList[119].cargoParam.birthplace"
+                },
+                "orderTime": 300,
+                "targetPosition": {
+                    "x": 530,
+                    "y": 388,
+                    "z": -20
+                },
+                "timeout": 1800
+            }
+        ]
+    }
+}

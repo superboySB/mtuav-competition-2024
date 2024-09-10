@@ -57,14 +57,14 @@ class DemoPipeline:
             self.panoramic_info_callback,
             queue_size=10)
         self.map_client = rospy.ServiceProxy('query_voxel', QueryVoxel)
-        # 读取配置文件和信息
+        # 读取配置文件和信息，可以保留对这个格式文件的读取，但是不能假设config明文可见
         with open('/config/config.json', 'r') as file:
             self.config = json.load(file)
         self.drone_infos = self.config['taskParam']['droneParamList']
         self.car_infos = self.config['taskParam']['magvParamList']
         self.loading_cargo_point = self.config['taskParam']['loadingCargoPoint']
         self.map_boundary = self.config['taskParam']['mapBoundaryInfo']
-        self.waybill_infos = self.config['taskParam']['waybillParamList']
+        self.waybill_infos = self.config['taskParam']['waybillParamList'] 
         self.unloading_cargo_stations = self.config['taskParam']['unloadingCargoStationList']
         self.drone_sn_list = [drone['droneSn'] for drone in self.drone_infos]
         self.car_sn_list = [car['magvSn'] for car in self.car_infos]
@@ -90,6 +90,10 @@ class DemoPipeline:
         self.state = WorkState.TEST_MAP_QUERY
 
     # 测试地图查询接口，可用这个或地图SDK进行航线规划
+    # response -> distance 当前体素距离障碍物的最近距离，<=0 的区域代表本身就是障碍物
+    # height是当前体素距离地面的高度(所以是整数）， current height是查询点距离地面的高度（所以是小数）
+    # 目前semantic=18的范围是危险区域（尽量避开、目前暂不扣分）
+    # TODO: 这里可以地图预处理，采样合理的路径反复使用
     def test_map_query(self):
         request = QueryVoxelRequest()
         request.x = 1.0
@@ -101,6 +105,7 @@ class DemoPipeline:
             self.state = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
 
     # 移动地面车辆的函数
+    # 小车不能设置速度，会按照物理模型的设计尽快到达目的点
     def move_car_with_start_and_end(
             self, car_sn, start, end, time_est, next_state):
         msg = UserCmdRequest()
@@ -110,7 +115,7 @@ class DemoPipeline:
         msg.car_route_info.carSn = car_sn
         msg.car_route_info.way_point.append(start)
         msg.car_route_info.way_point.append(end)
-        msg.car_route_info.yaw = 0.0
+        msg.car_route_info.yaw = 0.0  # 小车停车时的角度
         self.cmd_pub.publish(msg)
         rospy.sleep(time_est)
         self.state = next_state
@@ -121,7 +126,8 @@ class DemoPipeline:
         cur = np.array([cur_pos.x, cur_pos.y, cur_pos.z])
         return np.linalg.norm(np.array(des - cur)) < threshold
 
-    # 往车上挪机
+    # 往车上挪机 (如果用于一开始飞机与小车绑定的时候，则是飞机从出生点直接瞬移到小车上)
+    # 后续飞机和小车不用完全绑定，送飞和接驳可以是两个不同的小车
     def move_drone_on_car(self, car_sn, drone_sn, time_est, next_state):
         msg = UserCmdRequest()
         msg.peer_id = self.peer_id
@@ -154,7 +160,7 @@ class DemoPipeline:
         msg.drone_way_point_info.droneSn = drone_sn
         takeoff_point = DroneWayPoint()
         takeoff_point.type = DroneWayPoint.POINT_TAKEOFF
-        takeoff_point.timeoutsec = 1000
+        takeoff_point.timeoutsec = 1000  # 设置一个比实际飞行时间（加速、最大速度匀速、减速）大一些的数字即可
         msg.drone_way_point_info.way_point.append(takeoff_point)
         for waypoint in route:
             middle_point = DroneWayPoint()
@@ -255,7 +261,7 @@ class DemoPipeline:
                         waybill['targetPosition']['x'],
                         waybill['targetPosition']['y'],
                         waybill['targetPosition']['z'] - 5)
-                    route = [start_pos, middle_pos, end_pos]
+                    route = [start_pos, middle_pos, end_pos]  # 目前航线下发后，就不能够更改了
                     self.fly_one_route(
                         drone_sn, route, 15.0, 10, WorkState.RELEASE_CARGO)
             elif self.state == WorkState.RELEASE_CARGO:
