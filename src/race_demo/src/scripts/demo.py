@@ -76,7 +76,8 @@ class DemoPipeline:
         self.score = None
         self.events = None
 
-    # 仿真回调函数，获取实时信息
+    # 仿真回调函数
+    # TODO: 可以用来获取实时信息
     def panoramic_info_callback(self, panoramic_info):
         self.car_physical_status = panoramic_info.cars
         self.drone_physical_status = panoramic_info.drones

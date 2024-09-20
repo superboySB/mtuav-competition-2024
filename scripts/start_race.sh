@@ -6,21 +6,21 @@ echo "Error: $1 failed" exit 1
 fi 
 }
 # Run the first container
-docker run -d --rm --entrypoint /manager/run.sh --name race_scene_sdk_container uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:scene
+docker run -d --entrypoint /manager/run.sh --name race_scene_sdk_container uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:scene
 check_status "docker run race_scene_sdk_container"
 # Connect the first container to the network
 docker network connect race_net race_scene_sdk_container --ip 192.168.100.5
 check_status "docker network connect race_scene_sdk_container"
 
 # Run the second container
-docker run -d --rm --name race_car_sdk_container uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:cars
+docker run -d --name race_car_sdk_container uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:cars
 check_status "docker run race_car_sdk_container"
 
 # Connect the second container to the network
 docker network connect race_net race_car_sdk_container --ip 192.168.100.2
 check_status "docker network connect race_car_sdk_container"
 # Run the third container
-docker run -d --rm --name race_drone_sdk_container uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:drones
+docker run -d --name race_drone_sdk_container uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:drones
 check_status "docker run race_drone_sdk_container"
 
 # Connect the third container to the network
