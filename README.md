@@ -35,7 +35,9 @@ docker run -d -p 8888:8888 --name race_user_sdk_container \
 	-v /etc/timezone:/etc/timezone:ro \
 	uav-challenge.tencentcloudcr.com/uav_challenge_2024/sdk:user
 ```
-相当于四个Docker容器。根据比赛的现状，比赛现在决定公开线上比赛6个卸货点相应地[config文件](docs/config_online)，解压之后是各docker线上配置文件，大家有需要可以参考[教程](docs/线下SDK中修改小车飞机数量和订单位置的办法.pdf)，自行下载并在本地替换。
+相当于四个Docker容器。
+
+【可选】根据比赛的现状，比赛现在决定公开线上比赛6个卸货点相应地[config文件](docs/config_online)，解压之后是各docker线上配置文件，大家有需要可以参考[教程](docs/线下SDK中修改小车飞机数量和订单位置的办法.pdf)，自行下载并在本地替换。
 ```sh
 docker cp docs/config_online/car/config.json race_car_sdk_container:/car_log/config.json
 docker cp docs/config_online/drone/drone.json race_drone_sdk_container:/config/drone.json
