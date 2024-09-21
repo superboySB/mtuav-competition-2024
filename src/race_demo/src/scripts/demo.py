@@ -4,6 +4,8 @@ import json
 import os
 import numpy as np
 import heapq  # 导入用于实现优先队列的库
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 from enum import Enum
 
@@ -163,26 +165,40 @@ class DemoPipeline:
     # 构建障碍物地图
     def init_occ_map(self):
         print("开始构建障碍物地图...")
-        x_min = self.map_boundary['bottomLeft']['x']
-        x_max = self.map_boundary['bottomRight']['x']
-        y_min = self.map_boundary['bottomLeft']['y']
-        y_max = self.map_boundary['topLeft']['y']
+        x_min = int(self.map_boundary['bottomLeft']['x'])
+        x_max = int(self.map_boundary['bottomRight']['x'])
+        y_min = int(self.map_boundary['bottomLeft']['y'])
+        y_max = int(self.map_boundary['topLeft']['y'])
         x_step = 1  # 采样步长，可根据需要调整
         y_step = 1
 
         for z in self.altitude_levels:
             occ_map = []
-            for x in range(int(x_min), int(x_max), x_step):
-                for y in range(int(y_min), int(y_max), y_step):
-                    request = QueryVoxelRequest()
-                    request.x = x
-                    request.y = y
-                    request.z = z
-                    response = self.map_client(request)
-                    if response.voxel.semantic == 255:
-                        continue  # 超出地图范围
-                    if response.voxel.distance < 2:
-                        occ_map.append((x, y))
+            print(f"构建高度 {z} 的障碍物地图...")
+            # 准备所有需要查询的点
+            points = [(x, y) for x in range(x_min, x_max + 1, x_step)
+                            for y in range(y_min, y_max + 1, y_step)]
+            # 定义处理单个点的函数
+            def process_point(point):
+                x, y = point
+                request = QueryVoxelRequest()
+                request.x = x
+                request.y = y
+                request.z = z
+                response = self.map_client(request)
+                if response.voxel.semantic == 255:
+                    return None  # 超出地图范围
+                if response.voxel.distance < 2:
+                    return (x, y)
+                return None
+
+            # 使用线程池并行处理
+            with ThreadPoolExecutor(max_workers=48) as executor:
+                futures = [executor.submit(process_point, point) for point in points]
+                for future in as_completed(futures):
+                    result = future.result()
+                    if result is not None:
+                        occ_map.append(result)
             self.occ_map_dict[str(z)] = occ_map
         # 保存到本地文件
         with open('occ_map_dict.json', 'w') as f:
@@ -216,41 +232,70 @@ class DemoPipeline:
         x_max = int(self.map_boundary['bottomRight']['x'])
         y_min = int(self.map_boundary['bottomLeft']['y'])
         y_max = int(self.map_boundary['topLeft']['y'])
-        x_step = 1  # 精细采样步长
+        x_step = 1  # 采样步长
         y_step = 1
 
         x_range = (x_min, x_max)
         y_range = (y_min, y_max)
 
         for z in self.altitude_levels:
-            occ_map = set(self.occ_map_dict[str(z)])
+            occ_map = set(map(tuple, self.occ_map_dict[str(z)]))  # 转换为集合，元素为 (x, y) 元组
             paths = {}
             print(f"构建高度 {z} 的快速通道...")
-            # 在地图范围内进行全面采样
-            for start_x in range(x_min, x_max + 1, x_step):
-                for start_y in range(y_min, y_max + 1, y_step):
-                    start = (start_x, start_y)
-                    if start in occ_map:
-                        continue  # 起点在障碍物中，跳过
-                    for end_x in range(x_min, x_max + 1, x_step):
-                        for end_y in range(y_min, y_max + 1, y_step):
-                            end = (end_x, end_y)
-                            if end in occ_map:
-                                continue  # 终点在障碍物中，跳过
-                            # 检查是否已有此路径
-                            path_key = f"{start}_{end}"
-                            if path_key in paths:
-                                continue
-                            # 检查两点之间是否有直线路径
-                            if self.is_direct_path(start, end, occ_map):
-                                # 如果有直线路径，直接保存
-                                paths[path_key] = [start, end]
-                            else:
-                                # 使用A*算法计算路径
-                                path = astar(start, end, occ_map, x_range, y_range, x_step, y_step)
-                                if path:
-                                    paths[path_key] = path
+
+            # 定义关键点集
+            key_points = []
+
+            # 添加装载点
+            loading_point = (int(self.loading_cargo_point['x']), int(self.loading_cargo_point['y']))
+            if loading_point not in occ_map:
+                key_points.append(loading_point)
+
+            # 添加卸货点
+            for station in self.unloading_cargo_stations:
+                pos = station['position']
+                point = (int(pos['x']), int(pos['y']))
+                if point not in occ_map:
+                    key_points.append(point)
+
+            # 添加地图边界上的采样点（每隔一定距离采样一次）
+            boundary_sampling_step = 50  # 可以根据地图大小调整
+            for x in range(x_min, x_max + 1, boundary_sampling_step):
+                for y in [y_min, y_max]:
+                    point = (x, y)
+                    if point not in occ_map:
+                        key_points.append(point)
+            for y in range(y_min, y_max + 1, boundary_sampling_step):
+                for x in [x_min, x_max]:
+                    point = (x, y)
+                    if point not in occ_map:
+                        key_points.append(point)
+
+            # 移除重复的关键点
+            key_points = list(set(key_points))
+
+            print(f"高度 {z} 的关键点数量：{len(key_points)}")
+
+            # 预先计算关键点之间的路径
+            for i in range(len(key_points)):
+                for j in range(i + 1, len(key_points)):
+                    start = key_points[i]
+                    end = key_points[j]
+                    path_key = f"{start}_{end}"
+                    # 检查两点之间是否有直线路径
+                    if self.is_direct_path(start, end, occ_map):
+                        # 如果有直线路径，直接保存
+                        paths[path_key] = [start, end]
+                    else:
+                        # 使用A*算法计算路径
+                        path = astar(start, end, occ_map, x_range, y_range, x_step, y_step)
+                        if path:
+                            paths[path_key] = path
+                        else:
+                            print(f"无法找到从 {start} 到 {end} 的路径")
             self.fast_path_dict[str(z)] = paths
+            print(f"高度 {z} 的预先计算路径数量：{len(paths)}")
+
         # 保存到本地文件
         with open('fast_path_dict.json', 'w') as f:
             json.dump(self.fast_path_dict, f)
@@ -420,33 +465,72 @@ class DemoPipeline:
         if drone_status is None or drone_status.drone_work_state != DronePhysicalStatus.READY:
             print(f"无人机 {drone_sn} 当前不处于 READY 状态，等待...")
             return
-        # 检查起飞和降落点是否安全
-        for other_drone in self.drone_physical_status:
-            if other_drone.sn != drone_sn:
-                other_drone_pos = other_drone.pos.position
-                if self.des_pos_reached(start_pos, other_drone_pos, 10.0):
-                    print(f"无人机 {drone_sn} 的起飞点与无人机 {other_drone.sn} 过近，等待...")
-                    rospy.sleep(1.0)
-                    return
-                if self.des_pos_reached(end_pos, other_drone_pos, 10.0):
-                    print(f"无人机 {drone_sn} 的降落点与无人机 {other_drone.sn} 过近，等待...")
-                    rospy.sleep(1.0)
-                    return
-        # 利用预先计算的快速通道，找到最优路径
+        
+        altitude_str = str(altitude)
+        occ_map = set(map(tuple, self.occ_map_dict[altitude_str]))
+
+        # 将起点和终点转换为整数坐标
         start_key = (int(start_pos.x), int(start_pos.y))
         end_key = (int(end_pos.x), int(end_pos.y))
-        path_key = f"{start_key}_{end_key}"
-        if path_key in self.fast_path_dict[str(altitude)]:
-            path_coords = self.fast_path_dict[str(altitude)][path_key]
-        else:
-            # 如果预先计算的路径中没有，使用直线路径判断
-            if self.is_direct_path(start_key, end_key, set(self.occ_map_dict[str(altitude)])):
-                path_coords = [start_key, end_key]
-                # 将新路径添加到 fast_path_dict，以备下次使用
-                self.fast_path_dict[str(altitude)][path_key] = path_coords
+
+        # 从关键点集中找到距离起点和终点最近的关键点
+        key_points = []
+        # 加载关键点集
+        paths = self.fast_path_dict[altitude_str]
+        for path_key in paths.keys():
+            start_point_str, end_point_str = path_key.split('_')
+            start_point = eval(start_point_str)
+            end_point = eval(end_point_str)
+            key_points.extend([start_point, end_point])
+        key_points = list(set(key_points))
+
+        # 找到距离起点最近的关键点
+        nearest_start_point = min(key_points, key=lambda p: np.hypot(p[0]-start_key[0], p[1]-start_key[1]))
+        # 找到距离终点最近的关键点
+        nearest_end_point = min(key_points, key=lambda p: np.hypot(p[0]-end_key[0], p[1]-end_key[1]))
+
+        # 构建完整路径
+        full_path_coords = []
+
+        # 起点到最近关键点
+        if start_key != nearest_start_point:
+            if self.is_direct_path(start_key, nearest_start_point, occ_map):
+                full_path_coords.extend([start_key, nearest_start_point])
             else:
-                print(f"无法找到从 {start_key} 到 {end_key} 的路径")
+                # 使用 A* 计算短路径
+                path = astar(start_key, nearest_start_point, occ_map, (start_key[0]-50, start_key[0]+50), (start_key[1]-50, start_key[1]+50), 1, 1)
+                if path:
+                    full_path_coords.extend(path)
+                else:
+                    print(f"无法找到从 {start_key} 到最近关键点 {nearest_start_point} 的路径")
+                    return
+
+        # 关键点之间的预先计算路径
+        middle_path_key = f"{nearest_start_point}_{nearest_end_point}"
+        if middle_path_key in paths:
+            middle_path = paths[middle_path_key]
+        else:
+            middle_path_key = f"{nearest_end_point}_{nearest_start_point}"
+            if middle_path_key in paths:
+                middle_path = paths[middle_path_key][::-1]  # 反转路径
+            else:
+                print(f"无法找到关键点之间的预先计算路径：{nearest_start_point} 到 {nearest_end_point}")
                 return
+        full_path_coords.extend(middle_path[1:])  # 避免重复添加关键点
+
+        # 最近关键点到终点
+        if end_key != nearest_end_point:
+            if self.is_direct_path(nearest_end_point, end_key, occ_map):
+                full_path_coords.extend([nearest_end_point, end_key])
+            else:
+                # 使用 A* 计算短路径
+                path = astar(nearest_end_point, end_key, occ_map, (end_key[0]-50, end_key[0]+50), (end_key[1]-50, end_key[1]+50), 1, 1)
+                if path:
+                    full_path_coords.extend(path[1:])  # 避免重复添加关键点
+                else:
+                    print(f"无法找到从最近关键点 {nearest_end_point} 到终点 {end_key} 的路径")
+                    return
+
         # 将路径转换为 DroneWayPoint
         msg = UserCmdRequest()
         msg.peer_id = self.peer_id
@@ -457,7 +541,9 @@ class DemoPipeline:
         takeoff_point.type = DroneWayPoint.POINT_TAKEOFF
         takeoff_point.timeoutsec = 1000
         msg.drone_way_point_info.way_point.append(takeoff_point)
-        for coord in path_coords:
+
+        # 添加 middle_point，尽量最小化数量
+        for coord in full_path_coords:
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
             middle_point.pos.x = coord[0]
@@ -466,6 +552,7 @@ class DemoPipeline:
             middle_point.v = speed
             middle_point.timeoutsec = 1000
             msg.drone_way_point_info.way_point.append(middle_point)
+
         land_point = DroneWayPoint()
         land_point.type = DroneWayPoint.POINT_LANDING
         land_point.timeoutsec = 1000
