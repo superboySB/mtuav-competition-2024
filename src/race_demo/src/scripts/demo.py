@@ -91,7 +91,24 @@ def astar(start, goal, occ_map, x_range, y_range, x_step, y_step):
             heapq.heappush(open_list, neighbor_node)
     return None  # 无法到达目标
 
-
+# 在关键点图中寻找最短路径
+def dijkstra(graph, start, end):
+    import heapq
+    queue = []
+    heapq.heappush(queue, (0, start, [start]))
+    visited = set()
+    while queue:
+        cost, node, path = heapq.heappop(queue)
+        if node == end:
+            return path
+        if node in visited:
+            continue
+        visited.add(node)
+        for neighbor, weight in graph.get(node, []):
+            if neighbor not in visited:
+                heapq.heappush(queue, (cost + weight, neighbor, path + [neighbor]))
+    return None  # 无法到达终点
+    
 class DemoPipeline:
     def __init__(self):
         # 初始化ROS全局变量
@@ -157,10 +174,9 @@ class DemoPipeline:
             if os.path.exists('/root/mtuav-competition-2024/occ_map_dict.json'):
                 with open('/root/mtuav-competition-2024/occ_map_dict.json', 'r') as f:
                     self.occ_map_dict = json.load(f)
-            if os.path.exists('fast_path_dict.json'):
-                with open('fast_path_dict.json', 'r') as f:
+            if os.path.exists('/root/mtuav-competition-2024/fast_path_dict.json'):
+                with open('/root/mtuav-competition-2024/fast_path_dict.json', 'r') as f:
                     self.fast_path_dict = json.load(f)
-            self.state = WorkState.TEST_MAP_QUERY
             print("地图和路径初始化导入成功")
 
     # 构建障碍物地图
@@ -239,11 +255,6 @@ class DemoPipeline:
         x_max = int(self.map_boundary['bottomRight']['x'])
         y_min = int(self.map_boundary['bottomLeft']['y'])
         y_max = int(self.map_boundary['topLeft']['y'])
-        x_step = 1  # 采样步长
-        y_step = 1
-
-        x_range = (x_min, x_max)
-        y_range = (y_min, y_max)
 
         for z in self.altitude_levels:
             occ_map = set(map(tuple, self.occ_map_dict[str(z)]))  # 转换为集合，元素为 (x, y) 元组
@@ -265,8 +276,14 @@ class DemoPipeline:
                 if point not in occ_map:
                     key_points.append(point)
 
+            # 添加每个车辆的出生点
+            for car_sn, init_pos in self.car_init_positions.items():
+                point = (int(init_pos.x), int(init_pos.y))
+                if point not in occ_map:
+                    key_points.append(point)
+
             # 添加地图边界上的采样点（每隔一定距离采样一次）
-            boundary_sampling_step = 50  # 可以根据地图大小调整
+            boundary_sampling_step = 5  # 调整采样距离为5
             for x in range(x_min, x_max + 1, boundary_sampling_step):
                 for y in [y_min, y_max]:
                     point = (x, y)
@@ -283,25 +300,32 @@ class DemoPipeline:
 
             print(f"高度 {z} 的关键点数量：{len(key_points)}")
 
-            # 预先计算关键点之间的路径
-            for i in range(len(key_points)):
-                for j in range(i + 1, len(key_points)):
-                    start = key_points[i]
-                    end = key_points[j]
-                    path_key = f"{start}_{end}"
-                    # 检查两点之间是否有直线路径
-                    if self.is_direct_path(start, end, occ_map):
-                        # 如果有直线路径，直接保存
-                        paths[path_key] = [start, end]
-                    else:
-                        # 使用A*算法计算路径
-                        path = astar(start, end, occ_map, x_range, y_range, x_step, y_step)
-                        if path:
-                            paths[path_key] = path
-                        else:
-                            print(f"无法找到从 {start} 到 {end} 的路径")
-            self.fast_path_dict[str(z)] = paths
-            print(f"高度 {z} 的预先计算路径数量：{len(paths)}")
+            # 构建关键点之间的图，只包含有直线路径的边
+            graph = {}
+            from itertools import combinations
+
+            key_point_pairs = combinations(key_points, 2)
+            for start, end in key_point_pairs:
+                if self.is_direct_path(start, end, occ_map):
+                    # 如果有直线路径，添加到图中
+                    start_str = f"{start[0]}_{start[1]}"
+                    end_str = f"{end[0]}_{end[1]}"
+                    if start_str not in graph:
+                        graph[start_str] = []
+                    if end_str not in graph:
+                        graph[end_str] = []
+                    distance = np.hypot(end[0] - start[0], end[1] - start[1])
+                    graph[start_str].append((end_str, distance))
+                    graph[end_str].append((start_str, distance))  # 无向图
+
+            # 将 key_points 转换为字符串形式
+            key_points_str = [f"{p[0]}_{p[1]}" for p in key_points]
+
+            self.fast_path_dict[str(z)] = {
+                'key_points': key_points_str,
+                'graph': graph
+            }
+            print(f"高度 {z} 的关键点之间的直线路径数量：{sum(len(v) for v in graph.values()) // 2}")
 
         # 保存到本地文件
         with open('fast_path_dict.json', 'w') as f:
@@ -476,25 +500,25 @@ class DemoPipeline:
         altitude_str = str(altitude)
         occ_map = set(map(tuple, self.occ_map_dict[altitude_str]))
 
-        # 将起点和终点转换为整数坐标
+        # 将起点和终点转换为整数坐标和字符串形式
         start_key = (int(start_pos.x), int(start_pos.y))
         end_key = (int(end_pos.x), int(end_pos.y))
+        start_key_str = f"{start_key[0]}_{start_key[1]}"
+        end_key_str = f"{end_key[0]}_{end_key[1]}"
 
-        # 从关键点集中找到距离起点和终点最近的关键点
-        key_points = []
-        # 加载关键点集
-        paths = self.fast_path_dict[altitude_str]
-        for path_key in paths.keys():
-            start_point_str, end_point_str = path_key.split('_')
-            start_point = eval(start_point_str)
-            end_point = eval(end_point_str)
-            key_points.extend([start_point, end_point])
-        key_points = list(set(key_points))
+        # 加载关键点集和图
+        fast_path_data = self.fast_path_dict[altitude_str]
+        key_points_str = fast_path_data['key_points']
+        graph = fast_path_data['graph']
+
+        key_points = [tuple(map(int, p_str.split('_'))) for p_str in key_points_str]
 
         # 找到距离起点最近的关键点
         nearest_start_point = min(key_points, key=lambda p: np.hypot(p[0]-start_key[0], p[1]-start_key[1]))
+        nearest_start_point_str = f"{nearest_start_point[0]}_{nearest_start_point[1]}"
         # 找到距离终点最近的关键点
         nearest_end_point = min(key_points, key=lambda p: np.hypot(p[0]-end_key[0], p[1]-end_key[1]))
+        nearest_end_point_str = f"{nearest_end_point[0]}_{nearest_end_point[1]}"
 
         # 构建完整路径
         full_path_coords = []
@@ -505,25 +529,26 @@ class DemoPipeline:
                 full_path_coords.extend([start_key, nearest_start_point])
             else:
                 # 使用 A* 计算短路径
-                path = astar(start_key, nearest_start_point, occ_map, (start_key[0]-50, start_key[0]+50), (start_key[1]-50, start_key[1]+50), 1, 1)
+                path = astar(start_key, nearest_start_point, occ_map,
+                            (min(start_key[0], nearest_start_point[0]) - 50, max(start_key[0], nearest_start_point[0]) + 50),
+                            (min(start_key[1], nearest_start_point[1]) - 50, max(start_key[1], nearest_start_point[1]) + 50),
+                            1, 1)
                 if path:
                     full_path_coords.extend(path)
                 else:
                     print(f"无法找到从 {start_key} 到最近关键点 {nearest_start_point} 的路径")
                     return
 
-        # 关键点之间的预先计算路径
-        middle_path_key = f"{nearest_start_point}_{nearest_end_point}"
-        if middle_path_key in paths:
-            middle_path = paths[middle_path_key]
+        # 关键点之间的最短路径
+        key_point_path_str = dijkstra(graph, nearest_start_point_str, nearest_end_point_str)
+        if key_point_path_str:
+            # 将字符串形式的点转换回坐标
+            key_point_path = [tuple(map(int, p_str.split('_'))) for p_str in key_point_path_str]
+            # 去除起点，避免重复
+            full_path_coords.extend(key_point_path[1:])
         else:
-            middle_path_key = f"{nearest_end_point}_{nearest_start_point}"
-            if middle_path_key in paths:
-                middle_path = paths[middle_path_key][::-1]  # 反转路径
-            else:
-                print(f"无法找到关键点之间的预先计算路径：{nearest_start_point} 到 {nearest_end_point}")
-                return
-        full_path_coords.extend(middle_path[1:])  # 避免重复添加关键点
+            print(f"无法找到关键点之间的路径：{nearest_start_point} 到 {nearest_end_point}")
+            return
 
         # 最近关键点到终点
         if end_key != nearest_end_point:
@@ -531,11 +556,14 @@ class DemoPipeline:
                 full_path_coords.extend([nearest_end_point, end_key])
             else:
                 # 使用 A* 计算短路径
-                path = astar(nearest_end_point, end_key, occ_map, (end_key[0]-50, end_key[0]+50), (end_key[1]-50, end_key[1]+50), 1, 1)
+                path = astar(nearest_end_point, end_key, occ_map,
+                            (min(nearest_end_point[0], end_key[0]) - 50, max(nearest_end_point[0], end_key[0]) + 50),
+                            (min(nearest_end_point[1], end_key[1]) - 50, max(nearest_end_point[1], end_key[1]) + 50),
+                            1, 1)
                 if path:
                     full_path_coords.extend(path[1:])  # 避免重复添加关键点
                 else:
-                    print(f"无法找到从最近关键点 {nearest_end_point} 到终点 {end_key} 的路径")
+                    print(f"无法找到从最近关键点 {nearest_end_point} 到终点 {end_key}")
                     return
 
         # 将路径转换为 DroneWayPoint
@@ -550,7 +578,13 @@ class DemoPipeline:
         msg.drone_way_point_info.way_point.append(takeoff_point)
 
         # 添加 middle_point，尽量最小化数量
-        for coord in full_path_coords:
+        # 去除连续重复的点
+        optimized_coords = [full_path_coords[0]]
+        for coord in full_path_coords[1:]:
+            if coord != optimized_coords[-1]:
+                optimized_coords.append(coord)
+
+        for coord in optimized_coords:
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
             middle_point.pos.x = coord[0]
@@ -567,7 +601,6 @@ class DemoPipeline:
         self.cmd_pub.publish(msg)
         rospy.sleep(time_est)
         self.state_dict[drone_sn] = next_state
-
 
     # 抛餐函数
     def release_cargo(self, drone_sn, time_est, next_state):
@@ -629,8 +662,10 @@ class DemoPipeline:
             waybill_index += 1
         for car in self.car_physical_status:
             self.car_init_positions[car.sn] = car.pos.position
+        
+        self.sys_init()
 
-        while not rospy.is_shutdown() and waybill_index < len(self.waybill_infos):
+        while not rospy.is_shutdown() and waybill_index < len(self.waybill_infos) and self.state!=WorkState.FINISHED:
             for i in range(N):
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
@@ -655,7 +690,6 @@ class DemoPipeline:
                 state = self.state_dict[car_sn]
 
                 if state == WorkState.START:
-                    self.sys_init()
                     self.state_dict[car_sn] = WorkState.TEST_MAP_QUERY
                 elif state == WorkState.TEST_MAP_QUERY:
                     self.state_dict[car_sn] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
@@ -756,6 +790,7 @@ class DemoPipeline:
                     else:
                         print(f"无人机 {drone_sn} 未就绪，等待...")
             rospy.sleep(1.0)
+            
         print('总订单完成数: ', waybill_index, ', 总得分: ', self.score)
 
 
