@@ -4,6 +4,7 @@ import json
 import os
 import numpy as np
 import heapq  # 导入用于实现优先队列的库
+import pymtmap
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
@@ -153,8 +154,8 @@ class DemoPipeline:
             print("地图和路径初始化完成")
         else:
             # 从本地文件加载
-            if os.path.exists('occ_map_dict.json'):
-                with open('occ_map_dict.json', 'r') as f:
+            if os.path.exists('/root/mtuav-competition-2024/occ_map_dict.json'):
+                with open('/root/mtuav-competition-2024/occ_map_dict.json', 'r') as f:
                     self.occ_map_dict = json.load(f)
             if os.path.exists('fast_path_dict.json'):
                 with open('fast_path_dict.json', 'r') as f:
@@ -165,10 +166,20 @@ class DemoPipeline:
     # 构建障碍物地图
     def init_occ_map(self):
         print("开始构建障碍物地图...")
-        x_min = int(self.map_boundary['bottomLeft']['x'])
-        x_max = int(self.map_boundary['bottomRight']['x'])
-        y_min = int(self.map_boundary['bottomLeft']['y'])
-        y_max = int(self.map_boundary['topLeft']['y'])
+
+        # 创建 Map 实例，加载地图文件
+        map_file_path = "/home/sdk_for_user/map_client_sdk/for_py/voxel_map.bin"  # 请根据实际路径修改
+        map_instance = pymtmap.Map(map_file_path)
+
+        # 检查地图是否有效
+        if not map_instance.IsValid():
+            print("地图无效，无法构建障碍物地图。")
+            return
+
+        x_min = int(max(self.map_boundary['bottomLeft']['x'], map_instance.min_x()))
+        x_max = int(min(self.map_boundary['bottomRight']['x'], map_instance.max_x()))
+        y_min = int(max(self.map_boundary['bottomLeft']['y'], map_instance.min_y()))
+        y_max = int(min(self.map_boundary['topLeft']['y'], map_instance.max_y()))
         x_step = 1  # 采样步长，可根据需要调整
         y_step = 1
 
@@ -181,14 +192,10 @@ class DemoPipeline:
             # 定义处理单个点的函数
             def process_point(point):
                 x, y = point
-                request = QueryVoxelRequest()
-                request.x = x
-                request.y = y
-                request.z = z
-                response = self.map_client(request)
-                if response.voxel.semantic == 255:
+                voxel = map_instance.Query(x, y, z)
+                if voxel.semantic == 255:
                     return None  # 超出地图范围
-                if response.voxel.distance < 2:
+                if voxel.distance < 2:
                     return (x, y)
                 return None
 
@@ -201,7 +208,7 @@ class DemoPipeline:
                         occ_map.append(result)
             self.occ_map_dict[str(z)] = occ_map
         # 保存到本地文件
-        with open('occ_map_dict.json', 'w') as f:
+        with open('/root/mtuav-competition-2024/occ_map_dict.json', 'w') as f:
             json.dump(self.occ_map_dict, f)
         print("完成构建障碍物地图...")
 
