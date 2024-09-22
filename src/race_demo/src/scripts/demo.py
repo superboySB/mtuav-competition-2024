@@ -143,7 +143,7 @@ class DemoPipeline:
         self.waybill_dict = {}
 
         # 定义高度层和空域划分
-        self.altitude_levels = [-60, -70, -80, -90, -100, -110, -120]
+        self.altitude_levels = [-65, -75, -85, -95, -105, -115]
         self.occ_map_dict = {}  # 存储不同高度层的障碍物地图
         self.fast_path_dict = {}  # 存储不同高度层的快速通道
         self.car_paths = {}  # 存储每辆车的规划路径
@@ -452,7 +452,7 @@ class DemoPipeline:
         msg.car_route_info.carSn = car_sn
         msg.car_route_info.way_point.append(start)
         msg.car_route_info.way_point.append(end)
-        msg.car_route_info.yaw = 0.0  # 小车停车时的角度
+        # msg.car_route_info.yaw = 0.0  # 小车停车时的角度（在新的镜像里已经不用设置了）
         self.cmd_pub.publish(msg)
         rospy.sleep(time_est)
         self.state_dict[car_sn] = next_state
@@ -582,12 +582,21 @@ class DemoPipeline:
             if coord != optimized_coords[-1]:
                 optimized_coords.append(coord)
 
-        for coord in optimized_coords:
+        optimized_coords.append(end_pos)
+        route_len = len(optimized_coords)
+        for i, coord in enumerate(optimized_coords):
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
-            middle_point.pos.x = coord[0]
-            middle_point.pos.y = coord[1]
-            middle_point.pos.z = altitude  # 保持在指定高度
+
+            if i == route_len-1:
+                middle_point.pos.x = end_pos.x
+                middle_point.pos.y = end_pos.y
+                middle_point.pos.z = end_pos.z
+            else:
+                middle_point.pos.x = coord[0]
+                middle_point.pos.y = coord[1]
+                middle_point.pos.z = altitude
+            
             middle_point.v = speed
             middle_point.timeoutsec = 1000
             msg.drone_way_point_info.way_point.append(middle_point)
@@ -669,8 +678,6 @@ class DemoPipeline:
                 drone_sn = self.drone_sn_list[i]
                 waybill = self.waybill_dict[drone_sn]
 
-                print(f"正在处理无人车{car_sn}与无人机{drone_sn}")
-
                 # 获取车辆和无人机状态
                 car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
                 drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
@@ -688,6 +695,8 @@ class DemoPipeline:
                 altitude = self.altitude_levels[i % len(self.altitude_levels)]
 
                 state = self.state_dict[car_sn]
+                
+                print(f"正在处理无人车{car_sn}与无人机{drone_sn}，相应状态：{state}")
 
                 if state == WorkState.START:
                     # self.state_dict[car_sn] = WorkState.TEST_MAP_QUERY
@@ -727,7 +736,7 @@ class DemoPipeline:
                         self.car_paths.pop(car_sn, None) # 清除车辆的目标位置和路径
                         start_pos = Position(car_pos.x, car_pos.y, car_pos.z)
                         end_station = waybill['targetPosition']
-                        end_pos = Position(end_station['x'], end_station['y'], end_station['z'])
+                        end_pos = Position(end_station['x'], end_station['y'], end_station['z']-5)
                         self.fly_one_route(
                             drone_sn, start_pos, end_pos, altitude, 15.0, 10, WorkState.RELEASE_CARGO)
                     else:
@@ -746,7 +755,7 @@ class DemoPipeline:
                 elif state == WorkState.RELEASE_DRONE_RETURN:
                     if drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
                         start_pos = Position(drone_pos.x, drone_pos.y, drone_pos.z)
-                        end_pos = Position(car_pos.x, car_pos.y, car_pos.z)
+                        end_pos = Position(car_pos.x, car_pos.y, car_pos.z-5)
                         self.fly_one_route(
                             drone_sn, start_pos, end_pos, altitude, 15.0, 10, WorkState.MOVE_CAR_BACK_TO_LOADING_POINT)
                     else:
