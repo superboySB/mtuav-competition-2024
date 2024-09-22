@@ -143,7 +143,7 @@ class DemoPipeline:
         self.waybill_dict = {}
 
         # 定义高度层和空域划分
-        self.altitude_levels = [-65, -75, -85, -95, -105, -115]
+        self.altitude_levels = [-115, -105, -95, -85, -75, -65]
         self.occ_map_dict = {}  # 存储不同高度层的障碍物地图
         self.fast_path_dict = {}  # 存储不同高度层的快速通道
         self.car_paths = {}  # 存储每辆车的规划路径
@@ -658,7 +658,9 @@ class DemoPipeline:
         waybill_index = 0
         car_num = len(self.car_sn_list)
         drone_num = len(self.drone_sn_list)
-        N = min(car_num, drone_num)  # 先走一个车机绑定的思路吧
+        # N = min(car_num, drone_num)  # 先走一个车机绑定的思路吧
+        N = 1 # 一个机车做保底测试
+        
         for i in range(N):
             car_sn = self.car_sn_list[i]
             drone_sn = self.drone_sn_list[i]
