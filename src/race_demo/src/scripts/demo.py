@@ -117,7 +117,7 @@ class DemoPipeline:
         self.cmd_pub = rospy.Publisher('/cmd_exec', UserCmdRequest, queue_size=10000)
         self.info_sub = rospy.Subscriber('/panoramic_info', PanoramicInfo, self.panoramic_info_callback, queue_size=10)
         self.map_client = rospy.ServiceProxy('query_voxel', QueryVoxel)
-        self.need_init = True  # 设置是否需要初始化地图
+        self.need_init = False  # 设置是否需要初始化地图
 
         # 读取配置文件和信息，可以保留对这个格式文件的读取，但是不能假设config明文可见
         with open('/config/config.json', 'r') as file:
@@ -146,7 +146,6 @@ class DemoPipeline:
         self.altitude_levels = [-60, -70, -80, -90, -100, -110, -120]
         self.occ_map_dict = {}  # 存储不同高度层的障碍物地图
         self.fast_path_dict = {}  # 存储不同高度层的快速通道
-        self.car_destination_dict = {}  # 存储每辆车的目标位置
         self.car_paths = {}  # 存储每辆车的规划路径
         self.car_init_positions = {}  # 记录每个车辆的初始位置
 
@@ -161,7 +160,7 @@ class DemoPipeline:
 
     # 系统初始化(按需)
     def sys_init(self):
-        rospy.sleep(10.0)
+        # rospy.sleep(10.0)
 
         # 初始化地图和路径
         if self.need_init:
@@ -444,7 +443,6 @@ class DemoPipeline:
                     print(f"车辆 {car_sn} 的目标位置与车辆 {other_car.sn} 的当前位置过近，取消移动")
                     return
         # 记录车辆的目标位置和路径
-        self.car_destination_dict[car_sn] = end
         self.car_paths[car_sn] = (start, end)
         # 发送移动指令
         msg = UserCmdRequest()
@@ -652,7 +650,7 @@ class DemoPipeline:
         waybill_index = 0
         car_num = len(self.car_sn_list)
         drone_num = len(self.drone_sn_list)
-        N = min(car_num, drone_num)
+        N = min(car_num, drone_num)  # 先走一个车机绑定的思路吧
         for i in range(N):
             car_sn = self.car_sn_list[i]
             drone_sn = self.drone_sn_list[i]
@@ -670,6 +668,8 @@ class DemoPipeline:
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
                 waybill = self.waybill_dict[drone_sn]
+
+                print(f"正在处理无人车{car_sn}与无人机{drone_sn}")
 
                 # 获取车辆和无人机状态
                 car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
@@ -690,22 +690,20 @@ class DemoPipeline:
                 state = self.state_dict[car_sn]
 
                 if state == WorkState.START:
-                    self.state_dict[car_sn] = WorkState.TEST_MAP_QUERY
-                elif state == WorkState.TEST_MAP_QUERY:
+                    # self.state_dict[car_sn] = WorkState.TEST_MAP_QUERY
                     self.state_dict[car_sn] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
+                # elif state == WorkState.TEST_MAP_QUERY:
+                #     self.state_dict[car_sn] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 elif state == WorkState.MOVE_CAR_GO_TO_LOADING_POINT:
                     if car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         self.move_car_with_start_and_end(
                             car_sn, car_pos, loading_pos, 5.0, WorkState.MOVE_DRONE_ON_CAR)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
-                    if self.des_pos_reached(loading_pos, car_pos, 0.5):
-                        # 清除车辆的目标位置和路径
-                        self.car_destination_dict.pop(car_sn, None)
-                        self.car_paths.pop(car_sn, None)
                 elif state == WorkState.MOVE_DRONE_ON_CAR:
                     if (self.des_pos_reached(loading_pos, car_pos, 0.5) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
+                        self.car_paths.pop(car_sn, None) # 清除车辆的目标位置和路径
                         self.move_drone_on_car(
                             car_sn, drone_sn, 3.0, WorkState.MOVE_CARGO_IN_DRONE)
                 elif state == WorkState.MOVE_CARGO_IN_DRONE:
@@ -718,10 +716,6 @@ class DemoPipeline:
                         car_init_pos = self.car_init_positions[car_sn]
                         self.move_car_with_start_and_end(
                             car_sn, car_pos, car_init_pos, 5.0, WorkState.RELEASE_DRONE_OUT)
-                        if self.des_pos_reached(car_init_pos, car_pos, 0.5):
-                            # 清除车辆的目标位置和路径
-                            self.car_destination_dict.pop(car_sn, None)
-                            self.car_paths.pop(car_sn, None)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
 
@@ -730,6 +724,7 @@ class DemoPipeline:
                     if (self.des_pos_reached(car_init_pos, car_pos, 0.5) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                         drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
+                        self.car_paths.pop(car_sn, None) # 清除车辆的目标位置和路径
                         start_pos = Position(car_pos.x, car_pos.y, car_pos.z)
                         end_station = waybill['targetPosition']
                         end_pos = Position(end_station['x'], end_station['y'], end_station['z'])
@@ -762,22 +757,20 @@ class DemoPipeline:
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
                         self.move_car_with_start_and_end(
                             car_sn, car_pos, loading_pos, 5.0, WorkState.DRONE_BATTERY_REPLACEMENT)
-                        if self.des_pos_reached(loading_pos, car_pos, 0.5):
-                            # 清除车辆的目标位置和路径
-                            self.car_destination_dict.pop(car_sn, None)
-                            self.car_paths.pop(car_sn, None)
                     else:
                         print(f"无人机{drone_sn}或车辆{car_sn}未就绪，等待...")
                 elif state == WorkState.DRONE_BATTERY_REPLACEMENT:
                     if (self.des_pos_reached(loading_pos, car_pos, 0.8) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                         drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
+                        self.car_paths.pop(car_sn, None) # 清除车辆的目标位置和路径
                         self.battery_replacement(
                             drone_sn, 10.0, WorkState.DRONE_RETRIEVE)
                     else:
                         print(f"无人机或车辆未就绪，等待...")
                 elif state == WorkState.DRONE_RETRIEVE:
-                    if drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
+                    if (drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
+                        car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
                         self.drone_retrieve(
                             drone_sn, car_sn, 5.0, WorkState.MOVE_DRONE_ON_CAR)
                         # 分配下一个订单
@@ -790,7 +783,7 @@ class DemoPipeline:
                     else:
                         print(f"无人机 {drone_sn} 未就绪，等待...")
             rospy.sleep(1.0)
-            
+
         print('总订单完成数: ', waybill_index, ', 总得分: ', self.score)
 
 
