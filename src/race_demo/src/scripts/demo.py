@@ -3,12 +3,10 @@ import rospy
 import json
 import os
 import numpy as np
-import heapq  # 导入用于实现优先队列的库
+from enum import Enum
+
 import pymtmap
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
-
-from enum import Enum
 
 from std_msgs.msg import String
 from race_demo.msg import BillStatus
@@ -31,8 +29,7 @@ from race_demo.msg import UserPhysicalStatus
 from race_demo.msg import Voxel
 from race_demo.srv import QueryVoxel, QueryVoxelRequest
 
-# demo定义的状态流转
-
+from utils import dijkstra,minimum_distance_between_lines,astar
 
 class WorkState(Enum):
     START = 1
@@ -49,66 +46,7 @@ class WorkState(Enum):
     DRONE_RETRIEVE = 12
     FINISHED = 13
 
-class Node:
-    def __init__(self, x, y, cost, heuristic, parent=None):
-        self.x = x
-        self.y = y
-        self.cost = cost  # 从起点到当前节点的代价
-        self.heuristic = heuristic  # 启发式估计值
-        self.parent = parent  # 父节点
-
-    def __lt__(self, other):
-        return self.cost + self.heuristic < other.cost + other.heuristic
-
-def astar(start, goal, occ_map, x_range, y_range, x_step, y_step):
-    open_list = []
-    closed_set = set()
-    start_node = Node(start[0], start[1], 0, abs(start[0] - goal[0]) + abs(start[1] - goal[1]))
-    heapq.heappush(open_list, start_node)
-    while open_list:
-        current_node = heapq.heappop(open_list)
-        if (current_node.x, current_node.y) == goal:
-            # 路径找到，回溯获取路径
-            path = []
-            while current_node:
-                path.append((current_node.x, current_node.y))
-                current_node = current_node.parent
-            return path[::-1]  # 反转路径
-        closed_set.add((current_node.x, current_node.y))
-        # 生成邻居节点
-        for dx, dy in [(-x_step, 0), (x_step, 0), (0, -y_step), (0, y_step)]:
-            neighbor_x = current_node.x + dx
-            neighbor_y = current_node.y + dy
-            if (neighbor_x, neighbor_y) in closed_set:
-                continue
-            if neighbor_x < x_range[0] or neighbor_x > x_range[1] or neighbor_y < y_range[0] or neighbor_y > y_range[1]:
-                continue
-            if (neighbor_x, neighbor_y) in occ_map:
-                continue  # 避开障碍物
-            neighbor_cost = current_node.cost + ((dx**2 + dy**2)**0.5)
-            neighbor_heuristic = abs(neighbor_x - goal[0]) + abs(neighbor_y - goal[1])
-            neighbor_node = Node(neighbor_x, neighbor_y, neighbor_cost, neighbor_heuristic, current_node)
-            heapq.heappush(open_list, neighbor_node)
-    return None  # 无法到达目标
-
-# 在关键点图中寻找最短路径
-def dijkstra(graph, start, end):
-    import heapq
-    queue = []
-    heapq.heappush(queue, (0, start, [start]))
-    visited = set()
-    while queue:
-        cost, node, path = heapq.heappop(queue)
-        if node == end:
-            return path
-        if node in visited:
-            continue
-        visited.add(node)
-        for neighbor, weight in graph.get(node, []):
-            if neighbor not in visited:
-                heapq.heappush(queue, (cost + weight, neighbor, path + [neighbor]))
-    return None  # 无法到达终点
-    
+# demo定义的状态流转
 class DemoPipeline:
     def __init__(self):
         # 初始化ROS全局变量
@@ -141,6 +79,7 @@ class DemoPipeline:
         # 为每个无人车和无人机创建状态机
         self.state_dict = {}
         self.waybill_dict = {}
+        self.waybill_index_dict = {}
 
         # 定义高度层和空域划分
         self.altitude_levels = [-115, -105, -95, -85, -75, -65]
@@ -160,7 +99,7 @@ class DemoPipeline:
 
     # 系统初始化(按需)
     def sys_init(self):
-        # rospy.sleep(10.0)
+        rospy.sleep(5.0)
 
         # 初始化地图和路径
         if self.need_init:
@@ -281,8 +220,24 @@ class DemoPipeline:
                 if point not in occ_map:
                     key_points.append(point)
 
+            # 添加扩展config透露的关键点
+            key_points.append((184,434))
+            key_points.append((184,440))
+            key_points.append((184,446))
+            key_points.append((196,434))
+            key_points.append((196,440))
+            key_points.append((196,446))
+            key_points.append((185,425))
+            key_points.append((190,425))
+            key_points.append((146,186))
+            key_points.append((430,184))
+            key_points.append((528,172))
+            key_points.append((508,514))
+            key_points.append((564,394))
+            key_points.append((490,390))
+
             # 添加地图边界上的采样点（每隔一定距离采样一次）
-            boundary_sampling_step = 5  # 调整采样距离为5
+            boundary_sampling_step = 3  # 调整采样距离为5
             for x in range(x_min, x_max + 1, boundary_sampling_step):
                 for y in [y_min, y_max]:
                     point = (x, y)
@@ -331,92 +286,12 @@ class DemoPipeline:
             json.dump(self.fast_path_dict, f)
         print("完成构建快速通道...")
 
-
-    # 测试地图查询接口，可用这个或地图SDK进行航线规划
-    # response -> distance 当前体素距离障碍物的最近距离，<=0 的区域代表本身就是障碍物
-    # height是当前体素距离地面的高度(所以是整数）， current height是查询点距离地面的高度（所以是小数）
-    # 目前semantic=18的范围是危险区域（尽量避开、目前暂不扣分）
-    # TODO: 这里可以地图预处理，采样合理的路径反复使用
-    def test_map_query(self):
-        request = QueryVoxelRequest()
-        request.x = 1.0
-        request.y = 2.0
-        request.z = -3.0
-        response = self.map_client(request)
-        print(response)
-        if response.success:
-            self.state = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
-
     # 检测位置到达的函数
     def des_pos_reached(self, des_pos, cur_pos, threshold):
         des = np.array([des_pos.x, des_pos.y, des_pos.z])
         cur = np.array([cur_pos.x, cur_pos.y, cur_pos.z])
         return np.linalg.norm(des - cur) < threshold
     
-    def minimum_distance_between_lines(self, start1, end1, start2, end2):
-        """
-        计算两条线段在二维平面上的最小距离
-        """
-        # 将位置转换为numpy数组
-        p1 = np.array([start1.x, start1.y])
-        p2 = np.array([end1.x, end1.y])
-        q1 = np.array([start2.x, start2.y])
-        q2 = np.array([end2.x, end2.y])
-
-        # 各线段的向量
-        u = p2 - p1
-        v = q2 - q1
-        w = p1 - q1
-
-        a = np.dot(u, u)
-        b = np.dot(u, v)
-        c = np.dot(v, v)
-        d = np.dot(u, w)
-        e = np.dot(v, w)
-
-        D = a * c - b * b
-        sc, sN, sD = 0.0, 0.0, D
-        tc, tN, tD = 0.0, 0.0, D
-
-        if D < 1e-8:  # 线段近似平行
-            sN = 0.0
-            sD = 1.0
-            tN = e
-            tD = c
-        else:
-            sN = (b * e - c * d)
-            tN = (a * e - b * d)
-            if sN < 0.0:
-                sN = 0.0
-            elif sN > sD:
-                sN = sD
-
-        if tN < 0.0:
-            tN = 0.0
-            if -d < 0.0:
-                sN = 0.0
-            elif -d > a:
-                sN = sD
-            else:
-                sN = -d
-                sD = a
-        elif tN > tD:
-            tN = tD
-            if (-d + b) < 0.0:
-                sN = 0
-            elif (-d + b) > a:
-                sN = sD
-            else:
-                sN = (-d + b)
-                sD = a
-
-        sc = 0.0 if abs(sN) < 1e-8 else sN / sD
-        tc = 0.0 if abs(tN) < 1e-8 else tN / tD
-
-        # 最近点之间的向量
-        dP = w + (sc * u) - (tc * v)
-        distance = np.linalg.norm(dP)
-        return distance
 
     # 移动地面车辆的函数，增加碰撞检测
     # 小车不能设置速度，会按照物理模型的设计尽快到达目的点
@@ -430,7 +305,7 @@ class DemoPipeline:
         for other_car_sn, other_path in self.car_paths.items():
             if other_car_sn != car_sn:
                 other_start, other_end = other_path
-                distance = self.minimum_distance_between_lines(start, end, other_start, other_end)
+                distance = minimum_distance_between_lines(start, end, other_start, other_end)
                 if distance < 5.0:
                     print(f"车辆 {car_sn} 的路径与车辆 {other_car_sn} 的路径过近，取消移动")
                     # 不发送移动指令，直接返回
@@ -452,7 +327,6 @@ class DemoPipeline:
         msg.car_route_info.carSn = car_sn
         msg.car_route_info.way_point.append(start)
         msg.car_route_info.way_point.append(end)
-        # msg.car_route_info.yaw = 0.0  # 小车停车时的角度（在新的镜像里已经不用设置了）
         self.cmd_pub.publish(msg)
         rospy.sleep(time_est)
         self.state_dict[car_sn] = next_state
@@ -655,29 +529,33 @@ class DemoPipeline:
     # 主运行函数
     def running(self):
         rospy.sleep(2.0)
-        waybill_index = 0
         car_num = len(self.car_sn_list)
         drone_num = len(self.drone_sn_list)
-        # N = min(car_num, drone_num)  # 先走一个车机绑定的思路吧
-        N = 1 # 一个机车做保底测试
+        unloading_station_num = len(self.unloading_cargo_stations)
+        N = min(car_num, drone_num, unloading_station_num)  # 先走一个车机绑定的思路吧
         
         for i in range(N):
             car_sn = self.car_sn_list[i]
             drone_sn = self.drone_sn_list[i]
+            unloading_station_sn = self.unloading_cargo_stations[i]
             self.state_dict[car_sn] = WorkState.START
             self.state_dict[drone_sn] = WorkState.START
-            self.waybill_dict[drone_sn] = self.waybill_infos[waybill_index]
-            waybill_index += 1
+            self.waybill_dict[drone_sn] = []
+            for waybill in self.waybill_infos:
+                waybill_target_position = waybill["targetPosition"]
+                if waybill_target_position["x"] == int(unloading_station_sn['position']['x']) and waybill_target_position["y"] == int(unloading_station_sn['position']['y']):
+                    self.waybill_dict[drone_sn].append(waybill)
+            self.waybill_index_dict[drone_sn] = 0
         for car in self.car_physical_status:
             self.car_init_positions[car.sn] = car.pos.position
         
         self.sys_init()
 
-        while not rospy.is_shutdown() and waybill_index < len(self.waybill_infos) and self.state!=WorkState.FINISHED:
+        while not rospy.is_shutdown() and self.state!=WorkState.FINISHED:
             for i in range(N):
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
-                waybill = self.waybill_dict[drone_sn]
+                waybill = self.waybill_dict[drone_sn][self.waybill_index_dict[drone_sn]]
 
                 # 获取车辆和无人机状态
                 car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
@@ -700,10 +578,7 @@ class DemoPipeline:
                 print(f"正在处理无人车{car_sn}与无人机{drone_sn}，相应状态：{state}")
 
                 if state == WorkState.START:
-                    # self.state_dict[car_sn] = WorkState.TEST_MAP_QUERY
                     self.state_dict[car_sn] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
-                # elif state == WorkState.TEST_MAP_QUERY:
-                #     self.state_dict[car_sn] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 elif state == WorkState.MOVE_CAR_GO_TO_LOADING_POINT:
                     if car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         self.move_car_with_start_and_end(
@@ -784,17 +659,10 @@ class DemoPipeline:
                         self.drone_retrieve(
                             drone_sn, car_sn, 5.0, WorkState.MOVE_DRONE_ON_CAR)
                         # 分配下一个订单
-                        if waybill_index < len(self.waybill_infos):
-                            self.waybill_dict[drone_sn] = self.waybill_infos[waybill_index]
-                            waybill_index += 1
-                        else:
-                            print("所有订单已完成")
-                            self.state_dict[car_sn] = WorkState.FINISHED
+                        self.waybill_index_dict[drone_sn] += 1
                     else:
                         print(f"无人机 {drone_sn} 未就绪，等待...")
             rospy.sleep(1.0)
-
-        print('总订单完成数: ', waybill_index, ', 总得分: ', self.score)
 
 
 if __name__ == '__main__':
