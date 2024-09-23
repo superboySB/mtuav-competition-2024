@@ -46,6 +46,35 @@ class WorkState(Enum):
     DRONE_RETRIEVE = 12
     FINISHED = 13
 
+def is_direct_path(start, end, occ_map):
+    # 使用数字微分的方法检查直线路径上是否有障碍物
+    x1, y1 = start
+    x2, y2 = end
+    dx = x2 - x1
+    dy = y2 - y1
+    steps = int(max(abs(dx), abs(dy)))
+    if steps == 0:
+        return True
+    x_inc = dx / steps
+    y_inc = dy / steps
+    for i in range(steps + 1):
+        x = x1 + i * x_inc
+        y = y1 + i * y_inc
+        xi = int(round(x))
+        yi = int(round(y))
+        if (xi, yi) in occ_map:
+            return False  # 路径上有障碍物
+    return True  # 直线路径无障碍物
+
+def check_path(pair, occ_map):
+    start, end = pair
+    if is_direct_path(start, end, occ_map):
+        start_str = f"{start[0]}_{start[1]}"
+        end_str = f"{end[0]}_{end[1]}"
+        distance = np.hypot(end[0] - start[0], end[1] - start[1])
+        return (start_str, end_str, distance)
+    return None
+
 # demo定义的状态流转
 class DemoPipeline:
     def __init__(self):
@@ -55,7 +84,7 @@ class DemoPipeline:
         self.cmd_pub = rospy.Publisher('/cmd_exec', UserCmdRequest, queue_size=10000)
         self.info_sub = rospy.Subscriber('/panoramic_info', PanoramicInfo, self.panoramic_info_callback, queue_size=10)
         self.map_client = rospy.ServiceProxy('query_voxel', QueryVoxel)
-        self.need_init = False  # 设置是否需要初始化地图
+        self.need_init = True  # 设置是否需要初始化地图
 
         # 读取配置文件和信息，可以保留对这个格式文件的读取，但是不能假设config明文可见
         with open('/config/config.json', 'r') as file:
@@ -159,12 +188,12 @@ class DemoPipeline:
                 voxel = map_instance.Query(x, y, z)
                 if voxel.semantic == 255:
                     return None  # 超出地图范围
-                if voxel.distance < 2:
+                if voxel.distance < 0.8:
                     return (x, y)
                 return None
 
             # 使用线程池并行处理
-            with ThreadPoolExecutor(max_workers=48) as executor:
+            with ThreadPoolExecutor(max_workers=64) as executor:
                 futures = [executor.submit(process_point, point) for point in points]
                 for future in as_completed(futures):
                     result = future.result()
@@ -175,26 +204,6 @@ class DemoPipeline:
         with open('/root/mtuav-competition-2024/occ_map_dict.json', 'w') as f:
             json.dump(self.occ_map_dict, f)
         print("完成构建障碍物地图...")
-
-    def is_direct_path(self, start, end, occ_map):
-        # 使用数字微分的方法检查直线路径上是否有障碍物
-        x1, y1 = start
-        x2, y2 = end
-        dx = x2 - x1
-        dy = y2 - y1
-        steps = int(max(abs(dx), abs(dy)))
-        if steps == 0:
-            return True
-        x_inc = dx / steps
-        y_inc = dy / steps
-        for i in range(steps + 1):
-            x = x1 + i * x_inc
-            y = y1 + i * y_inc
-            xi = int(round(x))
-            yi = int(round(y))
-            if (xi, yi) in occ_map:
-                return False  # 路径上有障碍物
-        return True  # 直线路径无障碍物
 
     # 构建快速通道
     def init_fast_paths(self):
@@ -253,7 +262,7 @@ class DemoPipeline:
             key_points.append((490,390))
 
             # 添加地图边界上的采样点（每隔一定距离采样一次）
-            boundary_sampling_step = 3  # 调整采样距离为5
+            boundary_sampling_step = 1  # 调整采样距离
             for x in range(x_min, x_max + 1, boundary_sampling_step):
                 for y in [y_min, y_max]:
                     point = (x, y)
@@ -275,18 +284,20 @@ class DemoPipeline:
             from itertools import combinations
 
             key_point_pairs = combinations(key_points, 2)
-            for start, end in key_point_pairs:
-                if self.is_direct_path(start, end, occ_map):
-                    # 如果有直线路径，添加到图中
-                    start_str = f"{start[0]}_{start[1]}"
-                    end_str = f"{end[0]}_{end[1]}"
-                    if start_str not in graph:
-                        graph[start_str] = []
-                    if end_str not in graph:
-                        graph[end_str] = []
-                    distance = np.hypot(end[0] - start[0], end[1] - start[1])
-                    graph[start_str].append((end_str, distance))
-                    graph[end_str].append((start_str, distance))  # 无向图
+
+            # 使用线程池并行处理
+            with ThreadPoolExecutor(max_workers=64) as executor:
+                futures = {executor.submit(check_path, pair, occ_map): pair for pair in key_point_pairs}
+                for future in as_completed(futures):
+                    result = future.result()
+                    if result is not None:
+                        start_str, end_str, distance = result
+                        if start_str not in graph:
+                            graph[start_str] = []
+                        if end_str not in graph:
+                            graph[end_str] = []
+                        graph[start_str].append((end_str, distance))
+                        graph[end_str].append((start_str, distance))  # 无向图
 
             # 将 key_points 转换为字符串形式
             key_points_str = [f"{p[0]}_{p[1]}" for p in key_points]
@@ -413,7 +424,7 @@ class DemoPipeline:
 
         # 起点到最近关键点
         if start_key != nearest_start_point:
-            if self.is_direct_path(start_key, nearest_start_point, occ_map):
+            if is_direct_path(start_key, nearest_start_point, occ_map):
                 full_path_coords.extend([start_key, nearest_start_point])
             else:
                 # 使用 A* 计算短路径
@@ -439,7 +450,7 @@ class DemoPipeline:
 
         # 最近关键点到终点
         if end_key != nearest_end_point:
-            if self.is_direct_path(nearest_end_point, end_key, occ_map):
+            if is_direct_path(nearest_end_point, end_key, occ_map):
                 full_path_coords.extend([nearest_end_point, end_key])
             else:
                 # 使用 A* 计算短路径
@@ -625,7 +636,7 @@ class DemoPipeline:
 
                 elif state == WorkState.RELEASE_DRONE_OUT:
                     car_init_pos = self.car_drone_key_positions[car_sn]
-                    if (self.des_pos_reached(car_init_pos, car_pos, 0.8) and
+                    if (self.des_pos_reached(car_init_pos, car_pos, 0.5) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                         drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
                         self.car_paths.pop(car_sn, None) # 清除车辆的目标位置和路径
