@@ -546,6 +546,7 @@ class DemoPipeline:
                 if waybill_target_position["x"] == int(unloading_station_sn['position']['x']) and waybill_target_position["y"] == int(unloading_station_sn['position']['y']):
                     self.waybill_dict[drone_sn].append(waybill)
             self.waybill_index_dict[drone_sn] = 0
+            
         for car in self.car_physical_status:
             self.car_init_positions[car.sn] = car.pos.position
         
