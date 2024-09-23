@@ -81,10 +81,13 @@ class DemoPipeline:
         # 初始化ROS全局变量
         self.state = WorkState.START
         rospy.init_node('race_demo')
+        # 初始化发布器
         self.cmd_pub = rospy.Publisher('/cmd_exec', UserCmdRequest, queue_size=10000)
+        # 初始化订阅器
+        self.cmd_sub = rospy.Subscriber('/user_cmd_response', UserCmdResponse, self.cmdResponseCallback)
         self.info_sub = rospy.Subscriber('/panoramic_info', PanoramicInfo, self.panoramic_info_callback, queue_size=10)
         self.map_client = rospy.ServiceProxy('query_voxel', QueryVoxel)
-        self.need_init = True  # 设置是否需要初始化地图
+        self.need_init = False  # 设置是否需要初始化地图
 
         # 读取配置文件和信息，可以保留对这个格式文件的读取，但是不能假设config明文可见
         with open('/config/config.json', 'r') as file:
@@ -104,6 +107,8 @@ class DemoPipeline:
         self.bills_status = None
         self.score = None
         self.events = None
+        self.cmd_response_type = None
+        self.cmd_description = None
 
         # 为每个无人车和无人机创建状态机
         self.state_dict = {}
@@ -111,7 +116,7 @@ class DemoPipeline:
         self.waybill_index_dict = {}
 
         # 定义高度层和空域划分
-        self.altitude_levels = [-85, -95, -105, -115, -75, -65]
+        self.altitude_levels = [-65, -95, -115, -85, -75, -105]
         self.occ_map_dict = {}  # 存储不同高度层的障碍物地图
         self.fast_path_dict = {}  # 存储不同高度层的快速通道
         self.car_paths = {}  # 存储每辆车的规划路径
@@ -119,11 +124,11 @@ class DemoPipeline:
 
         # 防止车辆相撞，添加几个可以直达的放飞点
         self.car_key_point = {
-            "SIM-MAGV-0001": [181,429],
-            "SIM-MAGV-0002": [181,439],
+            "SIM-MAGV-0001": [181,431],
+            "SIM-MAGV-0002": [181,440],
             "SIM-MAGV-0003": [181,449],
-            "SIM-MAGV-0004": [199,429],
-            "SIM-MAGV-0005": [199,439],
+            "SIM-MAGV-0004": [199,431],
+            "SIM-MAGV-0005": [199,440],
             "SIM-MAGV-0006": [199,449],
         }
 
@@ -135,6 +140,10 @@ class DemoPipeline:
         self.bills_status = panoramic_info.bills
         self.score = panoramic_info.score
         self.events = panoramic_info.events
+
+    def cmdResponseCallback(self, msg):
+        self.cmd_response_type = msg.type
+        self.cmd_description = msg.description
 
     # 系统初始化(按需)
     def sys_init(self):
@@ -188,7 +197,7 @@ class DemoPipeline:
                 voxel = map_instance.Query(x, y, z)
                 if voxel.semantic == 255:
                     return None  # 超出地图范围
-                if voxel.distance < 0.8:
+                if voxel.distance < 1.0:
                     return (x, y)
                 return None
 
@@ -481,9 +490,10 @@ class DemoPipeline:
         for coord in full_path_coords[1:]:
             if coord != optimized_coords[-1]:
                 optimized_coords.append(coord)
-
+        
         optimized_coords.append(end_pos)
         route_len = len(optimized_coords)
+        
         for i, coord in enumerate(optimized_coords):
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
