@@ -82,11 +82,21 @@ class DemoPipeline:
         self.waybill_index_dict = {}
 
         # 定义高度层和空域划分
-        self.altitude_levels = [-115, -105, -95, -85, -75, -65]
+        self.altitude_levels = [-85, -95, -105, -115, -75, -65]
         self.occ_map_dict = {}  # 存储不同高度层的障碍物地图
         self.fast_path_dict = {}  # 存储不同高度层的快速通道
         self.car_paths = {}  # 存储每辆车的规划路径
-        self.car_init_positions = {}  # 记录每个车辆的初始位置
+        self.car_drone_key_positions = {}  # 记录每个车辆的初始位置
+
+        # 防止车辆相撞，添加几个可以直达的放飞点
+        self.car_key_point = {
+            "SIM-MAGV-0001": [181,429],
+            "SIM-MAGV-0002": [181,439],
+            "SIM-MAGV-0003": [181,449],
+            "SIM-MAGV-0004": [199,429],
+            "SIM-MAGV-0005": [199,439],
+            "SIM-MAGV-0006": [199,449],
+        }
 
     # 仿真回调函数
     # TODO: 可以用来获取实时信息
@@ -215,8 +225,14 @@ class DemoPipeline:
                     key_points.append(point)
 
             # 添加每个车辆的出生点
-            for car_sn, init_pos in self.car_init_positions.items():
+            for car_sn, init_pos in self.car_drone_key_positions.items():
                 point = (int(init_pos.x), int(init_pos.y))
+                if point not in occ_map:
+                    key_points.append(point)
+
+            # 添加每个车辆接收收发飞机的关键点
+            for car_id, coords in self.car_key_point.items():
+                point = tuple(coords)  # 将列表转换为元组 (x, y)
                 if point not in occ_map:
                     key_points.append(point)
 
@@ -306,7 +322,7 @@ class DemoPipeline:
             if other_car_sn != car_sn:
                 other_start, other_end = other_path
                 distance = minimum_distance_between_lines(start, end, other_start, other_end)
-                if distance < 5.0:
+                if distance < 4.0:
                     print(f"车辆 {car_sn} 的路径与车辆 {other_car_sn} 的路径过近，取消移动")
                     # 不发送移动指令，直接返回
                     return
@@ -314,7 +330,7 @@ class DemoPipeline:
         for other_car in self.car_physical_status:
             if other_car.sn != car_sn:
                 other_car_pos = other_car.pos.position
-                if self.des_pos_reached(end, other_car_pos, 5.0):
+                if self.des_pos_reached(end, other_car_pos, 4.0):
                     print(f"车辆 {car_sn} 的目标位置与车辆 {other_car.sn} 的当前位置过近，取消移动")
                     return
         # 记录车辆的目标位置和路径
@@ -548,7 +564,9 @@ class DemoPipeline:
             self.waybill_index_dict[drone_sn] = 0
             
         for car in self.car_physical_status:
-            self.car_init_positions[car.sn] = car.pos.position
+            self.car_drone_key_positions[car.sn] = car.pos.position
+            self.car_drone_key_positions[car.sn].x = self.car_key_point[car.sn][0]
+            self.car_drone_key_positions[car.sn].y = self.car_key_point[car.sn][1]
         
         self.sys_init()
 
@@ -598,16 +616,16 @@ class DemoPipeline:
                     self.state_dict[car_sn] = WorkState.MOVE_CAR_TO_LEAVING_POINT
                 elif state == WorkState.MOVE_CAR_TO_LEAVING_POINT:
                     if car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        # 让小车返回自己的出生点
-                        car_init_pos = self.car_init_positions[car_sn]
+                        # 让小车不是返回自己的出生点，而是返回关键点
+                        car_init_pos = self.car_drone_key_positions[car_sn]
                         self.move_car_with_start_and_end(
                             car_sn, car_pos, car_init_pos, 5.0, WorkState.RELEASE_DRONE_OUT)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
 
                 elif state == WorkState.RELEASE_DRONE_OUT:
-                    car_init_pos = self.car_init_positions[car_sn]
-                    if (self.des_pos_reached(car_init_pos, car_pos, 0.5) and
+                    car_init_pos = self.car_drone_key_positions[car_sn]
+                    if (self.des_pos_reached(car_init_pos, car_pos, 0.8) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                         drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
                         self.car_paths.pop(car_sn, None) # 清除车辆的目标位置和路径
