@@ -15,8 +15,10 @@ def main():
               f"z({map_instance.min_z()} to {map_instance.max_z()})")
         
         # 查询特定坐标的体素信息
-        # x, y, z = 146, 186, -34
-        x, y, z = 430, 184, -10
+        x, y, z = 146, 186, -34
+        # x, y, z = 146, 186, -119
+        # x, y, z = 430, 184, -10
+        # x, y, z = 430, 184, -105
         voxel = map_instance.Query(x, y, z)
         
         # 输出体素信息
