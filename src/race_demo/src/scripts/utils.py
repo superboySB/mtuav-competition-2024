@@ -61,6 +61,33 @@ def dijkstra(graph, start, end):
                 heapq.heappush(queue, (cost + weight, neighbor, path + [neighbor]))
     return None  # 无法到达终点
 
+def point_to_segment_distance(point, seg_start, seg_end):
+    """
+    计算点到线段的最短距离
+    """
+    # 将位置转换为numpy数组
+    point = np.array(point)
+    seg_start = np.array(seg_start)
+    seg_end = np.array(seg_end)
+    
+    # 线段的向量
+    seg_vec = seg_end - seg_start
+    point_vec = point - seg_start
+    
+    seg_len_sq = np.dot(seg_vec, seg_vec)
+    
+    if seg_len_sq < 1e-8:
+        # 线段退化为点
+        return np.linalg.norm(point - seg_start)
+    
+    # 投影参数
+    t = np.dot(point_vec, seg_vec) / seg_len_sq
+    t = max(0, min(1, t))
+    
+    # 投影点
+    projection = seg_start + t * seg_vec
+    distance = np.linalg.norm(point - projection)
+    return distance
 
 def minimum_distance_between_lines(start1, end1, start2, end2):
     """
@@ -77,6 +104,24 @@ def minimum_distance_between_lines(start1, end1, start2, end2):
     v = q2 - q1
     w = p1 - q1
 
+    # 检查线段是否退化为点
+    u_len_sq = np.dot(u, u)
+    v_len_sq = np.dot(v, v)
+
+    if u_len_sq < 1e-8 and v_len_sq < 1e-8:
+        # 两条线段都退化为点
+        distance = np.linalg.norm(p1 - q1)
+        return distance
+    elif u_len_sq < 1e-8:
+        # 第一条线段退化为点
+        distance = point_to_segment_distance(p1, q1, q2)
+        return distance
+    elif v_len_sq < 1e-8:
+        # 第二条线段退化为点
+        distance = point_to_segment_distance(q1, p1, p2)
+        return distance
+
+    # 以下是原始计算过程
     a = np.dot(u, u)
     b = np.dot(u, v)
     c = np.dot(v, v)
@@ -84,10 +129,11 @@ def minimum_distance_between_lines(start1, end1, start2, end2):
     e = np.dot(v, w)
 
     D = a * c - b * b
-    sc, sN, sD = 0.0, 0.0, D
-    tc, tN, tD = 0.0, 0.0, D
+    sc, sN, sD = 0.0, D, D
+    tc, tN, tD = 0.0, D, D
 
-    if D < 1e-8:  # 线段近似平行
+    if D < 1e-8:
+        # 线段近似平行
         sN = 0.0
         sD = 1.0
         tN = e
@@ -112,15 +158,15 @@ def minimum_distance_between_lines(start1, end1, start2, end2):
     elif tN > tD:
         tN = tD
         if (-d + b) < 0.0:
-            sN = 0
+            sN = 0.0
         elif (-d + b) > a:
             sN = sD
         else:
             sN = (-d + b)
             sD = a
 
-    sc = 0.0 if abs(sN) < 1e-8 else sN / sD
-    tc = 0.0 if abs(tN) < 1e-8 else tN / tD
+    sc = sN / sD if abs(sD) > 1e-8 else 0.0
+    tc = tN / tD if abs(tD) > 1e-8 else 0.0
 
     # 最近点之间的向量
     dP = w + (sc * u) - (tc * v)

@@ -317,26 +317,18 @@ class DemoPipeline:
             return
         
         # 检查是否会与其他车辆发生路径碰撞
-        # TODO：还是要保留，但好像可以结合动力学预测改进一下，我现在设置的几个线段都是前后无冲的
+        # TODO：还是要保留，但好像可以结合动力学预测改进一下地上交流通，我现在设置的几个线段都是前后无冲的，所以直接移动就行了
         for other_car_sn, other_path in self.car_paths.items():
             if other_car_sn != car_sn:
                 other_start, other_end = other_path
                 distance = minimum_distance_between_lines(start, end, other_start, other_end)
-                if distance < 4.0:
+                if distance < 0.1:
                     print(f"车辆 {car_sn} 的路径与车辆 {other_car_sn} 的目标路径过近，取消移动")
                     # 不发送移动指令，直接返回
                     return
                 
-        # 检查目标位置是否与其他车辆过近
-        for other_car in self.car_physical_status:
-            if other_car.sn != car_sn:
-                other_car_pos = other_car.pos.position
-                if self.des_pos_reached(end, other_car_pos, 4.0):
-                    print(f"车辆 {car_sn} 的目标位置与车辆 {other_car.sn} 的当前位置过近，取消移动")
-                    return
-                
         # 记录车辆的目标位置和路径
-        self.car_paths[car_sn] = (start, end)
+        self.car_paths[car_sn] = [start, end]
 
         # 发送移动指令
         msg = UserCmdRequest()
@@ -584,7 +576,7 @@ class DemoPipeline:
                 print(f"得分：{self.score}")
                 break
             
-            for i in range(N):
+            for i in [0,3,1,4,2,5]:  # TODO：车辆接单顺序
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
                 waybill = self.waybill_dict[drone_sn][self.waybill_index_dict[drone_sn]]
@@ -618,19 +610,25 @@ class DemoPipeline:
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_DRONE_ON_CAR:
+                    if car_sn in self.car_paths:
+                        self.car_paths[car_sn][0] = car_pos
                     if (self.des_pos_reached(loading_pos, car_pos, 0.5) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
-                        self.car_paths.pop(car_sn, None) # 清除车辆的目标位置和路径
                         self.move_drone_on_car(
                             drone_sn, car_sn, 3.0, WorkState.MOVE_CARGO_IN_DRONE)
+                    else:
+                        print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CARGO_IN_DRONE:
+                    if car_sn in self.car_paths:
+                        self.car_paths[car_sn][0] = car_pos
                     if (self.des_pos_reached(loading_pos, car_pos, 0.5) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                             drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
-                        self.car_paths.pop(car_sn, None)
                         cargo_id = waybill['cargoParam']['index']
                         self.move_cargo_in_drone(cargo_id, drone_sn, 10.0)
                         self.state_dict[car_sn] = WorkState.MOVE_CAR_TO_LEAVING_POINT
+                    else:
+                        print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CAR_TO_LEAVING_POINT:
                     if car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         # 让小车不是返回自己的出生点，而是返回关键点
@@ -642,10 +640,11 @@ class DemoPipeline:
 
                 elif state == WorkState.RELEASE_DRONE_OUT:
                     car_init_pos = self.car_drone_key_positions[car_sn]
+                    if car_sn in self.car_paths:
+                        self.car_paths[car_sn][0] = car_pos
                     if (self.des_pos_reached(car_init_pos, car_pos, 0.5) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                             drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
-                        self.car_paths.pop(car_sn, None)
                         start_pos = Position(car_pos.x, car_pos.y, car_pos.z)
                         end_station = waybill['targetPosition']
                         end_pos = Position(end_station['x'], end_station['y'], end_station['z']-10)
@@ -688,10 +687,11 @@ class DemoPipeline:
                     else:
                         print(f"无人机{drone_sn}或车辆{car_sn}未就绪，等待...")
                 elif state == WorkState.DRONE_BATTERY_REPLACEMENT:
+                    if car_sn in self.car_paths:
+                        self.car_paths[car_sn][0] = car_pos
                     if (self.des_pos_reached(loading_pos, car_pos, 0.8) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                             drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
-                        self.car_paths.pop(car_sn, None) # 清除车辆的目标位置和路径
                         self.battery_replacement(
                             drone_sn, car_sn, 10.0, WorkState.MOVE_CARGO_IN_DRONE)
                     else:
