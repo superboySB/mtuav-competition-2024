@@ -126,3 +126,23 @@ def minimum_distance_between_lines(start1, end1, start2, end2):
     dP = w + (sc * u) - (tc * v)
     distance = np.linalg.norm(dP)
     return distance
+
+def is_direct_path(start, end, occ_map):
+    # 使用数字微分的方法检查直线路径上是否有障碍物
+    x1, y1 = start
+    x2, y2 = end
+    dx = x2 - x1
+    dy = y2 - y1
+    steps = int(max(abs(dx), abs(dy)))
+    if steps == 0:
+        return True
+    x_inc = dx / steps
+    y_inc = dy / steps
+    for i in range(steps + 1):
+        x = x1 + i * x_inc
+        y = y1 + i * y_inc
+        xi = int(round(x))
+        yi = int(round(y))
+        if (xi, yi) in occ_map:
+            return False  # 路径上有障碍物
+    return True  # 直线路径无障碍物
