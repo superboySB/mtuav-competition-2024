@@ -138,6 +138,8 @@ class DemoPipeline:
 
     # 系统初始化(按需)
     def sys_init(self):
+        rospy.sleep(10.0)
+        
         # 初始化地图和路径
         if self.need_init:
             self.init_occ_map()
@@ -538,7 +540,7 @@ class DemoPipeline:
 
     # 主运行函数
     def running(self):
-        rospy.sleep(10.0)
+        rospy.sleep(2.0)
         start_time = time.time() # 记录起始时间
         car_num = len(self.car_sn_list)
         drone_num = len(self.drone_sn_list)

@@ -2,4 +2,4 @@
 build/
 devel/
 logs/
-*.json
+# *.json # 分辨率3的暂时够用，也不大
