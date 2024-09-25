@@ -584,6 +584,13 @@ class DemoPipeline:
         self.sys_init()
 
         while not rospy.is_shutdown() and self.state!=WorkState.FINISHED:
+            # 记录车辆的实时路径
+            for car_sn in self.car_sn_list:
+                car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
+                car_pos = car_physical_status.pos.position
+                if car_sn in self.car_paths:
+                    self.car_paths[car_sn][0] = car_pos
+
             for i in [0,3,1,4,2,5]:  # TODO：车辆接单顺序
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
@@ -606,8 +613,6 @@ class DemoPipeline:
                 # 获取分配的高度层
                 altitude = self.current_altitude_levels_for_cars[i % len(self.current_altitude_levels_for_cars)]
                 state = self.state_dict[car_sn]
-                if car_sn in self.car_paths:
-                    self.car_paths[car_sn][0] = car_pos
                 
                 print(f"正在处理无人车{car_sn}与无人机{drone_sn}，相应状态：{state}，当前送货index：{self.waybill_index_dict[drone_sn]}，货物状态：{bill_status.status}")
 
@@ -686,17 +691,27 @@ class DemoPipeline:
                         drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
                             car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
                         
-                        # 如果有更近的需要回家，让它先回
-                        give_up_car_back_flag = False
+                        # 上货点有人占用，已经有去往上货点的合法路径
+                        car_back_continue_flag = False
+                        for other_car_sn in self.car_sn_list:
+                            other_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
+                            other_car_pos = other_car_physical_status.pos.position
+                            if (other_car_sn != car_sn) and \
+                                (self.des_pos_reached(other_car_pos, loading_pos, 0.8) or self.des_pos_reached(self.car_paths[other_car_sn][1],loading_pos,0.8)):
+                                print(f"发现有其它地勤车辆{other_car_sn}还在上货点或已经产生前往路径，我让它先去！！")
+                                car_back_continue_flag = True
+
+                        # 上货点无人占用，让离得近的先去
+                        car_back_break_flag = False
                         self_car_and_loading_point_distance = np.hypot(car_pos.x - loading_pos.x, car_pos.y - loading_pos.y)
                         for other_car_sn in self.car_sn_list:
+                            if car_back_continue_flag:
+                                break
                             if other_car_sn != car_sn:
                                 other_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
                                 other_car_pos = other_car_physical_status.pos.position
                                 other_car_and_loading_point_distance = np.hypot(other_car_pos.x - loading_pos.x, other_car_pos.y - loading_pos.y)
-                                # 提取最后四位数字
                                 last_four_digits = other_car_sn[-4:]
-                                # 构造新的other_drone_sn
                                 other_drone_sn = f"SIM-DRONE-{last_four_digits}"
                                 other_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == other_drone_sn), None)
                                 other_drone_pos = other_drone_physical_status.pos.position
@@ -705,19 +720,18 @@ class DemoPipeline:
                                         other_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                                             self.state_dict[other_car_sn] == WorkState.MOVE_CAR_BACK_TO_LOADING_POINT and
                                                 other_car_and_loading_point_distance < self_car_and_loading_point_distance - 2):
-                                    give_up_car_back_flag = True
-                        if give_up_car_back_flag:
-                            print("发现有更近的地勤车辆需要回家，我让它先回！！")
+                                    print(f"发现有更近的地勤车辆{other_car_sn}需要回家，我让它先回！！")
+                                    car_back_break_flag = True
+                        if car_back_break_flag:
                             break
-                        else:
-                            print("自己先回！！")
-
-                        if drone_physical_status.remaining_capacity < 30:
-                            self.move_car_with_start_and_end(
-                                car_sn, car_pos, loading_pos, WorkState.DRONE_BATTERY_REPLACEMENT)
-                        else:
-                            self.move_car_with_start_and_end(
-                                car_sn, car_pos, loading_pos, WorkState.MOVE_CARGO_IN_DRONE)
+                        
+                        if car_back_continue_flag is False:
+                            if drone_physical_status.remaining_capacity < 30:
+                                self.move_car_with_start_and_end(
+                                    car_sn, car_pos, loading_pos, WorkState.DRONE_BATTERY_REPLACEMENT)
+                            else:
+                                self.move_car_with_start_and_end(
+                                    car_sn, car_pos, loading_pos, WorkState.MOVE_CARGO_IN_DRONE)
                     else:
                         print(f"无人机{drone_sn}或车辆{car_sn}未就绪，等待...")
                 elif state == WorkState.DRONE_BATTERY_REPLACEMENT:
