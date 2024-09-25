@@ -326,7 +326,7 @@ class DemoPipeline:
                 if distance < 0.2:
                     print(f"车辆 {car_sn} 的路径与车辆 {other_car_sn} 的目标路径过近，取消移动")
                     # 不发送移动指令，直接返回
-                    return False
+                    return
         
         for car in self.car_physical_status:
             if car.sn != car_sn:
@@ -335,7 +335,7 @@ class DemoPipeline:
                 if distance < 3.0:
                     print(f"车辆 {car_sn} 的路径与车辆 {car.sn} 的当前位置过近，取消移动")
                     # 不发送移动指令，直接返回
-                    return False
+                    return
         
         # 发送移动指令
         msg = UserCmdRequest()
@@ -350,7 +350,6 @@ class DemoPipeline:
 
         # 记录移动车辆的目标位置和路径
         self.car_paths[car_sn] = [start, end]
-        return True
     
     # 往车上挪机 (如果用于一开始飞机与小车绑定的时候，则是飞机从出生点直接瞬移到小车上)
     # 后续飞机和小车不用完全绑定，送飞和接驳可以是两个不同的小车
@@ -539,10 +538,8 @@ class DemoPipeline:
 
     # 主运行函数
     def running(self):
-        # 记录起始时间
-        start_time = time.time()
-
-        rospy.sleep(2.0)
+        rospy.sleep(10.0)
+        start_time = time.time() # 记录起始时间
         car_num = len(self.car_sn_list)
         drone_num = len(self.drone_sn_list)
         unloading_station_num = len(self.unloading_cargo_stations)
@@ -601,26 +598,28 @@ class DemoPipeline:
                     self.state_dict[car_sn] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 elif state == WorkState.MOVE_CAR_GO_TO_LOADING_POINT:
                     if car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        car_move_flag = self.move_car_with_start_and_end(
+                        self.move_car_with_start_and_end(
                             car_sn, car_pos, loading_pos, WorkState.MOVE_DRONE_ON_CAR)
-                        if car_move_flag: break
+                        rospy.sleep(0.5)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_DRONE_ON_CAR:
-                    if (self.des_pos_reached(loading_pos, car_pos, 0.8) and
+                    if (self.des_pos_reached(loading_pos, car_pos, 2.0) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
                         self.move_drone_on_car(
                             drone_sn, car_sn, WorkState.MOVE_CARGO_IN_DRONE)
+                        rospy.sleep(0.5)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CARGO_IN_DRONE:
-                    if (self.des_pos_reached(loading_pos, car_pos, 0.8) and
+                    if (self.des_pos_reached(loading_pos, car_pos, 2.0) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                             drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
                                 len(car_physical_status.drone_sn) > 0):
                         cargo_id = waybill['cargoParam']['index']
                         self.move_cargo_in_drone(cargo_id, drone_sn)
                         self.state_dict[car_sn] = WorkState.MOVE_CAR_TO_LEAVING_POINT
+                        rospy.sleep(0.5)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CAR_TO_LEAVING_POINT:
@@ -628,22 +627,23 @@ class DemoPipeline:
                             bill_status.status == 2):
                         # 让小车不是返回自己的出生点，而是返回关键点
                         car_init_pos = self.car_drone_key_positions[car_sn]
-                        car_move_flag = self.move_car_with_start_and_end(
+                        self.move_car_with_start_and_end(
                             car_sn, car_pos, car_init_pos, WorkState.RELEASE_DRONE_OUT)
-                        if car_move_flag: break
+                        rospy.sleep(0.5)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
 
                 elif state == WorkState.RELEASE_DRONE_OUT:
                     car_init_pos = self.car_drone_key_positions[car_sn]
-                    if (self.des_pos_reached(car_init_pos, car_pos, 0.8) and
+                    if (self.des_pos_reached(car_init_pos, car_pos, 2.0) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                             drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
                         start_pos = Position(car_pos.x, car_pos.y, car_pos.z)
                         end_station = waybill['targetPosition']
-                        end_pos = Position(end_station['x'], end_station['y'], end_station['z']-2)
+                        end_pos = Position(end_station['x'], end_station['y'], end_station['z']-1.5)
                         self.fly_one_route(
                             drone_sn, car_sn, start_pos, end_pos, altitude, 15.0, WorkState.RELEASE_CARGO)
+                        rospy.sleep(0.5)
                     else:
                         print(f"无人机或车辆未就绪，等待...")
                 elif state == WorkState.RELEASE_CARGO:
@@ -656,6 +656,7 @@ class DemoPipeline:
                         if self.des_pos_reached(des_pos, drone_pos, 2.0):
                             self.release_cargo(
                                 drone_sn, car_sn, WorkState.RELEASE_DRONE_RETURN)
+                            rospy.sleep(0.5)
                     else:
                         print(f"无人机 {drone_sn} 未就绪，等待...")
                 elif state == WorkState.RELEASE_DRONE_RETURN:
@@ -663,31 +664,33 @@ class DemoPipeline:
                             bill_status.status == 3):
                         self.waybill_index_dict[drone_sn] += 1
                         start_pos = Position(drone_pos.x, drone_pos.y, drone_pos.z)
-                        end_pos = Position(car_pos.x, car_pos.y, car_pos.z-2)
+                        end_pos = Position(car_pos.x, car_pos.y, car_pos.z-1.5)
                         self.fly_one_route(
                             drone_sn, car_sn, start_pos, end_pos, altitude, 15.0, WorkState.MOVE_CAR_BACK_TO_LOADING_POINT)
+                        rospy.sleep(0.5)
                     else:
                         print(f"无人机 {drone_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CAR_BACK_TO_LOADING_POINT:
                     print(f"位置：{drone_physical_status.pos.position.x},{drone_physical_status.pos.position.y},{drone_physical_status.pos.position.z}   状态：{drone_physical_status.drone_work_state}")
-                    if (self.des_pos_reached(car_pos, drone_pos, 0.8) and
+                    if (self.des_pos_reached(car_pos, drone_pos, 2.0) and
                         drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
                             car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
                         if drone_physical_status.remaining_capacity < 30:
-                            car_move_flag = self.move_car_with_start_and_end(
+                            self.move_car_with_start_and_end(
                                 car_sn, car_pos, loading_pos, WorkState.DRONE_BATTERY_REPLACEMENT)
                         else:
-                            car_move_flag = self.move_car_with_start_and_end(
+                            self.move_car_with_start_and_end(
                                 car_sn, car_pos, loading_pos, WorkState.MOVE_CARGO_IN_DRONE)
-                        if car_move_flag: break
+                        rospy.sleep(0.5)
                     else:
                         print(f"无人机{drone_sn}或车辆{car_sn}未就绪，等待...")
                 elif state == WorkState.DRONE_BATTERY_REPLACEMENT:
-                    if (self.des_pos_reached(loading_pos, car_pos, 0.8) and
+                    if (self.des_pos_reached(loading_pos, car_pos, 2.0) and
                         car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                             drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
                         self.battery_replacement(
                             drone_sn, car_sn, WorkState.MOVE_CARGO_IN_DRONE)
+                        rospy.sleep(0.5)
                     else:
                         print(f"无人机{drone_sn}或车辆{car_sn}未就绪，等待...")
                 # elif state == WorkState.DRONE_RETRIEVE:  # TODO: 不考虑换绑的话没必要把飞机放回去吧
@@ -699,8 +702,7 @@ class DemoPipeline:
                 #         self.waybill_index_dict[drone_sn] += 1
                 #     else:
                 #         print(f"无人机 {drone_sn} 未就绪，等待...")
-                rospy.sleep(0.5)
-            
+
             # 自测阶段检查是否已经超过一小时，提交的时候应该注释掉
             if time.time() - start_time > 3600:
                 self.state = WorkState.FINISHED
