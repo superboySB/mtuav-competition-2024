@@ -138,7 +138,7 @@ class DemoPipeline:
 
     # 系统初始化(按需)
     def sys_init(self):
-        rospy.sleep(20.0)
+        # rospy.sleep(5.0)
         
         # 初始化地图和路径
         if self.need_init:
