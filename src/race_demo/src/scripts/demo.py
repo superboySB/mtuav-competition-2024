@@ -658,7 +658,7 @@ class DemoPipeline:
                             drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
                         start_pos = Position(car_pos.x, car_pos.y, car_pos.z)
                         end_station = waybill['targetPosition']
-                        end_pos = Position(end_station['x'], end_station['y'], end_station['z']-1.2)
+                        end_pos = Position(end_station['x'], end_station['y'], end_station['z']-0.8)
                         self.fly_one_route(
                             drone_sn, car_sn, start_pos, end_pos, altitude, 15.0, WorkState.RELEASE_CARGO)
                     else:
@@ -680,7 +680,7 @@ class DemoPipeline:
                             bill_status.status == 3):
                         self.waybill_index_dict[drone_sn] += 1
                         start_pos = Position(drone_pos.x, drone_pos.y, drone_pos.z)
-                        end_pos = Position(car_pos.x, car_pos.y, car_pos.z-1.2)
+                        end_pos = Position(car_pos.x, car_pos.y, car_pos.z-0.8)
                         self.fly_one_route(
                             drone_sn, car_sn, start_pos, end_pos, altitude, 15.0, WorkState.MOVE_CAR_BACK_TO_LOADING_POINT)
                     else:
