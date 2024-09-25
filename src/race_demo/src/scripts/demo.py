@@ -326,7 +326,7 @@ class DemoPipeline:
                 if distance < 0.2:
                     print(f"车辆 {car_sn} 的路径与车辆 {other_car_sn} 的目标路径过近，取消移动")
                     # 不发送移动指令，直接返回
-                    return False
+                    return
         
         for car in self.car_physical_status:
             if car.sn != car_sn:
@@ -335,7 +335,7 @@ class DemoPipeline:
                 if distance < 3.0:
                     print(f"车辆 {car_sn} 的路径与车辆 {car.sn} 的当前位置过近，取消移动")
                     # 不发送移动指令，直接返回
-                    return False
+                    return
         
         # 发送移动指令
         msg = UserCmdRequest()
@@ -350,7 +350,7 @@ class DemoPipeline:
 
         # 记录移动车辆的目标位置和路径
         self.car_paths[car_sn] = [start, end]
-        return True
+        return
     
     # 往车上挪机 (如果用于一开始飞机与小车绑定的时候，则是飞机从出生点直接瞬移到小车上)
     # 后续飞机和小车不用完全绑定，送飞和接驳可以是两个不同的小车
@@ -545,6 +545,22 @@ class DemoPipeline:
         unloading_station_num = len(self.unloading_cargo_stations)
         N = min(car_num, drone_num, unloading_station_num)  # 先走一个车机绑定的思路吧
         
+        # 保证车辆都刷出来了
+        wait_flag = True
+        while wait_flag:
+            wait_flag = False
+            for drone in self.drone_physical_status:
+                if drone.drone_work_state != DronePhysicalStatus.READY:
+                    wait_flag = True
+            for car in self.car_physical_status:
+                if car.car_work_state != CarPhysicalStatus.CAR_READY:
+                    wait_flag = True
+            for waybill in self.bills_status:
+                if waybill.status != BillStatus.NOT_STARTED:
+                    wait_flag = True
+        print("所有飞机、车辆、货物都已准备就绪，调度正式开始！！！")
+
+
         for i in range(N):
             car_sn = self.car_sn_list[i]
             drone_sn = self.drone_sn_list[i]
@@ -599,9 +615,8 @@ class DemoPipeline:
                     self.state_dict[car_sn] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 elif state == WorkState.MOVE_CAR_GO_TO_LOADING_POINT:
                     if car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        car_move_flag = self.move_car_with_start_and_end(
+                        self.move_car_with_start_and_end(
                             car_sn, car_pos, loading_pos, WorkState.MOVE_DRONE_ON_CAR)
-                        if car_move_flag: break
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_DRONE_ON_CAR:
@@ -626,9 +641,8 @@ class DemoPipeline:
                             bill_status.status == 2):
                         # 让小车不是返回自己的出生点，而是返回关键点
                         car_init_pos = self.car_drone_key_positions[car_sn]
-                        car_move_flag = self.move_car_with_start_and_end(
+                        self.move_car_with_start_and_end(
                             car_sn, car_pos, car_init_pos, WorkState.RELEASE_DRONE_OUT)
-                        if car_move_flag: break
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
 
@@ -672,12 +686,11 @@ class DemoPipeline:
                         drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
                             car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
                         if drone_physical_status.remaining_capacity < 30:
-                            car_move_flag = self.move_car_with_start_and_end(
+                            self.move_car_with_start_and_end(
                                 car_sn, car_pos, loading_pos, WorkState.DRONE_BATTERY_REPLACEMENT)
                         else:
-                            car_move_flag = self.move_car_with_start_and_end(
+                            self.move_car_with_start_and_end(
                                 car_sn, car_pos, loading_pos, WorkState.MOVE_CARGO_IN_DRONE)
-                        if car_move_flag: break
                     else:
                         print(f"无人机{drone_sn}或车辆{car_sn}未就绪，等待...")
                 elif state == WorkState.DRONE_BATTERY_REPLACEMENT:
@@ -702,8 +715,10 @@ class DemoPipeline:
             # 自测阶段检查是否已经超过一小时，提交的时候应该注释掉
             if time.time() - start_time > 3600:
                 self.state = WorkState.FINISHED
-                print("运行时间已超过一小时，结束循环")
+                print("\n运行时间已超过一小时，结束循环")
                 print(f"得分：{self.score}")
+            else:
+                print(f"\n当前运行时间: {time.time() - start_time}\n")
 
 
 if __name__ == '__main__':
