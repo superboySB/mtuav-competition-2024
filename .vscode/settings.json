@@ -1,3 +1,13 @@
 {
-    "cmake.sourceDirectory": "/root/mtuav-competition-2024/src/race_demo"
+    "cmake.sourceDirectory": "/root/mtuav-competition-2024/src/race_demo",
+    "python.autoComplete.extraPaths": [
+        "/root/mtuav-competition-2024/devel/lib/python3/dist-packages",
+        "/opt/race/sim_competition_sdk/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/root/mtuav-competition-2024/devel/lib/python3/dist-packages",
+        "/opt/race/sim_competition_sdk/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
 }

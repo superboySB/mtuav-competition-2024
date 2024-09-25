@@ -653,7 +653,7 @@ class DemoPipeline:
                             drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
                         start_pos = Position(car_pos.x, car_pos.y, car_pos.z)
                         end_station = waybill['targetPosition']
-                        end_pos = Position(end_station['x'], end_station['y'], end_station['z']-2)
+                        end_pos = Position(end_station['x'], end_station['y'], end_station['z']-1.2)
                         self.fly_one_route(
                             drone_sn, car_sn, start_pos, end_pos, altitude, 15.0, WorkState.RELEASE_CARGO)
                     else:
@@ -675,7 +675,7 @@ class DemoPipeline:
                             bill_status.status == 3):
                         self.waybill_index_dict[drone_sn] += 1
                         start_pos = Position(drone_pos.x, drone_pos.y, drone_pos.z)
-                        end_pos = Position(car_pos.x, car_pos.y, car_pos.z-2)
+                        end_pos = Position(car_pos.x, car_pos.y, car_pos.z-1.2)
                         self.fly_one_route(
                             drone_sn, car_sn, start_pos, end_pos, altitude, 15.0, WorkState.MOVE_CAR_BACK_TO_LOADING_POINT)
                     else:
@@ -685,6 +685,33 @@ class DemoPipeline:
                     if (self.des_pos_reached(car_pos, drone_pos, 0.8) and
                         drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
                             car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
+                        
+                        # 如果有更近的需要回家，让它先回
+                        give_up_car_back_flag = False
+                        self_car_and_loading_point_distance = np.hypot(car_pos.x - loading_pos.x, car_pos.y - loading_pos.y)
+                        for other_car_sn in self.car_sn_list:
+                            if other_car_sn != car_sn:
+                                other_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
+                                other_car_pos = other_car_physical_status.pos.position
+                                other_car_and_loading_point_distance = np.hypot(other_car_pos.x - loading_pos.x, other_car_pos.y - loading_pos.y)
+                                # 提取最后四位数字
+                                last_four_digits = other_car_sn[-4:]
+                                # 构造新的other_drone_sn
+                                other_drone_sn = f"SIM-DRONE-{last_four_digits}"
+                                other_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == other_drone_sn), None)
+                                other_drone_pos = other_drone_physical_status.pos.position
+                                if (self.des_pos_reached(other_car_pos, other_drone_pos, 0.8) and
+                                    other_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
+                                        other_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
+                                            self.state_dict[other_car_sn] == WorkState.MOVE_CAR_BACK_TO_LOADING_POINT and
+                                                other_car_and_loading_point_distance < self_car_and_loading_point_distance - 2):
+                                    give_up_car_back_flag = True
+                        if give_up_car_back_flag:
+                            print("发现有更近的地勤车辆需要回家，我让它先回！！")
+                            break
+                        else:
+                            print("自己先回！！")
+
                         if drone_physical_status.remaining_capacity < 30:
                             self.move_car_with_start_and_end(
                                 car_sn, car_pos, loading_pos, WorkState.DRONE_BATTERY_REPLACEMENT)
