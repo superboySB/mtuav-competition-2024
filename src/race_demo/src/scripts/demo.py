@@ -751,12 +751,12 @@ class DemoPipeline:
                 #         self.waybill_index_dict[drone_sn] += 1
                 #     else:
                 #         print(f"无人机 {drone_sn} 未就绪，等待...")
-                rospy.sleep(0.5)
+                rospy.sleep(1.0)
             
             # 自测阶段检查是否已经超过一小时，提交的时候应该注释掉
-            if time.time() - start_time > 3600:
+            if time.time() - start_time > 4000:
                 self.state = WorkState.FINISHED
-                print("\n运行时间已超过一小时，结束循环")
+                print("\n运行时间已远远超过一小时，结束循环")
                 print(f"得分：{self.score}")
             else:
                 print(f"\n当前运行时间: {time.time() - start_time}\n")
