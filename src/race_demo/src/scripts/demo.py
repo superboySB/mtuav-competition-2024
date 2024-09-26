@@ -838,7 +838,7 @@ class DemoPipeline:
                 print("--------------------------------------------------------------")
 
             # 自测阶段检查是否已经超过一小时，提交的时候应该注释掉
-            if time.time() - start_time > 4000:
+            if time.time() - start_time > 3700:
                 self.state = WorkState.FINISHED
                 print("\n运行时间已远远超过一小时，结束循环")
 
