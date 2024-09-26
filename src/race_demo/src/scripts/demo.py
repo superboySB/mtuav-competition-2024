@@ -716,14 +716,14 @@ class DemoPipeline:
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_DRONE_ON_CAR:
-                    if (self.des_pos_reached(loading_pos, car_pos, 0.8) and
+                    if (self.des_pos_reached(loading_pos, car_pos, 2.0) and
                         current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
                         self.move_drone_on_car(
                             drone_sn, car_sn, WorkState.MOVE_CARGO_IN_DRONE)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CARGO_IN_DRONE:
-                    if (self.des_pos_reached(loading_pos, car_pos, 0.8) and
+                    if (self.des_pos_reached(loading_pos, car_pos, 2.0) and
                         current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                             current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
                                 len(current_car_physical_status.drone_sn) > 0):
@@ -776,7 +776,7 @@ class DemoPipeline:
                     else:
                         print(f"无人机 {drone_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CAR_BACK_TO_LOADING_POINT:
-                    if (self.des_pos_reached(car_pos, drone_pos, 0.8) and
+                    if (self.des_pos_reached(car_pos, drone_pos, 2.0) and
                         current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
                             current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
                         
@@ -786,7 +786,7 @@ class DemoPipeline:
                             other_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
                             other_car_pos = other_car_physical_status.pos.position
                             if (other_car_sn != car_sn) and \
-                                (self.des_pos_reached(other_car_pos, loading_pos, 0.8) or self.des_pos_reached(self.car_paths[other_car_sn][1],loading_pos,0.8)):
+                                (self.des_pos_reached(other_car_pos, loading_pos, 2.0) or self.des_pos_reached(self.car_paths[other_car_sn][1],loading_pos,2.0)):
                                 print(f"发现有其它地勤车辆{other_car_sn}还在上货点或已经产生前往路径，我让它先去！！")
                                 car_back_continue_flag = True
 
@@ -804,7 +804,7 @@ class DemoPipeline:
                                 other_drone_sn = f"SIM-DRONE-{last_four_digits}"
                                 other_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == other_drone_sn), None)
                                 other_drone_pos = other_drone_physical_status.pos.position
-                                if (self.des_pos_reached(other_car_pos, other_drone_pos, 0.8) and
+                                if (self.des_pos_reached(other_car_pos, other_drone_pos, 2.0) and
                                     other_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
                                         other_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                                             self.state_dict[other_car_sn] == WorkState.MOVE_CAR_BACK_TO_LOADING_POINT and
@@ -824,7 +824,7 @@ class DemoPipeline:
                     else:
                         print(f"无人机{drone_sn}或车辆{car_sn}未就绪，等待...")
                 elif state == WorkState.DRONE_BATTERY_REPLACEMENT:
-                    if (self.des_pos_reached(loading_pos, car_pos, 0.8) and
+                    if (self.des_pos_reached(loading_pos, car_pos, 2.0) and
                         current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
                             current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
                         self.battery_replacement(
