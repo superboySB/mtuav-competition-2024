@@ -717,7 +717,8 @@ class DemoPipeline:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_DRONE_ON_CAR:
                     if (self.des_pos_reached(loading_pos, car_pos, 2.0) and
-                        current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY):
+                            current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
+                                current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY):
                         self.move_drone_on_car(
                             drone_sn, car_sn, WorkState.MOVE_CARGO_IN_DRONE)
                     else:
@@ -733,7 +734,8 @@ class DemoPipeline:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CAR_TO_LEAVING_POINT:
                     if (current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
-                            bill_status.status == 2):
+                            current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
+                                bill_status.status == 2):
                         # 让小车不是返回自己的出生点，而是返回关键点
                         car_init_pos = self.car_drone_key_positions[car_sn]
                         self.move_car_with_start_and_end(
