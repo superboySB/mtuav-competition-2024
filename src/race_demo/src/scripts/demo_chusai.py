@@ -681,8 +681,6 @@ class DemoPipeline:
                     self.car_paths[car_sn][0] = car_pos
 
             for i in [0,3,1,4,2,5]:  # TODO：车辆接单顺序
-                if i!=0: continue
-
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
                 waybill = self.waybill_dict[drone_sn][self.waybill_index_dict[drone_sn]]
@@ -786,37 +784,37 @@ class DemoPipeline:
                         
                         # 上货点有人占用，已经有去往上货点的合法路径
                         car_back_continue_flag = False
-                        # for other_car_sn in self.car_sn_list:
-                        #     other_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
-                        #     other_car_pos = other_car_physical_status.pos.position
-                        #     if (other_car_sn != car_sn) and \
-                        #         (self.des_pos_reached(other_car_pos, loading_pos, 2.0) or self.des_pos_reached(self.car_paths[other_car_sn][1],loading_pos,2.0)):
-                        #         print(f"发现有其它地勤车辆{other_car_sn}还在上货点或已经产生前往路径，我让它先去！！")
-                        #         car_back_continue_flag = True
+                        for other_car_sn in self.car_sn_list:
+                            other_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
+                            other_car_pos = other_car_physical_status.pos.position
+                            if (other_car_sn != car_sn) and \
+                                (self.des_pos_reached(other_car_pos, loading_pos, 2.0) or self.des_pos_reached(self.car_paths[other_car_sn][1],loading_pos,2.0)):
+                                print(f"发现有其它地勤车辆{other_car_sn}还在上货点或已经产生前往路径，我让它先去！！")
+                                car_back_continue_flag = True
 
-                        # # 上货点无人占用，让离得近的先去
-                        # car_back_break_flag = False
-                        # self_car_and_loading_point_distance = np.hypot(car_pos.x - loading_pos.x, car_pos.y - loading_pos.y)
-                        # for other_car_sn in self.car_sn_list:
-                        #     if car_back_continue_flag:
-                        #         break
-                        #     if other_car_sn != car_sn:
-                        #         other_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
-                        #         other_car_pos = other_car_physical_status.pos.position
-                        #         other_car_and_loading_point_distance = np.hypot(other_car_pos.x - loading_pos.x, other_car_pos.y - loading_pos.y)
-                        #         last_four_digits = other_car_sn[-4:]
-                        #         other_drone_sn = f"SIM-DRONE-{last_four_digits}"
-                        #         other_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == other_drone_sn), None)
-                        #         other_drone_pos = other_drone_physical_status.pos.position
-                        #         if (self.des_pos_reached(other_car_pos, other_drone_pos, 2.0) and
-                        #             other_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
-                        #                 other_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
-                        #                     self.state_dict[other_car_sn] == WorkState.MOVE_CAR_BACK_TO_LOADING_POINT and
-                        #                         other_car_and_loading_point_distance < self_car_and_loading_point_distance - 2):
-                        #             print(f"发现有更近的地勤车辆{other_car_sn}需要回家，我让它先回！！")
-                        #             car_back_break_flag = True
-                        # if car_back_break_flag:
-                        #     break
+                        # 上货点无人占用，让离得近的先去
+                        car_back_break_flag = False
+                        self_car_and_loading_point_distance = np.hypot(car_pos.x - loading_pos.x, car_pos.y - loading_pos.y)
+                        for other_car_sn in self.car_sn_list:
+                            if car_back_continue_flag:
+                                break
+                            if other_car_sn != car_sn:
+                                other_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
+                                other_car_pos = other_car_physical_status.pos.position
+                                other_car_and_loading_point_distance = np.hypot(other_car_pos.x - loading_pos.x, other_car_pos.y - loading_pos.y)
+                                last_four_digits = other_car_sn[-4:]
+                                other_drone_sn = f"SIM-DRONE-{last_four_digits}"
+                                other_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == other_drone_sn), None)
+                                other_drone_pos = other_drone_physical_status.pos.position
+                                if (self.des_pos_reached(other_car_pos, other_drone_pos, 2.0) and
+                                    other_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
+                                        other_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
+                                            self.state_dict[other_car_sn] == WorkState.MOVE_CAR_BACK_TO_LOADING_POINT and
+                                                other_car_and_loading_point_distance < self_car_and_loading_point_distance - 2):
+                                    print(f"发现有更近的地勤车辆{other_car_sn}需要回家，我让它先回！！")
+                                    car_back_break_flag = True
+                        if car_back_break_flag:
+                            break
                         
                         if car_back_continue_flag is False:
                             if current_drone_physical_status.remaining_capacity < 30:
@@ -838,7 +836,6 @@ class DemoPipeline:
                 print("--------------------------------------------------------------")
                 print(f"当前用时{time.time() - start_time}秒, 当前得分：{self.score}")
                 print("--------------------------------------------------------------")
-                rospy.sleep(1.0)
 
             # 自测阶段检查是否已经超过一小时，提交的时候应该注释掉
             if time.time() - start_time > 3700:

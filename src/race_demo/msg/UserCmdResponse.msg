@@ -23,5 +23,6 @@ uint8 ERROR_TYPE_CARGO_WRONG_DESTINATION = 19             # 货物被送至错�
 uint8 ERROR_TYPE_LOADING_CARGO_STATION_NO_DRONE = 20      # 上货点没有飞机
 uint8 ERROR_TYPE_LOADING_CARGO_STATION_NO_CAR = 21        # 上货点没有小车
 uint8 ERROR_TYPE_DRONE_IN_FLYING_RELEASE_CARGO = 22       # 飞机在飞行中释放了货物
+uint8 ERROR_TYPE_CARGO_NOT_AVAILABLE_FOR_DELIVERY_TIME = 23   # 货物不在可配送时间范围
 
 string description

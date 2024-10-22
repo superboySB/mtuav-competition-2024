@@ -122,6 +122,7 @@ cd docker_submit_tool
 ```sh
 ./submit.sh query
 ```
+
 ## 复赛笔记
 记录一些不同于初赛的关键信息：
 - [ ] 之前用的本地可视化文件，也更新在了sdk_for_user/map_utmm里面，可以看看最新的可视化地图能否正常使用
