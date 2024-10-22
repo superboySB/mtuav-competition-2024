@@ -106,12 +106,12 @@ class DemoPipeline:
 
         # 防止车辆相撞，添加几个可以直达的放飞点
         self.given_car_drone_key_point = {
-            "SIM-MAGV-0001": [181,431],
-            "SIM-MAGV-0002": [181,440],
-            "SIM-MAGV-0003": [181,449],
-            "SIM-MAGV-0004": [199,431],
-            "SIM-MAGV-0005": [199,440],
-            "SIM-MAGV-0006": [199,449],
+            "SIM-MAGV-0001": [181.0,431],
+            "SIM-MAGV-0004": [184.6,431],
+            "SIM-MAGV-0002": [188.2,431],
+            "SIM-MAGV-0005": [191.8,431],
+            "SIM-MAGV-0003": [195.4,431],
+            "SIM-MAGV-0006": [199.0,431],
         }
 
         self.given_car_unloading_point = {
@@ -159,7 +159,7 @@ class DemoPipeline:
         print("开始构建障碍物地图...")
 
         # 创建 Map 实例，加载地图文件
-        map_file_path = "/home/sdk_for_user/map_client_sdk/for_py/voxel_map.bin"  # 请根据实际路径修改
+        map_file_path = "/home/sdk_for_user/map_client_sdk/for_py/voxel_map_final.bin"  # 请根据实际路径修改
         map_instance = pymtmap.Map(map_file_path)
 
         # 检查地图是否有效
@@ -238,22 +238,6 @@ class DemoPipeline:
                 point = tuple(coords)  # 将列表转换为元组 (x, y)
                 if point not in occ_map:
                     key_points.append(point)
-
-            # 添加扩展config透露的关键点
-            key_points.append((184,434))
-            key_points.append((184,440))
-            key_points.append((184,446))
-            key_points.append((196,434))
-            key_points.append((196,440))
-            key_points.append((196,446))
-            key_points.append((185,425))
-            key_points.append((190,425))
-            key_points.append((146,186))
-            key_points.append((430,184))
-            key_points.append((528,172))
-            key_points.append((508,514))
-            key_points.append((564,394))
-            key_points.append((490,390))
 
             # 添加地图边界上的采样点（每隔一定距离采样一次）
             boundary_sampling_step = 3  # 调整采样距离
@@ -680,8 +664,8 @@ class DemoPipeline:
                 if car_sn in self.car_paths:
                     self.car_paths[car_sn][0] = car_pos
 
-            for i in [0,3,1,4,2,5]:  # TODO：车辆接单顺序
-                if i!=0: continue
+            for i in range(6):  
+                if i!=0: continue # TODO：先控制一个车
 
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
