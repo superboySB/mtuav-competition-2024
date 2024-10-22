@@ -37,13 +37,6 @@ docker run -d -p 8888:8888 --name race_user_sdk_container \
 ```
 相当于四个Docker容器。
 
-【可选】根据比赛的现状，比赛现在决定公开线上比赛6个卸货点相应地[config文件](docs/config_online)，解压之后是各docker线上配置文件，大家有需要可以参考[教程](docs/线下SDK中修改小车飞机数量和订单位置的办法.pdf)，自行下载并在本地替换。
-```sh
-docker cp docs/config_online/car/config.json race_car_sdk_container:/car_log/config.json
-docker cp docs/config_online/drone/drone.json race_drone_sdk_container:/drone/drone.json
-docker cp docs/config_online/scene/scene.config race_scene_sdk_container:/evaluator/config/scene.config
-docker cp docs/config_online/user/config.json race_user_sdk_container:/config/config.json
-```
 重启镜像
 ```sh
 cd scripts
@@ -125,9 +118,21 @@ cd docker_submit_tool
 
 ## 复赛笔记
 记录一些不同于初赛的关键信息：
-- [ ] 之前用的本地可视化文件，也更新在了sdk_for_user/map_utmm里面，可以看看最新的可视化地图能否正常使用
+- [ ] 关于决赛订单信息会不会改变的问题，会看无限提交时期得分是否趋同。如果要改的话，就是订单数量和订单的三个时间点，具体到时候会提前通知，送餐流程不会有很大改变。但是就算变化，也会保证地图信息在测试和正式比赛是一致的。
 
-- [ ] todo
+- [ ] 上货时，需要自己判断系统时间满足订单的ordertime。方式不麻烦，为直接读取心跳中的三个时间，心跳中的时间就是按照当前系统时间算的（在scene docker初始化时会加上当前系统时间戳），直接拿心跳中的3个时间作比较就行。（直接用python的语言获取当前时间戳就完事了，更方便维护一个订单的状态机，scene镜像初始化以后这些信息其实就都有了，拿到第一个心跳后开始维护就好）注意注意，不要直接用config里面的、要用心跳的返回，只要系统一启动就处理好、不会发生变化。初赛对订单地点进行分类，这个没问题，但想上货必须在orderTimer之后、timeout以前。
+
+- [ ] 避障、车辆避碰不要太在意边界，要留出至少0.5的余量（线上的漂移差不多也是）。计算和障碍物碰撞的时候按照小车是坐标点进行计算，和飞机同理，不用考虑3m、5m。只有计算车车、机机碰撞按照圆来算，简化计算。
+
+- [ ] errortype为23指的是货物不在可配送时间范围
+
+- [ ] 线上和线下的飞行时间可能存在一些估计上的差距？但小车出生点等信息线上、线下都一致。
+
+- [ ] 必须小车和飞机状态都是ready以后，才可以移动小车，否则给小车下发移动指令是不生效的（这里要看看cmd等待逻辑的死循环是不是有必要串行去给？）
+
+- [ ] 无限提交时期内的单次任务的运行时间为20min，正式决赛后为60min
+
+- [ ] 决赛没有开放PX4控制螺旋桨转速，飞机也不能悬停，只能指令下发
 
 ## 初赛笔记
 记录一些比较关键的信息，莫要做的太复杂：
