@@ -92,6 +92,17 @@ def point_to_segment_distance(point, seg_start, seg_end):
 def minimum_distance_between_lines(start1, end1, start2, end2):
     """
     计算两条线段在二维平面上的最小距离
+    
+    用法示例：
+    # 检查是否会与其他车辆发生路径碰撞
+        for other_car_sn, other_path in self.car_paths.items():
+            if other_car_sn != car_sn:
+                other_start, other_end = other_path
+                distance = minimum_distance_between_lines(start, end, other_start, other_end)
+                if distance < 3.0:
+                    print(f"车辆 {car_sn} 的路径与车辆 {other_car_sn} 的目标路径过近，取消移动")
+                    # 不发送移动指令，直接返回
+                    return
     """
     # 将位置转换为numpy数组
     p1 = np.array([start1.x, start1.y])
