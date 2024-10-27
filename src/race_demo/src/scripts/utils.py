@@ -51,13 +51,15 @@ def astar_for_magv(start, end, occ_map, x_range, y_range, boundary):
 
     neighbors = [(0,1),(1,0),(0,-1),(-1,0)]  # 只允许水平和垂直移动
 
+    open_set = set()
     close_set = set()
     came_from = {}
-    gscore = {start:0}
-    fscore = {start:heuristic(start, end)}
+    gscore = {start: 0}
+    fscore = {start: heuristic(start, end)}
     oheap = []
 
     heappush(oheap, (fscore[start], start))
+    open_set.add(start)
 
     x_min = boundary['x_min']
     x_max = boundary['x_max']
@@ -67,6 +69,7 @@ def astar_for_magv(start, end, occ_map, x_range, y_range, boundary):
     while oheap:
 
         current = heappop(oheap)[1]
+        open_set.discard(current)
 
         if current == end:
             data = []
@@ -75,6 +78,13 @@ def astar_for_magv(start, end, occ_map, x_range, y_range, boundary):
                 current = came_from[current]
             data.append(start)
             data.reverse()
+            # 验证路径中的相邻节点
+            for i in range(1, len(data)):
+                x1, y1 = data[i - 1]
+                x2, y2 = data[i]
+                if abs(x2 - x1) + abs(y2 - y1) != 1:
+                    print(f"Error: Non-adjacent positions in path: {data[i - 1]} to {data[i]}")
+                    return None
             return data
 
         close_set.add(current)
@@ -92,13 +102,13 @@ def astar_for_magv(start, end, occ_map, x_range, y_range, boundary):
 
             tentative_g_score = gscore[current] + 1
 
-            if neighbor in gscore and tentative_g_score >= gscore[neighbor]:
-                continue
-
-            came_from[neighbor] = current
-            gscore[neighbor] = tentative_g_score
-            fscore[neighbor] = tentative_g_score + heuristic(neighbor, end)
-            heappush(oheap, (fscore[neighbor], neighbor))
+            if neighbor not in gscore or tentative_g_score < gscore[neighbor]:
+                came_from[neighbor] = current
+                gscore[neighbor] = tentative_g_score
+                fscore[neighbor] = tentative_g_score + heuristic(neighbor, end)
+                if neighbor not in open_set:
+                    heappush(oheap, (fscore[neighbor], neighbor))
+                    open_set.add(neighbor)
 
     return None
 

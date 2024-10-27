@@ -420,9 +420,9 @@ class DemoPipeline:
                     delta_x = next_x - x
                     delta_y = next_y - y
                     if delta_x != 0:
-                        current_direction = ('x', delta_x / abs(delta_x))
+                        current_direction = 'x'
                     elif delta_y != 0:
-                        current_direction = ('y', delta_y / abs(delta_y))
+                        current_direction = 'y'
                 continue
 
             prev_x, prev_y = path[i - 1]
@@ -430,22 +430,19 @@ class DemoPipeline:
             delta_y = y - prev_y
 
             if delta_x != 0:
-                new_direction = ('x', delta_x / abs(delta_x))
+                new_direction = 'x'
             elif delta_y != 0:
-                new_direction = ('y', delta_y / abs(delta_y))
+                new_direction = 'y'
             else:
-                # No movement; skip
-                continue
+                continue  # 没有移动，跳过
 
             if new_direction != current_direction:
-                # Direction changed, add the previous point to the optimized path
-                if optimized_path[-1].x != prev_x or optimized_path[-1].y != prev_y:
-                    optimized_path.append(Position(x=prev_x, y=prev_y, z=start_pos.z))
+                # 方向发生改变，添加上一个节点到优化路径
+                optimized_path.append(Position(x=prev_x, y=prev_y, z=start_pos.z))
                 current_direction = new_direction
 
-        # Ensure the last point is added
-        if optimized_path[-1].x != path[-1][0] or optimized_path[-1].y != path[-1][1]:
-            optimized_path.append(Position(x=path[-1][0], y=path[-1][1], z=start_pos.z))
+        # 添加最后一个节点
+        optimized_path.append(Position(x=path[-1][0], y=path[-1][1], z=start_pos.z))
 
         print(f"车辆 {car_sn} 规划的优化路径：")
         for pos in optimized_path:
