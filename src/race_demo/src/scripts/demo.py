@@ -110,20 +110,20 @@ class DemoPipeline:
 
         # 防止车辆相撞，添加几个可以直达的放飞点
         self.given_car_drone_key_point = {
-            "SIM-MAGV-0001": [181,431],
-            "SIM-MAGV-0004": [190,431],
-            "SIM-MAGV-0002": [199,431],
-            "SIM-MAGV-0005": [181,440],
-            "SIM-MAGV-0003": [190,440],
-            "SIM-MAGV-0006": [199,440],
+            "SIM-MAGV-0001": [187,431],
+            "SIM-MAGV-0002": [187,439],
+            "SIM-MAGV-0003": [181,445],
+            "SIM-MAGV-0004": [194,431],
+            "SIM-MAGV-0005": [190,449],
+            "SIM-MAGV-0006": [199,445],
         }
 
         self.given_car_unloading_point = {
             "SIM-MAGV-0001": [146,186],
-            "SIM-MAGV-0004": [430,184],
             "SIM-MAGV-0002": [528,172],
-            "SIM-MAGV-0005": [490,390],
             "SIM-MAGV-0003": [564,394],
+            "SIM-MAGV-0004": [430,184],
+            "SIM-MAGV-0005": [490,390],
             "SIM-MAGV-0006": [508,514],
         }
 
@@ -143,9 +143,12 @@ class DemoPipeline:
     def move_cars_to_each_drone_key_point(self):
         """依次将各个小车从出生点移动到指定放飞点"""
         car_sequence = [
-            ("SIM-MAGV-0001", [[self.given_car_drone_key_point["SIM-MAGV-0001"][0], self.given_car_drone_key_point["SIM-MAGV-0001"][1], -16]]),
+            ("SIM-MAGV-0001", [[183, 431, -16], [self.given_car_drone_key_point["SIM-MAGV-0001"][0], self.given_car_drone_key_point["SIM-MAGV-0001"][1], -16]]),
+            ("SIM-MAGV-0002", [[self.given_car_drone_key_point["SIM-MAGV-0002"][0], self.given_car_drone_key_point["SIM-MAGV-0002"][1], -16]]),
+            ("SIM-MAGV-0003", [[self.given_car_drone_key_point["SIM-MAGV-0003"][0], self.given_car_drone_key_point["SIM-MAGV-0003"][1], -16]]),
             ("SIM-MAGV-0004", [[197, 431, -16], [self.given_car_drone_key_point["SIM-MAGV-0004"][0], self.given_car_drone_key_point["SIM-MAGV-0004"][1], -16]]),
-            ("SIM-MAGV-0002", [[199, 434, -16], [self.given_car_drone_key_point["SIM-MAGV-0002"][0], self.given_car_drone_key_point["SIM-MAGV-0002"][1], -16]]),
+            ("SIM-MAGV-0005", [[self.given_car_drone_key_point["SIM-MAGV-0005"][0], self.given_car_drone_key_point["SIM-MAGV-0005"][1], -16]]),
+            ("SIM-MAGV-0006", [[self.given_car_drone_key_point["SIM-MAGV-0006"][0], self.given_car_drone_key_point["SIM-MAGV-0006"][1], -16]]),
         ]
 
         for car_sn, path_points in car_sequence:
@@ -758,8 +761,6 @@ class DemoPipeline:
                     self.car_paths[car_sn][0] = car_pos
 
             for i in range(6): # TODO：先控制三个车
-                if i==2 or i==4 or i==5: continue
-                
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
                 # 获取车辆和无人机状态
