@@ -43,6 +43,65 @@ def astar(start, goal, occ_map, x_range, y_range, x_step, y_step):
             heapq.heappush(open_list, neighbor_node)
     return None  # 无法到达目标
 
+def astar_for_magv(start, end, occ_map, x_range, y_range, boundary):
+    from heapq import heappush, heappop
+
+    def heuristic(a, b):
+        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
+    neighbors = [(0,1),(1,0),(0,-1),(-1,0)]  # 只允许水平和垂直移动
+
+    close_set = set()
+    came_from = {}
+    gscore = {start:0}
+    fscore = {start:heuristic(start, end)}
+    oheap = []
+
+    heappush(oheap, (fscore[start], start))
+
+    x_min = boundary['x_min']
+    x_max = boundary['x_max']
+    y_min = boundary['y_min']
+    y_max = boundary['y_max']
+
+    while oheap:
+
+        current = heappop(oheap)[1]
+
+        if current == end:
+            data = []
+            while current in came_from:
+                data.append(current)
+                current = came_from[current]
+            data.append(start)
+            data.reverse()
+            return data
+
+        close_set.add(current)
+        for i, j in neighbors:
+            neighbor = current[0] + i, current[1] + j
+
+            if neighbor in close_set:
+                continue
+
+            if neighbor in occ_map:
+                continue  # 障碍物
+
+            if neighbor[0] < x_min or neighbor[0] > x_max or neighbor[1] < y_min or neighbor[1] > y_max:
+                continue  # 超出边界
+
+            tentative_g_score = gscore[current] + 1
+
+            if neighbor in gscore and tentative_g_score >= gscore[neighbor]:
+                continue
+
+            came_from[neighbor] = current
+            gscore[neighbor] = tentative_g_score
+            fscore[neighbor] = tentative_g_score + heuristic(neighbor, end)
+            heappush(oheap, (fscore[neighbor], neighbor))
+
+    return None
+
 # 在关键点图中寻找最短路径
 def dijkstra(graph, start, end):
     import heapq
@@ -61,128 +120,6 @@ def dijkstra(graph, start, end):
                 heapq.heappush(queue, (cost + weight, neighbor, path + [neighbor]))
     return None  # 无法到达终点
 
-def point_to_segment_distance(point, seg_start, seg_end):
-    """
-    计算点到线段的最短距离
-    """
-    # 将位置转换为numpy数组
-    point = np.array(point)
-    seg_start = np.array(seg_start)
-    seg_end = np.array(seg_end)
-    
-    # 线段的向量
-    seg_vec = seg_end - seg_start
-    point_vec = point - seg_start
-    
-    seg_len_sq = np.dot(seg_vec, seg_vec)
-    
-    if seg_len_sq < 1e-8:
-        # 线段退化为点
-        return np.linalg.norm(point - seg_start)
-    
-    # 投影参数
-    t = np.dot(point_vec, seg_vec) / seg_len_sq
-    t = max(0, min(1, t))
-    
-    # 投影点
-    projection = seg_start + t * seg_vec
-    distance = np.linalg.norm(point - projection)
-    return distance
-
-def minimum_distance_between_lines(start1, end1, start2, end2):
-    """
-    计算两条线段在二维平面上的最小距离
-    
-    用法示例：
-    # 检查是否会与其他车辆发生路径碰撞
-        for other_car_sn, other_path in self.car_paths.items():
-            if other_car_sn != car_sn:
-                other_start, other_end = other_path
-                distance = minimum_distance_between_lines(start, end, other_start, other_end)
-                if distance < 3.0:
-                    print(f"车辆 {car_sn} 的路径与车辆 {other_car_sn} 的目标路径过近，取消移动")
-                    # 不发送移动指令，直接返回
-                    return
-    """
-    # 将位置转换为numpy数组
-    p1 = np.array([start1.x, start1.y])
-    p2 = np.array([end1.x, end1.y])
-    q1 = np.array([start2.x, start2.y])
-    q2 = np.array([end2.x, end2.y])
-
-    # 各线段的向量
-    u = p2 - p1
-    v = q2 - q1
-    w = p1 - q1
-
-    # 检查线段是否退化为点
-    u_len_sq = np.dot(u, u)
-    v_len_sq = np.dot(v, v)
-
-    if u_len_sq < 1e-8 and v_len_sq < 1e-8:
-        # 两条线段都退化为点
-        distance = np.linalg.norm(p1 - q1)
-        return distance
-    elif u_len_sq < 1e-8:
-        # 第一条线段退化为点
-        distance = point_to_segment_distance(p1, q1, q2)
-        return distance
-    elif v_len_sq < 1e-8:
-        # 第二条线段退化为点
-        distance = point_to_segment_distance(q1, p1, p2)
-        return distance
-
-    # 以下是原始计算过程
-    a = np.dot(u, u)
-    b = np.dot(u, v)
-    c = np.dot(v, v)
-    d = np.dot(u, w)
-    e = np.dot(v, w)
-
-    D = a * c - b * b
-    sc, sN, sD = 0.0, D, D
-    tc, tN, tD = 0.0, D, D
-
-    if D < 1e-8:
-        # 线段近似平行
-        sN = 0.0
-        sD = 1.0
-        tN = e
-        tD = c
-    else:
-        sN = (b * e - c * d)
-        tN = (a * e - b * d)
-        if sN < 0.0:
-            sN = 0.0
-        elif sN > sD:
-            sN = sD
-
-    if tN < 0.0:
-        tN = 0.0
-        if -d < 0.0:
-            sN = 0.0
-        elif -d > a:
-            sN = sD
-        else:
-            sN = -d
-            sD = a
-    elif tN > tD:
-        tN = tD
-        if (-d + b) < 0.0:
-            sN = 0.0
-        elif (-d + b) > a:
-            sN = sD
-        else:
-            sN = (-d + b)
-            sD = a
-
-    sc = sN / sD if abs(sD) > 1e-8 else 0.0
-    tc = tN / tD if abs(tD) > 1e-8 else 0.0
-
-    # 最近点之间的向量
-    dP = w + (sc * u) - (tc * v)
-    distance = np.linalg.norm(dP)
-    return distance
 
 def is_direct_path(start, end, occ_map):
     # 使用数字微分的方法检查直线路径上是否有障碍物

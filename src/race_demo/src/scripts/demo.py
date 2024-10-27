@@ -30,7 +30,7 @@ from race_demo.msg import UserPhysicalStatus
 from race_demo.msg import Voxel
 from race_demo.srv import QueryVoxel, QueryVoxelRequest
 
-from utils import dijkstra,minimum_distance_between_lines,astar,is_direct_path
+from utils import dijkstra, astar, is_direct_path, astar_for_magv
 
 class WorkState(Enum):
     START = 1
@@ -46,6 +46,7 @@ class WorkState(Enum):
     DRONE_BATTERY_REPLACEMENT = 11
     DRONE_RETRIEVE = 12
     FINISHED = 13
+    MOVE_CAR_TO_DRONE_KEY_POINT = 14  # 添加新的状态
 
 def check_path(pair, occ_map):
     start, end = pair
@@ -92,11 +93,9 @@ class DemoPipeline:
         self.cmd_description = None
 
         # 为每个无人车和无人机创建状态机
-        self.state_dict = {}
+        self.car_state_dict = {}
+        self.drone_state_dict = {}
         self.waybill_dict = {}
-        # 移除 self.waybill_index_dict
-        # self.waybill_index_dict = {}
-
         # 维护已分配订单的集合
         self.assigned_orders = set()
 
@@ -105,7 +104,6 @@ class DemoPipeline:
         self.full_altitude_levels = [-115, -105, -95, -85, -75, -65]
         self.occ_map_dict = {}  # 存储不同高度层的障碍物地图
         self.fast_path_dict = {}  # 存储不同高度层的快速通道
-        self.car_paths = {}  # 存储每辆车的规划路径
         self.car_drone_key_positions = {}  # 记录每个车辆的关键放飞位置（替代之前demo使用的初始位置）
 
         # 防止车辆相撞，添加几个可以直达的放飞点
@@ -127,8 +125,32 @@ class DemoPipeline:
             "SIM-MAGV-0006": [508,514],
         }
 
-    # 仿真回调函数, 可以用来获取实时信息，
-    # 考虑做一些换绑的操作的需要这个做一些预测，还有考虑进一步减少sleep时间的时候需要用这个保证状态没有冲突
+        # 初始化每个车辆的状态字典
+        for car_sn in self.car_sn_list:
+            self.car_state_dict[car_sn] = {
+                'state': WorkState.START,
+                'path': [],
+                'current_waypoint_index': 0,
+                'next_state': None,
+            }
+
+        # 初始化每个无人机的状态字典
+        for drone_sn in self.drone_sn_list:
+            self.drone_state_dict[drone_sn] = {
+                'state': WorkState.START,
+            }
+
+        # 固定障碍物
+        self.fixed_obstacles = [
+            {'name': 'A', 'x_min': 186, 'x_max': 196, 'y_min': 432, 'y_max': 434},
+            {'name': 'B', 'x_min': 184, 'x_max': 188, 'y_min': 440, 'y_max': 444},
+            {'name': 'C', 'x_min': 194, 'x_max': 198, 'y_min': 440, 'y_max': 444},
+        ]
+
+        # 添加边界障碍物
+        self.boundary_obstacle = {'x_min': 180, 'x_max': 200, 'y_min': 420, 'y_max': 450}
+
+    # 仿真回调函数
     def panoramic_info_callback(self, panoramic_info):
         self.car_physical_status = panoramic_info.cars
         self.drone_physical_status = panoramic_info.drones
@@ -139,38 +161,6 @@ class DemoPipeline:
     def cmdResponseCallback(self, msg):
         self.cmd_response_type = msg.type
         self.cmd_description = msg.description
-
-    def move_cars_to_each_drone_key_point(self):
-        """依次将各个小车从出生点移动到指定放飞点"""
-        car_sequence = [
-            ("SIM-MAGV-0001", [[183, 431, -16], [self.given_car_drone_key_point["SIM-MAGV-0001"][0], self.given_car_drone_key_point["SIM-MAGV-0001"][1], -16]]),
-            ("SIM-MAGV-0002", [[self.given_car_drone_key_point["SIM-MAGV-0002"][0], self.given_car_drone_key_point["SIM-MAGV-0002"][1], -16]]),
-            ("SIM-MAGV-0003", [[self.given_car_drone_key_point["SIM-MAGV-0003"][0], self.given_car_drone_key_point["SIM-MAGV-0003"][1], -16]]),
-            ("SIM-MAGV-0004", [[197, 431, -16], [self.given_car_drone_key_point["SIM-MAGV-0004"][0], self.given_car_drone_key_point["SIM-MAGV-0004"][1], -16]]),
-            ("SIM-MAGV-0005", [[self.given_car_drone_key_point["SIM-MAGV-0005"][0], self.given_car_drone_key_point["SIM-MAGV-0005"][1], -16]]),
-            ("SIM-MAGV-0006", [[self.given_car_drone_key_point["SIM-MAGV-0006"][0], self.given_car_drone_key_point["SIM-MAGV-0006"][1], -16]]),
-        ]
-
-        for car_sn, path_points in car_sequence:
-            current_car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
-            if not current_car_physical_status:
-                print(f"未找到小车 {car_sn} 的状态信息，跳过")
-                continue
-            
-            for next_pos in path_points:
-                car_pos = current_car_physical_status.pos.position
-                end_position = Position(*next_pos)
-                self.move_car_with_start_and_end(car_sn, car_pos, end_position, WorkState.START)
-                
-                # 等待小车到达目标位置
-                while True:
-                    current_car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
-                    if current_car_physical_status and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        print(f"小车 {car_sn} 到达目标位置：{end_position}")
-                        car_pos = next_pos
-                        break
-
-            print(f"小车 {car_sn} 已到达预设放飞点 {self.given_car_drone_key_point[car_sn]}")
 
     # 系统初始化(按需)
     def sys_init(self):
@@ -189,9 +179,6 @@ class DemoPipeline:
                 with open('/root/mtuav-competition-2024/fast_path_dict.json', 'r') as f:
                     self.fast_path_dict = json.load(f)
             print("地图和路径初始化导入成功")
-
-        # 调用函数将小车移动到指定放飞点
-        self.move_cars_to_each_drone_key_point()
 
     # 构建障碍物地图
     def init_occ_map(self):
@@ -335,31 +322,171 @@ class DemoPipeline:
         des = np.array([des_pos.x, des_pos.y, des_pos.z])
         cur = np.array([cur_pos.x, cur_pos.y, cur_pos.z])
         return np.linalg.norm(des - cur) < threshold
-    
 
-    # 移动地面车辆的函数，增加碰撞检测
-    # 小车不能设置速度，会按照物理模型的设计尽快到达目的点
+    # 获取其他车辆的占用区域，包括动态障碍物
+    def get_other_car_occupied_points(self, car_sn):
+        occupied_points = set()
+        for other_car_sn, other_data in self.car_state_dict.items():
+            if other_car_sn == car_sn:
+                continue  # 跳过自己
+            # 仅考虑其他车辆的当前位置到下一个目标点的路径
+            waypoint_index = other_data['current_waypoint_index']
+            other_path = other_data['path']
+            if len(other_path) > 0 and waypoint_index < len(other_path):
+                # 车辆正在移动
+                current_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
+                if current_car_physical_status is None:
+                    continue
+                other_car_pos = current_car_physical_status.pos.position
+                next_waypoint = other_path[waypoint_index]
+                path_points = self.get_points_along_path(other_car_pos, [next_waypoint])
+                for x, y in path_points:
+                    for dx in range(-3, 4):
+                        for dy in range(-3, 4):
+                            occupied_points.add((x+dx, y+dy))
+            else:
+                # 车辆未移动，获取其当前位置，偏移3
+                current_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
+                if current_car_physical_status is None:
+                    continue
+                x = int(current_car_physical_status.pos.position.x)
+                y = int(current_car_physical_status.pos.position.y)
+                for dx in range(-3, 4):
+                    for dy in range(-3, 4):
+                        occupied_points.add((x+dx, y+dy))
+        return occupied_points
+
+    # 获取路径上的所有点
+    def get_points_along_path(self, start_pos, path):
+        points = []
+        last_pos = (int(start_pos.x), int(start_pos.y))
+        for pos in path:
+            current_pos = (int(pos.x), int(pos.y))
+            x1, y1 = last_pos
+            x2, y2 = current_pos
+            if x1 == x2:
+                # 垂直移动
+                y_range = range(min(y1, y2), max(y1, y2) + 1)
+                for y in y_range:
+                    points.append((x1, y))
+            elif y1 == y2:
+                # 水平移动
+                x_range = range(min(x1, x2), max(x1, x2) + 1)
+                for x in x_range:
+                    points.append((x, y1))
+            else:
+                # 不应该出现非水平或垂直的移动
+                print(f"警告：检测到非水平或垂直的移动，从 {last_pos} 到 {current_pos}")
+            last_pos = current_pos
+        return points
+
+    # 生成水平和垂直的路径，使用 A* 算法
+    def plan_path_avoiding_obstacles(self, car_sn, start_pos, end_pos):
+        start = (int(start_pos.x), int(start_pos.y))
+        end = (int(end_pos.x), int(end_pos.y))
+
+        # 构建障碍物地图
+        occ_map = set()
+        # 添加固定障碍物
+        for obstacle in self.fixed_obstacles:
+            for x in range(obstacle['x_min'], obstacle['x_max'] + 1):
+                for y in range(obstacle['y_min'], obstacle['y_max'] + 1):
+                    occ_map.add((x, y))
+        # 添加其他车辆的占用区域
+        other_cars_occupied_points = self.get_other_car_occupied_points(car_sn)
+        occ_map.update(other_cars_occupied_points)
+
+        # 定义地图范围
+        x_range = (min(start[0], end[0]) - 50, max(start[0], end[0]) + 50)
+        y_range = (min(start[1], end[1]) - 50, max(start[1], end[1]) + 50)
+
+        # 使用 A* 算法进行路径规划
+        path = astar_for_magv(start, end, occ_map, x_range, y_range, self.boundary_obstacle)
+
+        if path is None:
+            print(f"车辆 {car_sn} 无法找到从 {start} 到 {end} 的可行路径")
+            return None
+
+        # 优化路径，合并连续的水平或垂直移动
+        optimized_path = []
+        current_direction = None
+
+        for i in range(len(path)):
+            x, y = path[i]
+            if i == 0:
+                optimized_path.append(Position(x=x, y=y, z=start_pos.z))
+                if len(path) > 1:
+                    next_x, next_y = path[i + 1]
+                    delta_x = next_x - x
+                    delta_y = next_y - y
+                    if delta_x != 0:
+                        current_direction = ('x', delta_x / abs(delta_x))
+                    elif delta_y != 0:
+                        current_direction = ('y', delta_y / abs(delta_y))
+                continue
+
+            prev_x, prev_y = path[i - 1]
+            delta_x = x - prev_x
+            delta_y = y - prev_y
+
+            if delta_x != 0:
+                new_direction = ('x', delta_x / abs(delta_x))
+            elif delta_y != 0:
+                new_direction = ('y', delta_y / abs(delta_y))
+            else:
+                # No movement; skip
+                continue
+
+            if new_direction != current_direction:
+                # Direction changed, add the previous point to the optimized path
+                if optimized_path[-1].x != prev_x or optimized_path[-1].y != prev_y:
+                    optimized_path.append(Position(x=prev_x, y=prev_y, z=start_pos.z))
+                current_direction = new_direction
+
+        # Ensure the last point is added
+        if optimized_path[-1].x != path[-1][0] or optimized_path[-1].y != path[-1][1]:
+            optimized_path.append(Position(x=path[-1][0], y=path[-1][1], z=start_pos.z))
+
+        print(f"车辆 {car_sn} 规划的优化路径：")
+        for pos in optimized_path:
+            print(f"({int(pos.x)}, {int(pos.y)})")
+        return optimized_path[1:]  # 去掉起始点
+
+    # 移动车辆到下一个路点
+    def move_car_to_next_waypoint(self, car_sn):
+        waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
+        path = self.car_state_dict[car_sn]['path']
+        if waypoint_index < len(path):
+            current_car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
+            if current_car_physical_status is None:
+                print(f"未找到小车 {car_sn} 的状态信息，跳过")
+                return
+            car_pos = current_car_physical_status.pos.position
+            next_pos = path[waypoint_index]
+            self.move_car_with_start_and_end(car_sn, car_pos, next_pos, None)
+        else:
+            # 路径完成，进入下一个状态
+            next_state = self.car_state_dict[car_sn]['next_state']
+            self.car_state_dict[car_sn]['state'] = next_state
+            self.car_state_dict[car_sn]['path'] = []
+            self.car_state_dict[car_sn]['current_waypoint_index'] = 0
+            self.car_state_dict[car_sn]['next_state'] = None
+
+    # 为车辆设置路径并开始移动
+    def move_car_along_path(self, car_sn, start_pos, end_pos, next_state):
+        # 规划路径
+        path = self.plan_path_avoiding_obstacles(car_sn, start_pos, end_pos)
+        if path is None:
+            print(f"车辆 {car_sn} 没有可行的路径，等待...")
+            return  # 无法移动，等待下一次机会
+        self.car_state_dict[car_sn]['path'] = path
+        self.car_state_dict[car_sn]['current_waypoint_index'] = 0
+        self.car_state_dict[car_sn]['next_state'] = next_state
+        # 发送第一个移动指令
+        self.move_car_to_next_waypoint(car_sn)
+
+    # 移动地面车辆的函数
     def move_car_with_start_and_end(self, car_sn, start, end, next_state):            
-        # 检查是否会与其他车辆发生路径碰撞
-        # TODO：还是要保留，但好像可以结合动力学预测改进一下地上交流通，我现在设置的几个线段都是前后无冲的，所以直接移动就行了
-        for other_car_sn, other_path in self.car_paths.items():
-            if other_car_sn != car_sn:
-                other_start, other_end = other_path
-                distance = minimum_distance_between_lines(start, end, other_start, other_end)
-                if distance < 0.2:
-                    print(f"车辆 {car_sn} 的路径与车辆 {other_car_sn} 的目标路径过近，取消移动")
-                    # 不发送移动指令，直接返回
-                    return
-        
-        for car in self.car_physical_status:
-            if car.sn != car_sn:
-                other_position = car.pos.position
-                distance = minimum_distance_between_lines(start, end, other_position, other_position)
-                if distance < 3.0:
-                    print(f"车辆 {car_sn} 的路径与车辆 {car.sn} 的当前位置过近，取消移动")
-                    # 不发送移动指令，直接返回
-                    return
-        
         # 发送移动指令
         msg = UserCmdRequest()
         msg.peer_id = self.peer_id
@@ -369,6 +496,8 @@ class DemoPipeline:
         msg.car_route_info.way_point.append(start)
         msg.car_route_info.way_point.append(end)
         self.cmd_pub.publish(msg)
+
+        print(f"车辆 {car_sn} 从 ({int(start.x)}, {int(start.y)}) 移动到 ({int(end.x)}, {int(end.y)})")
 
         cmd_pub_start_time = time.time()
         retry_times = 0
@@ -384,15 +513,9 @@ class DemoPipeline:
                 self.cmd_pub.publish(msg)
                 retry_times += 5
 
-        self.state_dict[car_sn] = next_state
-
-        # 记录移动车辆的目标位置和路径
-        self.car_paths[car_sn] = [start, end]
-
         return True
-    
-    # 往车上挪机 (如果用于一开始飞机与小车绑定的时候，则是飞机从出生点直接瞬移到小车上)
-    # 后续飞机和小车不用完全绑定，送飞和接驳可以是两个不同的小车
+
+    # 往车上挪机
     def move_drone_on_car(self, drone_sn, car_sn, next_state):
         msg = UserCmdRequest()
         msg.peer_id = self.peer_id
@@ -416,7 +539,7 @@ class DemoPipeline:
                 self.cmd_pub.publish(msg)
                 retry_times += 5
 
-        self.state_dict[car_sn] = next_state
+        self.car_state_dict[car_sn]['state'] = next_state
 
     # 添加选择最佳订单的函数
     def select_best_order(self, drone_sn):
@@ -493,7 +616,7 @@ class DemoPipeline:
                 self.cmd_pub.publish(msg)
                 retry_times += 5
 
-        self.state_dict[car_sn] = next_state
+        self.car_state_dict[car_sn]['state'] = next_state
 
     # 移动无人机的函数，增加碰撞检测和路径优化
     def fly_one_route(self, drone_sn, car_sn, start_pos, end_pos, altitude, speed, next_state):
@@ -629,7 +752,7 @@ class DemoPipeline:
                 self.cmd_pub.publish(msg)
                 retry_times += 5
 
-        self.state_dict[car_sn] = next_state
+        self.car_state_dict[car_sn]['state'] = next_state
 
     # 抛餐函数
     def release_cargo(self, cargo_id, drone_sn, car_sn, next_state):
@@ -665,7 +788,7 @@ class DemoPipeline:
                 self.cmd_pub.publish(msg)
                 retry_times += 5
 
-        self.state_dict[car_sn] = next_state
+        self.car_state_dict[car_sn]['state'] = next_state
 
     # 换电函数
     def battery_replacement(self, drone_sn, car_sn, next_state):
@@ -690,27 +813,11 @@ class DemoPipeline:
                 self.cmd_pub.publish(msg)
                 retry_times += 5
 
-        self.state_dict[car_sn] = next_state
-
-    # 回收飞机函数（TODO：暂时没用到）
-    def drone_retrieve(self, drone_sn, car_sn, next_state):
-        # 检查无人机是否处于 READY 状态
-        drone_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
-        if drone_status is None or drone_status.drone_work_state != DronePhysicalStatus.READY:
-            print(f"无人机 {drone_sn} 当前不处于 READY 状态，等待...")
-            return
-        msg = UserCmdRequest()
-        msg.peer_id = self.peer_id
-        msg.task_guid = self.task_guid
-        msg.type = UserCmdRequest.USER_CMD_MOVE_DRONE_ON_BIRTHPLACE
-        msg.unbind_info.drone_sn = drone_sn
-        msg.unbind_info.car_sn = car_sn
-        self.cmd_pub.publish(msg)
-        self.state_dict[car_sn] = next_state
+        self.car_state_dict[car_sn]['state'] = next_state
 
     # 主运行函数
     def running(self):
-        # 保证车辆都刷出来了再开始，除了ros初始化，后续也要完全避免使用sleep，用状态机判断
+        # 保证车辆都刷出来了再开始
         start_time = time.time()
         rospy.sleep(3.0)
         wait_flag = True
@@ -736,8 +843,6 @@ class DemoPipeline:
             car_sn = self.car_sn_list[i]
             drone_sn = self.drone_sn_list[i]
             unloading_station_sn = self.unloading_cargo_stations[i]
-            self.state_dict[car_sn] = WorkState.START
-            self.state_dict[drone_sn] = WorkState.START
             self.waybill_dict[drone_sn] = []
             for waybill in self.waybill_infos:
                 waybill_target_position = waybill["targetPosition"]
@@ -753,21 +858,12 @@ class DemoPipeline:
         self.sys_init()
 
         while not rospy.is_shutdown() and self.state!=WorkState.FINISHED:
-            # 记录车辆的实时路径
-            for car_sn in self.car_sn_list:
-                current_car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
-                car_pos = current_car_physical_status.pos.position
-                if car_sn in self.car_paths:
-                    self.car_paths[car_sn][0] = car_pos
-
-            for i in range(6): # TODO：先控制三个车
+            for i in range(6):
                 car_sn = self.car_sn_list[i]
                 drone_sn = self.drone_sn_list[i]
                 # 获取车辆和无人机状态
                 current_car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
                 current_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
-                # 无需使用 waybill_index_dict 获取订单
-                # waybill = self.waybill_dict[drone_sn][self.waybill_index_dict[drone_sn]]
 
                 if current_car_physical_status is None or current_drone_physical_status is None:
                     continue
@@ -781,35 +877,47 @@ class DemoPipeline:
 
                 # 获取分配的高度层
                 altitude = self.current_altitude_levels_for_cars[i % len(self.current_altitude_levels_for_cars)]
-                state = self.state_dict[car_sn]
+                state = self.car_state_dict[car_sn]['state']
                 
+                # 如果车辆正在沿路径移动，检查是否到达路点
+                if len(self.car_state_dict[car_sn]['path']) > 0:
+                    waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
+                    path = self.car_state_dict[car_sn]['path']
+                    if waypoint_index < len(path):
+                        next_pos = path[waypoint_index]
+                        if self.des_pos_reached(next_pos, car_pos, 2.0):
+                            # 到达当前路点，发送下一个移动指令
+                            self.car_state_dict[car_sn]['current_waypoint_index'] += 1
+                            self.move_car_to_next_waypoint(car_sn)
+                    else:
+                        # 路径完成，已经在 move_car_to_next_waypoint 中处理
+                        pass
+                    continue  # 继续下一个车辆
+
                 print(f"正在处理无人车{car_sn}与无人机{drone_sn}，相应状态：{state}")
                 print(f"无人车位置：{current_car_physical_status.pos.position.x},{current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}   状态：{current_car_physical_status.car_work_state}")
                 print(f"无人机位置：{current_drone_physical_status.pos.position.x},{current_drone_physical_status.pos.position.y},{current_drone_physical_status.pos.position.z}   状态：{current_drone_physical_status.drone_work_state}")
 
                 if state == WorkState.START:
-                    self.state_dict[car_sn] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
+                    self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_TO_DRONE_KEY_POINT
+                elif state == WorkState.MOVE_CAR_TO_DRONE_KEY_POINT:
+                    if current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
+                        car_pos = current_car_physical_status.pos.position
+                        # 获取关键点位置
+                        key_point_coords = self.given_car_drone_key_point[car_sn]
+                        end_pos = Position(key_point_coords[0], key_point_coords[1], car_pos.z)
+                        self.move_car_along_path(car_sn, car_pos, end_pos, WorkState.MOVE_CAR_GO_TO_LOADING_POINT)
+                    else:
+                        print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_CAR_GO_TO_LOADING_POINT:
                     if current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         car_pos = current_car_physical_status.pos.position
-                        self.move_car_with_start_and_end(car_sn, car_pos, loading_pos, WorkState.MOVE_DRONE_ON_CAR)
-
-                        # intermediate_pos = Position(car_pos.x, car_pos.y - 4, car_pos.z)
-
-                        # for next_pos in [intermediate_pos, loading_pos]:
-                        #     can_move_flag = self.move_car_with_start_and_end(car_sn, car_pos, next_pos, WorkState.MOVE_DRONE_ON_CAR)
-                            
-                        #     if not can_move_flag:
-                        #         break
-
-                        #     # 等待小车到达目标位置
-                        #     while True and can_move_flag:
-                        #         current_car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
-                        #         if current_car_physical_status and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        #             print(f"小车 {car_sn} 到达目标位置：{next_pos}")
-                        #             car_pos = next_pos  # 更新当前位置
-                        #             break
-
+                        # 生成路径
+                        loading_pos = Position(
+                            self.loading_cargo_point['x'],
+                            self.loading_cargo_point['y'],
+                            car_pos.z)
+                        self.move_car_along_path(car_sn, car_pos, loading_pos, WorkState.MOVE_DRONE_ON_CAR)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
                 elif state == WorkState.MOVE_DRONE_ON_CAR:
@@ -834,24 +942,8 @@ class DemoPipeline:
                                 current_drone_physical_status.bind_cargo_id != 0):
                         # 让小车不是返回自己的出生点，而是返回关键点
                         car_init_pos = self.car_drone_key_positions[car_sn]
-                        self.move_car_with_start_and_end(car_sn, car_pos, car_init_pos, WorkState.RELEASE_DRONE_OUT)
-
-                        # intermediate_pos = Position(car_init_pos.x, car_init_pos.y - 4, car_init_pos.z)
-
-                        # for next_pos in [intermediate_pos, car_init_pos]:
-                        #     can_move_flag = self.move_car_with_start_and_end(car_sn, car_pos, next_pos, WorkState.RELEASE_DRONE_OUT)
-
-                        #     if not can_move_flag:
-                        #         break
-
-                        #     # 等待小车到达目标位置
-                        #     while True:
-                        #         current_car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
-                        #         if current_car_physical_status and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        #             print(f"小车 {car_sn} 到达目标位置：{next_pos}")
-                        #             car_pos = next_pos  # 更新当前位置
-                        #             break
-
+                        # 生成路径
+                        self.move_car_along_path(car_sn, car_pos, car_init_pos, WorkState.RELEASE_DRONE_OUT)
                     else:
                         print(f"车辆 {car_sn} 未就绪，等待...")
 
@@ -910,24 +1002,12 @@ class DemoPipeline:
                             car_next_state = WorkState.MOVE_CARGO_IN_DRONE
                         
                         car_pos = current_car_physical_status.pos.position
-                        self.move_car_with_start_and_end(car_sn, car_pos, loading_pos, car_next_state)
-
-                        # intermediate_pos = Position(car_pos.x, car_pos.y - 4, car_pos.z)
-
-                        # for next_pos in [intermediate_pos, loading_pos]:
-                        #     can_move_flag = self.move_car_with_start_and_end(car_sn, car_pos, next_pos, car_next_state)
-
-                        #     if not can_move_flag:
-                        #         break
-
-                        #     # 等待小车到达目标位置
-                        #     while True:
-                        #         current_car_physical_status = next((car for car in self.car_physical_status if car.sn == car_sn), None)
-                        #         if current_car_physical_status and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        #             print(f"小车 {car_sn} 到达目标位置：{next_pos}")
-                        #             car_pos = next_pos  # 更新当前位置
-                        #             break
-
+                        # 生成路径
+                        loading_pos = Position(
+                            self.loading_cargo_point['x'],
+                            self.loading_cargo_point['y'],
+                            car_pos.z)
+                        self.move_car_along_path(car_sn, car_pos, loading_pos, car_next_state)
                     else:
                         print(f"无人机{drone_sn}或车辆{car_sn}未就绪，等待...")
                 elif state == WorkState.DRONE_BATTERY_REPLACEMENT:
