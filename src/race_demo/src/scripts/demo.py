@@ -109,11 +109,11 @@ class DemoPipeline:
         # 防止车辆相撞，添加几个可以直达的放飞点
         self.given_car_drone_key_point = {
             "SIM-MAGV-0001": [187,431],
-            "SIM-MAGV-0002": [187,439],
-            "SIM-MAGV-0003": [181,445],
-            "SIM-MAGV-0004": [194,431],
-            "SIM-MAGV-0005": [190,449],
-            "SIM-MAGV-0006": [199,445],
+            "SIM-MAGV-0002": [187,438],
+            "SIM-MAGV-0003": [187,446],
+            "SIM-MAGV-0004": [193,431],
+            "SIM-MAGV-0005": [193,438],
+            "SIM-MAGV-0006": [193,446],
         }
 
         self.given_car_unloading_point = {
