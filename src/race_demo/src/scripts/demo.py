@@ -100,7 +100,7 @@ class DemoPipeline:
         self.assigned_orders = set()
 
         # 定义高度层和空域划分
-        self.current_altitude_levels_for_cars = [-115, -115, -85, -105, -85, -65]
+        self.current_altitude_levels_for_cars = [-115, -115, -85, -105, -85, -75]
         self.full_altitude_levels = [-115, -105, -95, -85, -75, -65]
         self.occ_map_dict = {}  # 存储不同高度层的障碍物地图
         self.fast_path_dict = {}  # 存储不同高度层的快速通道
@@ -300,32 +300,13 @@ class DemoPipeline:
 
         for z in self.full_altitude_levels:
             occ_map = set(map(tuple, self.occ_map_dict[str(z)]))  # 转换为集合，元素为 (x, y) 元组
-            paths = {}
             print(f"构建高度 {z} 的快速通道...")
 
             # 定义关键点集
             key_points = []
 
-            # 添加装载点
-            loading_point = (int(self.loading_cargo_point['x']), int(self.loading_cargo_point['y']))
-            if loading_point not in occ_map:
-                key_points.append(loading_point)
-
-            # 添加卸货点
-            for station in self.unloading_cargo_stations:
-                pos = station['position']
-                point = (int(pos['x']), int(pos['y']))
-                if point not in occ_map:
-                    key_points.append(point)
-
-            # 添加每个车辆接收收发飞机的关键点
-            for car_id, coords in self.given_car_drone_key_point.items():
-                point = tuple(coords)  # 将列表转换为元组 (x, y)
-                if point not in occ_map:
-                    key_points.append(point)
-
             # 添加地图边界上的采样点（每隔一定距离采样一次）
-            boundary_sampling_step = 3  # 调整采样距离
+            boundary_sampling_step = 1  # 调整采样距离
             for x in range(x_min, x_max + 1, boundary_sampling_step):
                 for y in [y_min, y_max]:
                     point = (x, y)
@@ -408,8 +389,8 @@ class DemoPipeline:
                 current_car_physical_status = next((car for car in self.car_physical_status if car.sn == other_car_sn), None)
                 if current_car_physical_status is None:
                     continue
-                x = int(current_car_physical_status.pos.position.x)
-                y = int(current_car_physical_status.pos.position.y)
+                x = int(round(current_car_physical_status.pos.position.x))
+                y = int(round(current_car_physical_status.pos.position.y))
                 for dx in range(-3, 4):
                     for dy in range(-3, 4):
                         occupied_points.add((x+dx, y+dy))
@@ -421,8 +402,8 @@ class DemoPipeline:
         for i in range(len(positions) - 1):
             start = positions[i]
             end = positions[i + 1]
-            x1, y1 = int(start.x), int(start.y)
-            x2, y2 = int(end.x), int(end.y)
+            x1, y1 = int(round(start.x)), int(round(start.y))
+            x2, y2 = int(round(end.x)), int(round(end.y))
             dx = x2 - x1
             dy = y2 - y1
             steps = max(abs(dx), abs(dy))
@@ -441,16 +422,16 @@ class DemoPipeline:
 
     # 获取预定义路径
     def get_predefined_paths(self, car_sn, start_pos, end_pos):
-        start_coords = (int(start_pos.x), int(start_pos.y))
-        end_coords = (int(end_pos.x), int(end_pos.y))
+        start_coords = (int(round(start_pos.x)), int(round(start_pos.y)))
+        end_coords = (int(round(end_pos.x)), int(round(end_pos.y)))
         paths = []
         if start_coords == self.car_initial_positions[car_sn] and end_coords == tuple(self.given_car_drone_key_point[car_sn]):
             # 从出生点到given_car_drone_key_point
             paths = self.fixed_paths_start_to_key_point[car_sn]
-        elif start_coords == tuple(self.given_car_drone_key_point[car_sn]) and end_coords == (int(self.loading_cargo_point['x']), int(self.loading_cargo_point['y'])):
+        elif start_coords == tuple(self.given_car_drone_key_point[car_sn]) and end_coords == (int(round(self.loading_cargo_point['x'])), int(round(self.loading_cargo_point['y']))):
             # 从given_car_drone_key_point到loading_cargo_point
             paths = self.fixed_paths_key_point_to_loading[car_sn]
-        elif start_coords == (int(self.loading_cargo_point['x']), int(self.loading_cargo_point['y'])) and end_coords == tuple(self.given_car_drone_key_point[car_sn]):
+        elif start_coords == (int(round(self.loading_cargo_point['x'])), int(round(self.loading_cargo_point['y']))) and end_coords == tuple(self.given_car_drone_key_point[car_sn]):
             # 从loading_cargo_point返回到given_car_drone_key_point
             # 使用反向路径
             paths = [list(reversed(path)) for path in self.fixed_paths_key_point_to_loading[car_sn]]
@@ -462,8 +443,8 @@ class DemoPipeline:
 
     # 生成路径，使用预定义的固定路径
     def plan_path_avoiding_obstacles(self, car_sn, start_pos, end_pos):
-        start_coords = (int(start_pos.x), int(start_pos.y))
-        end_coords = (int(end_pos.x), int(end_pos.y))
+        start_coords = (int(round(start_pos.x)), int(round(start_pos.y)))
+        end_coords = (int(round(end_pos.x)), int(round(end_pos.y)))
 
         # 获取预定义的路径
         paths = self.get_predefined_paths(car_sn, start_pos, end_pos)
@@ -554,7 +535,7 @@ class DemoPipeline:
         msg.car_route_info.way_point.append(end)
         self.cmd_pub.publish(msg)
 
-        print(f"车辆 {car_sn} 从 ({int(start.x)}, {int(start.y)}) 移动到 ({int(end.x)}, {int(end.y)})")
+        print(f"车辆 {car_sn} 从 ({int(round(start.x))}, {int(round(start.y))}) 移动到 ({int(round(end.x))}, {int(round(end.y))})")
 
         cmd_pub_start_time = time.time()
         retry_times = 0
@@ -687,8 +668,8 @@ class DemoPipeline:
         occ_map = set(map(tuple, self.occ_map_dict[altitude_str]))
 
         # 将起点和终点转换为整数坐标和字符串形式
-        start_key = (int(start_pos.x), int(start_pos.y))
-        end_key = (int(end_pos.x), int(end_pos.y))
+        start_key = (int(round(start_pos.x)), int(round(start_pos.y)))
+        end_key = (int(round(end_pos.x)), int(round(end_pos.y)))
         start_key_str = f"{start_key[0]}_{start_key[1]}"
         end_key_str = f"{end_key[0]}_{end_key[1]}"
 
