@@ -231,13 +231,24 @@ class DemoPipeline:
             print("地图和路径初始化完成")
         else:
             # 从本地文件加载
-            if os.path.exists('/root/mtuav-competition-2024/occ_map_dict.json'):
-                with open('/root/mtuav-competition-2024/occ_map_dict.json', 'r') as f:
-                    self.occ_map_dict = json.load(f)
-            if os.path.exists('/root/mtuav-competition-2024/fast_path_dict.json'):
-                with open('/root/mtuav-competition-2024/fast_path_dict.json', 'r') as f:
-                    self.fast_path_dict = json.load(f)
-                print("地图和路径初始化导入成功")
+            self.occ_map_dict = {}
+            self.fast_path_dict = {}
+            # 获取需要加载的高度层
+            altitudes_to_load = set(self.current_altitude_levels_for_cars)
+            for z in altitudes_to_load:
+                occ_map_file = f'/root/mtuav-competition-2024/occ_map_{int(z)}.json'
+                fast_path_file = f'/root/mtuav-competition-2024/fast_path_dict_{int(z)}.json'
+                if os.path.exists(occ_map_file):
+                    with open(occ_map_file, 'r') as f:
+                        self.occ_map_dict[str(z)] = json.load(f)
+                else:
+                    print(f"缺少高度 {z} 的 occ_map 文件，无法加载")
+                if os.path.exists(fast_path_file):
+                    with open(fast_path_file, 'r') as f:
+                        self.fast_path_dict[str(z)] = json.load(f)
+                else:
+                    print(f"缺少高度 {z} 的 fast_path 文件，无法加载")
+            print("地图和路径初始化导入成功")
 
     # 构建障碍物地图
     def init_occ_map(self):
@@ -285,9 +296,9 @@ class DemoPipeline:
                     if result is not None:
                         occ_map.append(result)
             self.occ_map_dict[str(z)] = occ_map
-        # 保存到本地文件
-        with open('/root/mtuav-competition-2024/occ_map_dict.json', 'w') as f:
-            json.dump(self.occ_map_dict, f)
+            # 保存到本地文件（每个高度层一个文件）
+            with open(f'/root/mtuav-competition-2024/occ_map_{int(z)}.json', 'w') as f:
+                json.dump(occ_map, f)
         print("完成构建障碍物地图...")
 
     # 构建快速通道
@@ -352,9 +363,9 @@ class DemoPipeline:
             }
             print(f"高度 {z} 的关键点之间的直线路径数量：{sum(len(v) for v in graph.values()) // 2}")
 
-        # 保存到本地文件
-        with open('fast_path_dict.json', 'w') as f:
-            json.dump(self.fast_path_dict, f)
+            # 保存到本地文件（每个高度层一个文件）
+            with open(f'/root/mtuav-competition-2024/fast_path_dict_{int(z)}.json', 'w') as f:
+                json.dump(self.fast_path_dict[str(z)], f)
         print("完成构建快速通道...")
 
     # 检测位置到达的函数
