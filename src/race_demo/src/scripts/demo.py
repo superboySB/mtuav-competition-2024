@@ -514,8 +514,7 @@ class DemoPipeline:
             if path_feasible:
                 # 如果路径可行，返回 positions
                 return positions
-        # 所有路径均被阻塞，等待
-        print(f"车辆 {car_sn} 当前没有可行的路径，等待...")
+            
         return None
 
     # 移动车辆到下一个路点
@@ -965,18 +964,17 @@ class DemoPipeline:
                 altitude = self.current_altitude_levels_for_cars[i % len(self.current_altitude_levels_for_cars)]
                 state = self.car_state_dict[car_sn]['state']
 
-                # 如果车辆正在移动，检查是否到达路点
+                print(f"正在处理无人车{car_sn}与无人机{drone_sn}，相应状态：{state}")
+                print(f"无人车位置：{current_car_physical_status.pos.position.x},{current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}   状态：{current_car_physical_status.car_work_state}")
+                print(f"无人机位置：{current_drone_physical_status.pos.position.x},{current_drone_physical_status.pos.position.y},{current_drone_physical_status.pos.position.z}   状态：{current_drone_physical_status.drone_work_state}")
+
+                # 如果车辆正在移动，检查是否到达路点，因为next state已经指定，所以这里不用state来判断
                 if len(self.car_state_dict[car_sn]['path']) > 0:
                     if self.des_pos_reached(self.car_state_dict[car_sn]['path'][0], car_pos, 2.0) and \
                             current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         # 到达当前路点，发送下一个移动指令（重新规划）
                         self.car_state_dict[car_sn]['current_waypoint_index'] += 1
                         self.move_car_to_next_waypoint(car_sn)
-                    continue  # 继续下一个车辆
-
-                print(f"正在处理无人车{car_sn}与无人机{drone_sn}，相应状态：{state}")
-                print(f"无人车位置：{current_car_physical_status.pos.position.x},{current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}   状态：{current_car_physical_status.car_work_state}")
-                print(f"无人机位置：{current_drone_physical_status.pos.position.x},{current_drone_physical_status.pos.position.y},{current_drone_physical_status.pos.position.z}   状态：{current_drone_physical_status.drone_work_state}")
 
                 if state == WorkState.START:
                     self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_TO_DRONE_KEY_POINT
