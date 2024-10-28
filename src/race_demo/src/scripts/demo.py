@@ -674,7 +674,7 @@ class DemoPipeline:
         if drone_status is None or drone_status.drone_work_state != DronePhysicalStatus.READY:
             print(f"无人机 {drone_sn} 当前不处于 READY 状态，等待...")
             return
-        
+
         altitude_str = str(altitude)
         occ_map = set(map(tuple, self.occ_map_dict[altitude_str]))
 
@@ -691,22 +691,25 @@ class DemoPipeline:
 
         key_points = [tuple(map(int, p_str.split('_'))) for p_str in key_points_str]
 
-        # 找到距离起点最近的关键点
-        nearest_start_point = min(key_points, key=lambda p: np.hypot(p[0]-start_key[0], p[1]-start_key[1]))
-        nearest_start_point_str = f"{nearest_start_point[0]}_{nearest_start_point[1]}"
-        # 找到距离终点最近的关键点
-        nearest_end_point = min(key_points, key=lambda p: np.hypot(p[0]-end_key[0], p[1]-end_key[1]))
-        nearest_end_point_str = f"{nearest_end_point[0]}_{nearest_end_point[1]}"
+        # 尝试直接飞行
+        if is_direct_path(start_key, end_key, occ_map):
+            full_path_coords = [start_key, end_key]
+        else:
+            # 找到距离起点最近的关键点
+            nearest_start_point = min(key_points, key=lambda p: np.hypot(p[0]-start_key[0], p[1]-start_key[1]))
+            nearest_start_point_str = f"{nearest_start_point[0]}_{nearest_start_point[1]}"
+            # 找到距离终点最近的关键点
+            nearest_end_point = min(key_points, key=lambda p: np.hypot(p[0]-end_key[0], p[1]-end_key[1]))
+            nearest_end_point_str = f"{nearest_end_point[0]}_{nearest_end_point[1]}"
 
-        # 构建完整路径
-        full_path_coords = []
+            # 构建完整路径
+            full_path_coords = []
 
-        # 起点到最近关键点
-        if start_key != nearest_start_point:
+            # 起点到最近关键点
             if is_direct_path(start_key, nearest_start_point, occ_map):
                 full_path_coords.extend([start_key, nearest_start_point])
             else:
-                # 使用 A* 计算短路径
+                # 使用 A* 计算路径
                 path = astar(start_key, nearest_start_point, occ_map,
                             (min(start_key[0], nearest_start_point[0]) - 50, max(start_key[0], nearest_start_point[0]) + 50),
                             (min(start_key[1], nearest_start_point[1]) - 50, max(start_key[1], nearest_start_point[1]) + 50),
@@ -717,22 +720,21 @@ class DemoPipeline:
                     print(f"无法找到从 {start_key} 到最近关键点 {nearest_start_point} 的路径")
                     return
 
-        # 关键点之间的最短路径
-        key_point_path_str = dijkstra(graph, nearest_start_point_str, nearest_end_point_str)
-        if key_point_path_str:
-            # 将字符串形式的点转换回坐标
-            key_point_path = [tuple(map(int, p_str.split('_'))) for p_str in key_point_path_str]
-            full_path_coords.extend(key_point_path)
-        else:
-            print(f"无法找到关键点之间的路径：{nearest_start_point} 到 {nearest_end_point}")
-            return
+            # 使用预计算的快速路径
+            key_point_path_str = dijkstra(graph, nearest_start_point_str, nearest_end_point_str)
+            if key_point_path_str:
+                # 将字符串形式的点转换回坐标
+                key_point_path = [tuple(map(int, p_str.split('_'))) for p_str in key_point_path_str]
+                full_path_coords.extend(key_point_path)
+            else:
+                print(f"无法找到关键点之间的路径：{nearest_start_point} 到 {nearest_end_point}")
+                return
 
-        # 最近关键点到终点
-        if end_key != nearest_end_point:
+            # 最近关键点到终点
             if is_direct_path(nearest_end_point, end_key, occ_map):
                 full_path_coords.extend([nearest_end_point, end_key])
             else:
-                # 使用 A* 计算短路径
+                # 使用 A* 计算路径
                 path = astar(nearest_end_point, end_key, occ_map,
                             (min(nearest_end_point[0], end_key[0]) - 50, max(nearest_end_point[0], end_key[0]) + 50),
                             (min(nearest_end_point[1], end_key[1]) - 50, max(nearest_end_point[1], end_key[1]) + 50),
@@ -749,42 +751,42 @@ class DemoPipeline:
         msg.task_guid = self.task_guid
         msg.type = UserCmdRequest.USER_CMD_DRONE_EXEC_ROUTE
         msg.drone_way_point_info.droneSn = drone_sn
+
+        # 添加起飞点
         takeoff_point = DroneWayPoint()
         takeoff_point.type = DroneWayPoint.POINT_TAKEOFF
         takeoff_point.timeoutsec = 1000
+        print(f"Takeoff Point: x={start_pos.x}, y={start_pos.y}, z={start_pos.z}")
         msg.drone_way_point_info.way_point.append(takeoff_point)
 
-        # 添加 middle_point，尽量最小化数量
-        # 去除连续重复的点
-        optimized_coords = [full_path_coords[0]]
-        for coord in full_path_coords[1:]:
-            if coord != optimized_coords[-1]:
-                optimized_coords.append(coord)
-        
-        optimized_coords.append(end_pos)
-        route_len = len(optimized_coords)
-        
-        for i, coord in enumerate(optimized_coords):
+        # 添加飞行路径点
+        for i, coord in enumerate(full_path_coords):
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
-
-            if i == route_len-1:
-                middle_point.pos.x = end_pos.x
-                middle_point.pos.y = end_pos.y
-                middle_point.pos.z = end_pos.z
-            else:
-                middle_point.pos.x = coord[0]
-                middle_point.pos.y = coord[1]
-                middle_point.pos.z = altitude
-            
+            middle_point.pos.x = coord[0]
+            middle_point.pos.y = coord[1]
+            middle_point.pos.z = altitude
             middle_point.v = speed
             middle_point.timeoutsec = 1000
+            print(f"Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
             msg.drone_way_point_info.way_point.append(middle_point)
 
+        middle_point = DroneWayPoint()
+        middle_point.type = DroneWayPoint.POINT_FLYING
+        middle_point.pos.x = end_pos.x
+        middle_point.pos.y = end_pos.y
+        middle_point.pos.z = end_pos.z
+        middle_point.v = speed
+        middle_point.timeoutsec = 1000
+        print(f"Land Point {i}: x={end_pos.x}, y={end_pos.y}, z={end_pos.z}")
+        msg.drone_way_point_info.way_point.append(middle_point)
+        
+        # 添加降落点
         land_point = DroneWayPoint()
         land_point.type = DroneWayPoint.POINT_LANDING
         land_point.timeoutsec = 1000
         msg.drone_way_point_info.way_point.append(land_point)
+
         self.cmd_pub.publish(msg)
 
         cmd_pub_start_time = time.time()

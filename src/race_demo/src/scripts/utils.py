@@ -47,10 +47,10 @@ def astar(start, goal, occ_map, x_range, y_range, x_step, y_step):
 def dijkstra(graph, start, end):
     import heapq
     queue = []
-    heapq.heappush(queue, (0, start, [start]))
+    heapq.heappush(queue, (0, 0, start, [start]))  # (边数, 总长度, 当前节点, 路径)
     visited = set()
     while queue:
-        cost, node, path = heapq.heappop(queue)
+        num_edges, cost, node, path = heapq.heappop(queue)
         if node == end:
             return path
         if node in visited:
@@ -58,7 +58,7 @@ def dijkstra(graph, start, end):
         visited.add(node)
         for neighbor, weight in graph.get(node, []):
             if neighbor not in visited:
-                heapq.heappush(queue, (cost + weight, neighbor, path + [neighbor]))
+                heapq.heappush(queue, (num_edges + 1, cost + weight, neighbor, path + [neighbor]))
     return None  # 无法到达终点
 
 
