@@ -30,7 +30,7 @@ from race_demo.msg import UserPhysicalStatus
 from race_demo.msg import Voxel
 from race_demo.srv import QueryVoxel, QueryVoxelRequest
 
-from utils import dijkstra, astar, is_direct_path, astar_for_magv
+from utils import dijkstra, astar, is_direct_path
 
 class WorkState(Enum):
     START = 1
@@ -110,10 +110,10 @@ class DemoPipeline:
         self.given_car_drone_key_point = {
             "SIM-MAGV-0001": [187,431],
             "SIM-MAGV-0002": [187,438],
-            "SIM-MAGV-0003": [187,446],
+            "SIM-MAGV-0003": [187,449],
             "SIM-MAGV-0004": [193,431],
             "SIM-MAGV-0005": [193,438],
-            "SIM-MAGV-0006": [193,446],
+            "SIM-MAGV-0006": [193,449],
         }
 
         self.given_car_unloading_point = {
@@ -150,6 +150,65 @@ class DemoPipeline:
         # 添加边界障碍物
         self.boundary_obstacle = {'x_min': 180, 'x_max': 200, 'y_min': 420, 'y_max': 450}
 
+        # 存储车辆的初始位置
+        self.car_initial_positions = {
+            "SIM-MAGV-0001": (183, 434),
+            "SIM-MAGV-0002": (190, 438),
+            "SIM-MAGV-0003": (183, 446),
+            "SIM-MAGV-0004": (197, 434),
+            "SIM-MAGV-0005": (190, 444),
+            "SIM-MAGV-0006": (197, 446),
+        }
+
+        # 定义固定路径
+        # 从出生点到self.given_car_drone_key_point的路径
+        self.fixed_paths_start_to_key_point = {
+            "SIM-MAGV-0001": [
+                [(183,434), (183,431), (187,431)]
+            ],
+            "SIM-MAGV-0002": [
+                [(190,438), (187,438)]
+            ],
+            "SIM-MAGV-0003": [
+                [(183,446), (183, 449), (187,449)]
+            ],
+            "SIM-MAGV-0004": [
+                [(197,434), (197,431), (193,431)]
+            ],
+            "SIM-MAGV-0005": [
+                [(190,444), (190,442), (193,442), (193,438)]
+            ],
+            "SIM-MAGV-0006": [
+                [(197,446), (197, 449), (193,449)]
+            ],
+        }
+
+        # 从self.given_car_drone_key_point到self.loading_cargo_point的路径
+        self.fixed_paths_key_point_to_loading = {
+            "SIM-MAGV-0001": [
+                [(187,431), (187,425), (190,425)]
+            ],
+            "SIM-MAGV-0002": [
+                [(187,438),(181,438),(181,425),(190,425)],
+                [(187,438),(199,438),(199,425),(190,425)]
+            ],
+            "SIM-MAGV-0003": [
+                [(187,449),(181,449),(181,425),(190,425)],
+                [(187,449),(199,449),(199,425),(190,425)]
+            ],
+            "SIM-MAGV-0004": [
+                [(193,431), (193,425), (190,425)]
+            ],
+            "SIM-MAGV-0005": [
+                [(193,438),(181,438),(181,425),(190,425)],
+                [(193,438),(199,438),(199,425),(190,425)]
+            ],
+            "SIM-MAGV-0006": [
+                [(193,449),(181,449),(181,425),(190,425)],
+                [(193,449),(199,449),(199,425),(190,425)]
+            ],
+        }
+
     # 仿真回调函数
     def panoramic_info_callback(self, panoramic_info):
         self.car_physical_status = panoramic_info.cars
@@ -178,7 +237,7 @@ class DemoPipeline:
             if os.path.exists('/root/mtuav-competition-2024/fast_path_dict.json'):
                 with open('/root/mtuav-competition-2024/fast_path_dict.json', 'r') as f:
                     self.fast_path_dict = json.load(f)
-            print("地图和路径初始化导入成功")
+                print("地图和路径初始化导入成功")
 
     # 构建障碍物地图
     def init_occ_map(self):
@@ -338,8 +397,8 @@ class DemoPipeline:
                 if current_car_physical_status is None:
                     continue
                 other_car_pos = current_car_physical_status.pos.position
-                next_waypoint = other_path[waypoint_index]
-                path_points = self.get_points_along_path(other_car_pos, [next_waypoint])
+                remaining_path = other_path[waypoint_index:]
+                path_points = self.get_points_along_full_path([other_car_pos] + remaining_path)
                 for x, y in path_points:
                     for dx in range(-3, 4):
                         for dy in range(-3, 4):
@@ -356,34 +415,62 @@ class DemoPipeline:
                         occupied_points.add((x+dx, y+dy))
         return occupied_points
 
-    # 获取路径上的所有点
-    def get_points_along_path(self, start_pos, path):
+    # 获取路径上的所有点，包括直线段之间的每个点
+    def get_points_along_full_path(self, positions):
         points = []
-        last_pos = (int(start_pos.x), int(start_pos.y))
-        for pos in path:
-            current_pos = (int(pos.x), int(pos.y))
-            x1, y1 = last_pos
-            x2, y2 = current_pos
-            if x1 == x2:
-                # 垂直移动
-                y_range = range(min(y1, y2), max(y1, y2) + 1)
-                for y in y_range:
-                    points.append((x1, y))
-            elif y1 == y2:
-                # 水平移动
-                x_range = range(min(x1, x2), max(x1, x2) + 1)
-                for x in x_range:
-                    points.append((x, y1))
-            else:
-                # 不应该出现非水平或垂直的移动
-                print(f"警告：检测到非水平或垂直的移动，从 {last_pos} 到 {current_pos}")
-            last_pos = current_pos
+        for i in range(len(positions) - 1):
+            start = positions[i]
+            end = positions[i + 1]
+            x1, y1 = int(start.x), int(start.y)
+            x2, y2 = int(end.x), int(end.y)
+            dx = x2 - x1
+            dy = y2 - y1
+            steps = max(abs(dx), abs(dy))
+            if steps == 0:
+                points.append((x1, y1))
+                continue
+            x_inc = dx / steps
+            y_inc = dy / steps
+            x = x1
+            y = y1
+            for _ in range(steps + 1):
+                points.append((int(round(x)), int(round(y))))
+                x += x_inc
+                y += y_inc
         return points
 
-    # 生成水平和垂直的路径，使用 A* 算法
+    # 获取预定义路径
+    def get_predefined_paths(self, car_sn, start_pos, end_pos):
+        start_coords = (int(start_pos.x), int(start_pos.y))
+        end_coords = (int(end_pos.x), int(end_pos.y))
+        paths = []
+        if start_coords == self.car_initial_positions[car_sn] and end_coords == tuple(self.given_car_drone_key_point[car_sn]):
+            # 从出生点到given_car_drone_key_point
+            paths = self.fixed_paths_start_to_key_point[car_sn]
+        elif start_coords == tuple(self.given_car_drone_key_point[car_sn]) and end_coords == (int(self.loading_cargo_point['x']), int(self.loading_cargo_point['y'])):
+            # 从given_car_drone_key_point到loading_cargo_point
+            paths = self.fixed_paths_key_point_to_loading[car_sn]
+        elif start_coords == (int(self.loading_cargo_point['x']), int(self.loading_cargo_point['y'])) and end_coords == tuple(self.given_car_drone_key_point[car_sn]):
+            # 从loading_cargo_point返回到given_car_drone_key_point
+            # 使用反向路径
+            paths = [list(reversed(path)) for path in self.fixed_paths_key_point_to_loading[car_sn]]
+        else:
+            # 其他路径未定义
+            print(f"未找到车辆 {car_sn} 从 {start_coords} 到 {end_coords} 的预定义路径")
+            return []
+        return paths
+
+    # 生成路径，使用预定义的固定路径
     def plan_path_avoiding_obstacles(self, car_sn, start_pos, end_pos):
-        start = (int(start_pos.x), int(start_pos.y))
-        end = (int(end_pos.x), int(end_pos.y))
+        start_coords = (int(start_pos.x), int(start_pos.y))
+        end_coords = (int(end_pos.x), int(end_pos.y))
+
+        # 获取预定义的路径
+        paths = self.get_predefined_paths(car_sn, start_pos, end_pos)
+
+        if not paths:
+            print(f"车辆 {car_sn} 没有可用的预定义路径，等待...")
+            return None
 
         # 构建障碍物地图
         occ_map = set()
@@ -394,60 +481,33 @@ class DemoPipeline:
                     occ_map.add((x, y))
         # 添加其他车辆的占用区域
         other_cars_occupied_points = self.get_other_car_occupied_points(car_sn)
-        occ_map.update(other_cars_occupied_points)
 
-        # 定义地图范围
-        x_range = (min(start[0], end[0]) - 50, max(start[0], end[0]) + 50)
-        y_range = (min(start[1], end[1]) - 50, max(start[1], end[1]) + 50)
-
-        # 使用 A* 算法进行路径规划
-        path = astar_for_magv(start, end, occ_map, x_range, y_range, self.boundary_obstacle)
-
-        if path is None:
-            print(f"车辆 {car_sn} 无法找到从 {start} 到 {end} 的可行路径")
-            return None
-
-        # 优化路径，合并连续的水平或垂直移动
-        optimized_path = []
-        current_direction = None
-
-        for i in range(len(path)):
-            x, y = path[i]
-            if i == 0:
-                optimized_path.append(Position(x=x, y=y, z=start_pos.z))
-                if len(path) > 1:
-                    next_x, next_y = path[i + 1]
-                    delta_x = next_x - x
-                    delta_y = next_y - y
-                    if delta_x != 0:
-                        current_direction = 'x'
-                    elif delta_y != 0:
-                        current_direction = 'y'
-                continue
-
-            prev_x, prev_y = path[i - 1]
-            delta_x = x - prev_x
-            delta_y = y - prev_y
-
-            if delta_x != 0:
-                new_direction = 'x'
-            elif delta_y != 0:
-                new_direction = 'y'
-            else:
-                continue  # 没有移动，跳过
-
-            if new_direction != current_direction:
-                # 方向发生改变，添加上一个节点到优化路径
-                optimized_path.append(Position(x=prev_x, y=prev_y, z=start_pos.z))
-                current_direction = new_direction
-
-        # 添加最后一个节点
-        optimized_path.append(Position(x=path[-1][0], y=path[-1][1], z=start_pos.z))
-
-        print(f"车辆 {car_sn} 规划的优化路径：")
-        for pos in optimized_path:
-            print(f"({int(pos.x)}, {int(pos.y)})")
-        return optimized_path[1:]  # 去掉起始点
+        # 检查每条预定义路径是否可行
+        for path_coords in paths:
+            path_feasible = True
+            # 将路径坐标转换为 Position 列表
+            positions = [Position(x=coord[0], y=coord[1], z=start_pos.z) for coord in path_coords]
+            # 将起始位置添加到路径的起点
+            positions.insert(0, start_pos)
+            # 获取路径上所有的点
+            path_points = self.get_points_along_full_path(positions)
+            for x, y in path_points:
+                # 检查是否与固定障碍物重合
+                if (x, y) in occ_map:
+                    path_feasible = False
+                    break
+                # 检查是否与其他车辆的占用区域重合
+                if (x, y) in other_cars_occupied_points:
+                    path_feasible = False
+                    break
+            if path_feasible:
+                # 将路径转换为 Position 列表，移除起始位置
+                path = [Position(x=coord[0], y=coord[1], z=start_pos.z) for coord in path_coords]
+                print(f"车辆 {car_sn} 选择了路径：{[(p.x, p.y) for p in path]}")
+                return path
+        # 所有路径均被阻塞，等待
+        print(f"车辆 {car_sn} 当前没有可行的路径，等待...")
+        return None
 
     # 移动车辆到下一个路点
     def move_car_to_next_waypoint(self, car_sn):
@@ -564,7 +624,7 @@ class DemoPipeline:
         else:
             # 选择 timeout 最远的，避免扣分
             selected_order = max(available_orders, key=lambda x: x[3])
-        
+
         return selected_order[0]  # 返回选定的 waybill
 
     # 网飞机上挂餐
@@ -882,7 +942,8 @@ class DemoPipeline:
                     path = self.car_state_dict[car_sn]['path']
                     if waypoint_index < len(path):
                         next_pos = path[waypoint_index]
-                        if self.des_pos_reached(next_pos, car_pos, 2.0):
+                        if self.des_pos_reached(next_pos, car_pos, 2.0) and \
+                            current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                             # 到达当前路点，发送下一个移动指令
                             self.car_state_dict[car_sn]['current_waypoint_index'] += 1
                             self.move_car_to_next_waypoint(car_sn)
@@ -1018,7 +1079,7 @@ class DemoPipeline:
                 print("--------------------------------------------------------------")
                 print(f"当前用时{time.time() - start_time}秒, 当前得分：{self.score}")
                 print("--------------------------------------------------------------")
-                rospy.sleep(1.0)
+                rospy.sleep(0.5)
 
             # 自测阶段检查是否已经超过一小时，提交的时候应该注释掉
             if time.time() - start_time > 3700:
