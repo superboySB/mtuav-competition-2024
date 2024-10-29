@@ -1,0 +1,13 @@
+你是一个代码大师，我这个代码是初赛代码，现在决赛规则改变。因为送货地点是有限多个，一开始将订单分堆是可以的，每一个飞机、车送一个固定地方的外卖，这个没问题，self.waybill_dict的逻辑可以保留呀。但是，self.waybill_index_dict就不对了，现在是决赛的订单，不是初赛的时候一开始就全部出现了可以接、并且没有过期时间，现在得分考虑到外卖时效性，改为分段函数。具体的，self.bills_status的每一个waybill包含了下面几个新元素
+orderTime：订单出现时间
+betterTime：最佳送达时间
+timeout：超时时间
+以上3个时间均为毫秒级时间戳（13位），在orderTime之前和timeout之后，订单不可上货到飞机。如果最后的deliveryFinishTime在 orderTime 和 betterTime 之间
+得分为正，固定值100。deliveryFinishTime在 betterTime 和 timeout 之间得分为正数，越早送达得分越高 ，公式：1 / (timeout - betterTime) * (timeout - deliveryFinishTime));
+而deliveryFinishTime在 timeout 之后得分为负数，越晚送达惩罚值越大 。公式：(-1) / (timeout-betterTime) * (deliveryFinishTime -timeout)。因此上货时，你需要用类似int(time.time() * 1000)获得当前系统时间戳，然后自己判断系统时间满足订单的ordertime，像目前代码里面这种self.waybill_index_dict[drone_sn] = 0的初始选单、以及后续+1的操作肯定是不对了，请你结合规则，帮我设计一个实时让飞机在需要load cargo on drone时能做最优选择的代码（比如先判断各个飞机到自己目的地的这些外卖是否现在可以接，然后如果有betterTime还没过就先接、能加分的，如果都过了betterTime就保证endTime离得最远的避免扣分，我相信你还能想出更好的策略，这只是一个例子）
+
+请直接在我上面的代码改，并且注意增量修改，方便用git追踪你为了实现我的功能，改了什么地方？中文展现你的思考过程，并且给我完整代码吧。 
+
+---------------------------------------
+
+

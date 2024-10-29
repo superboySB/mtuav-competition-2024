@@ -632,20 +632,20 @@ class DemoPipeline:
                 continue  # 订单未开始或已超时，无法接单
             betterTime = bill_status.betterTime
             available_orders.append((bill_status, orderTime, betterTime, timeout))
-        
+
         if not available_orders:
             return None  # 无可用订单
 
         # 优先选择在 betterTime 前的订单
         orders_before_better = [order for order in available_orders if current_time < order[2]]
         if orders_before_better:
-            # 选择最早的 betterTime
-            selected_order = min(orders_before_better, key=lambda x: x[2])
+            # 选择最新的 betterTime，给自己留足够的送达时间
+            selected_order = max(orders_before_better, key=lambda x: x[2])
         else:
-            # 选择 timeout 最远的，避免扣分
+            # 如果所有订单的 betterTime 已过，选择 timeout 最晚的订单
             selected_order = max(available_orders, key=lambda x: x[3])
 
-        return selected_order[0]  # 返回选定的 waybill
+        return selected_order[0]  # 返回选定的 bill_status
 
     # 网飞机上挂餐
     def move_cargo_in_drone(self, drone_sn, car_sn, next_state):
