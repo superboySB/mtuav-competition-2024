@@ -130,7 +130,6 @@ class DemoPipeline:
             self.car_state_dict[car_sn] = {
                 'state': WorkState.START,
                 'path': [],
-                'current_waypoint_index': 0,
                 'next_state': None,
                 'final_destination': None,  # 添加此行
             }
@@ -389,10 +388,9 @@ class DemoPipeline:
             if current_car_physical_status is None:
                 continue
             car_pos = current_car_physical_status.pos.position
-            waypoint_index = other_data['current_waypoint_index']
             other_path = other_data['path']
-            if len(other_path) > 0 and waypoint_index < len(other_path):
-                next_waypoint = other_path[waypoint_index]
+            if len(other_path) > 0:
+                next_waypoint = other_path[0]
                 # 获取从当前位置到下一个路点的路径上的所有点
                 positions = [car_pos, next_waypoint]
                 path_points = self.get_points_along_full_path(positions)
@@ -408,7 +406,6 @@ class DemoPipeline:
                     for dy in range(-3, 4):
                         occupied_points.add((x + dx, y + dy))
         return occupied_points
-
 
     # 获取路径上的所有点，包括直线段之间的每个点
     def get_points_along_full_path(self, positions):
@@ -466,7 +463,7 @@ class DemoPipeline:
                     min_distance = distance
                     min_index = i
             # 如果距离在允许的范围内，截取剩余路径
-            if min_distance <= 2.0:  # 设置一个容忍距离，例如5米
+            if min_distance <= 1.0:  # 设置一个容忍距离，例如5米
                 remaining_path = path[min_index:]
                 paths.append(remaining_path)
         if not paths:
@@ -474,10 +471,7 @@ class DemoPipeline:
         return paths
 
     # 生成路径，使用预定义的固定路径
-    def plan_path_avoiding_obstacles(self, car_sn, start_pos, end_pos, state):
-        start_coords = (int(round(start_pos.x)), int(round(start_pos.y)))
-        end_coords = (int(round(end_pos.x)), int(round(end_pos.y)))
-        
+    def plan_path_avoiding_obstacles(self, car_sn, start_pos, end_pos, state):        
         # 获取预定义的路径
         paths = self.get_predefined_paths(car_sn, start_pos, end_pos, state)
         
@@ -502,64 +496,16 @@ class DemoPipeline:
             path_feasible = True
             # 将路径坐标转换为 Position 列表
             positions = [Position(x=coord[0], y=coord[1], z=start_pos.z) for coord in path_coords]
-            # 获取从当前位置到下一个中间点的路径
-            # 找到当前车辆在路径中的最近点
-            min_index = None
-            min_distance = float('inf')
-            for i, pos in enumerate(positions):
-                distance = np.hypot(pos.x - start_pos.x, pos.y - start_pos.y)
-                if distance < min_distance:
-                    min_distance = distance
-                    min_index = i
-            if min_index is None:
-                continue
-            # 从当前位置到下一个中间点的子路径
-            partial_positions = positions[min_index:min_index+2]
             # 获取路径上所有的点
-            path_points = self.get_points_along_full_path(partial_positions)
+            path_points = self.get_points_along_full_path(positions)
             for x, y in path_points:
                 # 检查是否与障碍物重合
                 if (x, y) in occ_map:
                     path_feasible = False
                     break
             if path_feasible:
-                return positions[min_index:]
+                return positions
         return None
-
-
-
-    # 移动车辆到下一个路点
-    def move_car_to_next_waypoint(self, car_sn):
-        current_car_physical_status = next(
-            (car for car in self.car_physical_status if car.sn == car_sn), None)
-        if current_car_physical_status is None:
-            print(f"未找到小车 {car_sn} 的状态信息，跳过")
-            return
-        car_pos = current_car_physical_status.pos.position
-        waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
-        path = self.car_state_dict[car_sn]['path']
-        if waypoint_index >= len(path):
-            print(f"车辆 {car_sn} 已到达所有路点")
-            # 检查是否到达最终目标
-            final_destination = self.car_state_dict[car_sn]['final_destination']
-            if self.des_pos_reached(car_pos, final_destination, 2.0):
-                # 更新状态
-                self.car_state_dict[car_sn]['state'] = self.car_state_dict[car_sn]['next_state']
-                self.car_state_dict[car_sn]['path'] = []
-                self.car_state_dict[car_sn]['current_waypoint_index'] = 0
-                self.car_state_dict[car_sn]['next_state'] = None
-            return
-        next_waypoint = path[waypoint_index]
-        # 规划从当前位置到下一个路点的路径
-        positions = self.plan_path_avoiding_obstacles(car_sn, car_pos, next_waypoint, self.car_state_dict[car_sn]['state'])
-        if positions is None:
-            print(f"车辆 {car_sn} 无法找到从当前位置到路点 {waypoint_index} 的可行路径，等待...")
-            return
-        # 更新路径和索引
-        self.car_state_dict[car_sn]['path'] = positions + path[waypoint_index+1:]
-        self.car_state_dict[car_sn]['current_waypoint_index'] = 0
-        # 移动车辆
-        self.move_car_with_start_and_end(car_sn, car_pos, next_waypoint, self.car_state_dict[car_sn]['next_state'])
 
     # 为车辆设置路径并开始移动
     def move_car_along_path(self, car_sn, start_pos, end_pos, next_state):
@@ -567,19 +513,44 @@ class DemoPipeline:
         self.car_state_dict[car_sn]['final_destination'] = end_pos
         self.car_state_dict[car_sn]['next_state'] = next_state
         # 获取预定义的路径
-        paths = self.get_predefined_paths(car_sn, start_pos, end_pos, self.car_state_dict[car_sn]['state'])
-        if not paths:
-            print(f"车辆 {car_sn} 没有可用的预定义路径，等待...")
+        positions = self.plan_path_avoiding_obstacles(car_sn, start_pos, end_pos, self.car_state_dict[car_sn]['state'])
+        if positions is None:
+            print(f"车辆 {car_sn} 无法找到从 {start_pos} 到 {end_pos} 的可行路径，等待...")
             return
-        # 选择一条路径（例如，第一条）
-        path_coords = paths[0]
-        # 将路径坐标转换为 Position 列表
-        positions = [Position(x=coord[0], y=coord[1], z=start_pos.z) for coord in path_coords]
-        # 保存路径并重置路点索引
+        # 保存路径
         self.car_state_dict[car_sn]['path'] = positions
-        self.car_state_dict[car_sn]['current_waypoint_index'] = 0
-        # 移动到下一个路点
-        self.move_car_to_next_waypoint(car_sn)
+        # 移动车辆
+        self.move_car(car_sn)
+
+    # 移动车辆到下一个路点
+    def move_car(self, car_sn):
+        current_car_physical_status = next(
+            (car for car in self.car_physical_status if car.sn == car_sn), None)
+        if current_car_physical_status is None:
+            print(f"未找到小车 {car_sn} 的状态信息，跳过")
+            return
+        car_pos = current_car_physical_status.pos.position        
+        # 规划从当前位置到终点的路径
+        positions = self.plan_path_avoiding_obstacles(car_sn, car_pos, self.car_state_dict[car_sn]['final_destination'], self.car_state_dict[car_sn]['state'])
+        if positions is None:
+            print(f"车辆 {car_sn} 无法找到从当前位置到目标的可行路径，等待...")
+            return
+        if len(positions) < 2:
+            print(f"车辆 {car_sn} 已到达所有路点")
+            # 检查是否到达最终目标
+            final_destination = self.car_state_dict[car_sn]['final_destination']
+            if self.des_pos_reached(car_pos, final_destination, 2.0):
+                # 更新状态
+                self.car_state_dict[car_sn]['state'] = self.car_state_dict[car_sn]['next_state']
+                self.car_state_dict[car_sn]['path'] = []
+                self.car_state_dict[car_sn]['next_state'] = None
+            return
+        
+        # 保存路径
+        self.car_state_dict[car_sn]['path'] = positions
+        # 移动车辆
+        next_waypoint = positions[1]
+        self.move_car_with_start_and_end(car_sn, car_pos, next_waypoint, self.car_state_dict[car_sn]['next_state'])
 
     # 移动地面车辆的函数
     def move_car_with_start_and_end(self, car_sn, start, end, next_state):            
@@ -988,13 +959,12 @@ class DemoPipeline:
                 print(f"无人车位置：{current_car_physical_status.pos.position.x},{current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}   状态：{current_car_physical_status.car_work_state}")
                 print(f"无人机位置：{current_drone_physical_status.pos.position.x},{current_drone_physical_status.pos.position.y},{current_drone_physical_status.pos.position.z}   状态：{current_drone_physical_status.drone_work_state}")
 
-                # 如果车辆正在移动，检查是否到达路点，因为next state已经指定，所以这里不用state来判断
+                # 如果车辆正在移动，检查是否到达路点
                 if len(self.car_state_dict[car_sn]['path']) > 0:
                     if self.des_pos_reached(self.car_state_dict[car_sn]['path'][0], car_pos, 2.0) and \
                             current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        # 到达当前路点，发送下一个移动指令（重新规划）
-                        self.car_state_dict[car_sn]['current_waypoint_index'] += 1
-                        self.move_car_to_next_waypoint(car_sn)
+                        # 到达当前路点，重新规划
+                        self.move_car(car_sn)
 
                 if state == WorkState.START:
                     self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_TO_DRONE_KEY_POINT
