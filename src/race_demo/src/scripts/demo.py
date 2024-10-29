@@ -390,7 +390,7 @@ class DemoPipeline:
             car_pos = current_car_physical_status.pos.position
             other_path = other_data['path']
             if len(other_path) > 0:
-                next_waypoint = other_path[0]
+                next_waypoint = other_path[1]
                 # 获取从当前位置到下一个路点的路径上的所有点
                 positions = [car_pos, next_waypoint]
                 path_points = self.get_points_along_full_path(positions)
