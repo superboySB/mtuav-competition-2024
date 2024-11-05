@@ -621,29 +621,58 @@ class DemoPipeline:
     # 添加选择最佳订单的函数
     def select_best_order(self, drone_sn):
         current_time = int(time.time() * 1000)  # 获取当前时间戳（毫秒）
+        expected_delivery_time = 150 * 1000  # 预计从接单到送单的预期用时（毫秒），可以调整
+
         available_orders = []
         for waybill in self.waybill_dict[drone_sn]:
             bill_status = next((bill for bill in self.bills_status if bill.index == waybill["cargoParam"]["index"]), None)
+            if bill_status is None:
+                continue  # 无法找到订单状态，跳过
             if bill_status.status != BillStatus.NOT_STARTED:
-                continue  # 已经开始或完成的订单
+                continue  # 已经开始或完成的订单，跳过
+
             orderTime = bill_status.orderTime
-            timeout = bill_status.timeout
-            if current_time < orderTime or current_time > timeout:
-                continue  # 订单未开始或已超时，无法接单
             betterTime = bill_status.betterTime
+            timeout = bill_status.timeout
+
+            if current_time < orderTime or current_time > timeout:
+                continue  # 订单未开始或已超时，无法接单，跳过
+
+            # 如果订单的剩余时间不足以完成配送，跳过
+            if timeout - current_time <= expected_delivery_time:
+                continue  # 虽然现在还没超时，但送过去的路上肯定超时，会扣分
+
             available_orders.append((bill_status, orderTime, betterTime, timeout))
 
         if not available_orders:
             return None  # 无可用订单
 
-        # 优先选择在 betterTime 前的订单
-        orders_before_better = [order for order in available_orders if current_time < order[2]]
+        # 定义更合适的 orders_before_better
+        # 订单的 betterTime - current_time 不少于 expected_delivery_time
+        orders_before_better = [order for order in available_orders if order[2] - current_time >= expected_delivery_time]
+
         if orders_before_better:
-            # 选择最新的 betterTime，给自己留足够的送达时间
-            selected_order = max(orders_before_better, key=lambda x: x[2])
+            # 在 orders_before_better 中选择 betterTime 最早的订单
+            selected_order = min(orders_before_better, key=lambda x: x[2])
         else:
-            # 如果所有订单的 betterTime 已过，选择 timeout 最晚的订单
-            selected_order = max(available_orders, key=lambda x: x[3])
+            # 如果 orders_before_better 为空，计算每个订单的比例并选择最小的
+            ratios = []
+            for order in available_orders:
+                bill_status = order[0]
+                betterTime = order[2]
+                timeout = order[3]
+                numerator = current_time + expected_delivery_time - betterTime
+                denominator = timeout - betterTime
+                if denominator <= 0:
+                    continue  # 避免除以零或负数
+                ratio = numerator / denominator
+                if ratio < 0:
+                    ratio = 0  # 如果 numerator 小于 betterTime，ratio 设为 0
+                ratios.append((ratio, order))
+            if not ratios:
+                return None  # 无可用订单
+            # 选择比例最小的订单
+            selected_order = min(ratios, key=lambda x: x[0])[1]
 
         return selected_order[0]  # 返回选定的 bill_status
 
