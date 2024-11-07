@@ -81,3 +81,12 @@ def is_direct_path(start, end, occ_map):
         if (xi, yi) in occ_map:
             return False  # 路径上有障碍物
     return True  # 直线路径无障碍物
+
+def check_path(pair, occ_map):
+    start, end = pair
+    if is_direct_path(start, end, occ_map):
+        start_str = f"{start[0]}_{start[1]}"
+        end_str = f"{end[0]}_{end[1]}"
+        distance = np.hypot(end[0] - start[0], end[1] - start[1])
+        return (start_str, end_str, distance)
+    return None
