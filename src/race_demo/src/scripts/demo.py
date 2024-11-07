@@ -930,10 +930,17 @@ class DemoPipeline:
             # 处理无人机的释放和返回
             # 检查无人机是否需要释放货物或返回
             for drone_sn, usage in self.drone_usage.items():
-                if usage['available']:
-                    continue
                 drone_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
+                print(f"正在处理无人机{drone_sn}, 位置：{current_drone_physical_status.pos.position.x}, \
+                      {current_drone_physical_status.pos.position.y},{current_drone_physical_status.pos.position.z}, \
+                      无人机物理状态：{current_drone_physical_status.drone_work_state}")
+
+                if usage['available']:
+                    print(f"无人机{drone_sn}正在出生点躺尸")
+                    continue
+                
                 if usage['current_order'] and drone_status.drone_work_state == DronePhysicalStatus.READY:
+                    print(f"无人机{drone_sn}落地了")
                     # 释放货物
                     cargo_id = usage['current_order']
                     self.release_cargo(cargo_id, drone_sn, WorkState.RELEASE_DRONE_RETURN)
@@ -944,6 +951,9 @@ class DemoPipeline:
                     end_pos = Position(self.fixed_cycles_from_key_point[landing_car_sn][0][0], self.fixed_cycles_from_key_point[landing_car_sn][0][1], self.loading_cargo_point["z"]-5)
                     altitude = self.unloading_points[(int(round(drone_status.pos.position.x)), int(round(drone_status.pos.position.y)))]['return_height']
                     self.fly_one_route(drone_sn, drone_status.pos.position, end_pos, altitude, 15.0)
+
+                if drone_status.drone_work_state == DronePhysicalStatus.FLYING:
+                    print(f"无人机{drone_sn}正在飞行")
 
             # ----------------------------------------------------------------------------------------
             print("--------------------------------------------------------------")
