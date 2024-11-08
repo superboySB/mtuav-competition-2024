@@ -714,99 +714,6 @@ class DemoPipeline:
 
         while not rospy.is_shutdown() and self.state != WorkState.FINISHED:
             # ----------------------------------------------------------------------------------------
-            # 处理接收车
-            for car_sn in ["SIM-MAGV-0001", "SIM-MAGV-0002", "SIM-MAGV-0003", "SIM-MAGV-0005", "SIM-MAGV-0006"]:
-                car_data = self.car_state_dict[car_sn]
-                current_car_physical_status = next(
-                    (car for car in self.car_physical_status if car.sn == car_sn), None)
-                car_pos = current_car_physical_status.pos.position
-                state = car_data['state']
-
-                print(f"正在处理接驳无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}, 小车上飞机: {current_car_physical_status.drone_sn}")
-
-                if state == WorkState.START:
-                    # 移动到关键点
-                    self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_TO_DRONE_KEY_POINT
-                    self.car_state_dict[car_sn]['current_waypoint_index'] = 0
-                elif state == WorkState.MOVE_CAR_TO_DRONE_KEY_POINT:
-                    waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
-                    next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index]
-                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                    if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        if waypoint_index + 1 == len(self.fixed_paths_from_start_to_key_point[car_sn]):
-                            self.car_state_dict[car_sn]['state'] = WorkState.WAIT_FOR_DRONE_RETURN
-                            self.car_state_dict[car_sn]['current_waypoint_index'] = 0
-                            continue
-                        self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
-                        waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
-                        next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index]
-                        end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                        self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
-                    else:
-                        print(f"车辆 {car_sn} 正在从起点移动到key point，请等待...")
-
-                elif state == WorkState.WAIT_FOR_DRONE_RETURN:
-                    # 检查是否有无人机降落
-                    if current_car_physical_status.drone_sn and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        # 开始沿循环路径移动
-                        self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
-                        self.car_state_dict[car_sn]['current_waypoint_index'] = 0
-                        self.car_state_dict[car_sn]['ready_for_landing'] = False
-                        print(f"车辆 {car_sn} 接驳到了无人机 {current_car_physical_status.drone_sn}")
-                        continue
-                    else:
-                        print(f"车辆 {car_sn} 等待无人机返回")
-                elif state == WorkState.MOVE_CAR_GO_TO_LOADING_POINT:
-                    # 沿循环路径移动
-                    path = self.fixed_cycles_from_key_point[car_sn]
-                    waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
-                    next_waypoint = path[waypoint_index]
-                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                    if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        if self.des_pos_reached(car_pos, self.loading_cargo_position, 2.0):
-                            # 到达加载点，解绑无人机
-                            drone_sn = current_car_physical_status.drone_sn
-                            assert len(drone_sn) > 0
-                            self.drone_retrieve(drone_sn, car_sn)
-                            self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_BACK_TO_DRONE_KEY_POINT
-                            continue
-                        next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
-                        end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                        path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
-                        if path_result:
-                            self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
-                            self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
-                        else:
-                            print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
-                    else:
-                        print(f"车辆 {car_sn} 正在从key point移动到loading point，请等待...")
-                elif state == WorkState.MOVE_CAR_BACK_TO_DRONE_KEY_POINT:
-                    # 返回关键点
-                    path = self.fixed_cycles_from_key_point[car_sn]
-                    waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
-                    next_waypoint = path[waypoint_index]
-                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                    if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 4 > len(self.fixed_cycles_from_key_point[car_sn]):
-                            self.car_state_dict[car_sn]['ready_for_landing'] = True
-                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
-                            self.car_state_dict[car_sn]['current_waypoint_index'] = 0
-                            self.car_state_dict[car_sn]['state'] = WorkState.WAIT_FOR_DRONE_RETURN
-                            print(f"无人车{car_sn}成功返回到key point等待飞机着陆")
-                            continue     
-                        next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
-                        end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                        path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
-                        if path_result:
-                            self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
-                            self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
-                        else:
-                            print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
-                    else:
-                        print(f"车辆 {car_sn} 正在从loading point回到key point，请等待...")
-                rospy.sleep(0.1)
-
-            # ----------------------------------------------------------------------------------------
             # 处理SIM-MAGV-0004发射车
             car_sn = "SIM-MAGV-0004"
             car_data = self.car_state_dict[car_sn]
@@ -906,7 +813,99 @@ class DemoPipeline:
                     self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 else:
                     print(f"车辆 {car_sn} 还没移动到起飞点，等待...")
-            rospy.sleep(0.5)
+                    
+            # ----------------------------------------------------------------------------------------
+            # 处理接收车
+            for car_sn in ["SIM-MAGV-0001", "SIM-MAGV-0002", "SIM-MAGV-0003", "SIM-MAGV-0005", "SIM-MAGV-0006"]:
+                car_data = self.car_state_dict[car_sn]
+                current_car_physical_status = next(
+                    (car for car in self.car_physical_status if car.sn == car_sn), None)
+                car_pos = current_car_physical_status.pos.position
+                state = car_data['state']
+
+                print(f"正在处理接驳无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}, 小车上飞机: {current_car_physical_status.drone_sn}")
+
+                if state == WorkState.START:
+                    # 移动到关键点
+                    self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_TO_DRONE_KEY_POINT
+                    self.car_state_dict[car_sn]['current_waypoint_index'] = 0
+                elif state == WorkState.MOVE_CAR_TO_DRONE_KEY_POINT:
+                    waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
+                    next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index]
+                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
+                    if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
+                        if waypoint_index + 1 == len(self.fixed_paths_from_start_to_key_point[car_sn]):
+                            self.car_state_dict[car_sn]['state'] = WorkState.WAIT_FOR_DRONE_RETURN
+                            self.car_state_dict[car_sn]['current_waypoint_index'] = 0
+                            continue
+                        self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
+                        waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
+                        next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index]
+                        end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
+                        self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                    else:
+                        print(f"车辆 {car_sn} 正在从起点移动到key point，请等待...")
+
+                elif state == WorkState.WAIT_FOR_DRONE_RETURN:
+                    # 检查是否有无人机降落
+                    if current_car_physical_status.drone_sn and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
+                        # 开始沿循环路径移动
+                        self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
+                        self.car_state_dict[car_sn]['current_waypoint_index'] = 0
+                        self.car_state_dict[car_sn]['ready_for_landing'] = False
+                        print(f"车辆 {car_sn} 接驳到了无人机 {current_car_physical_status.drone_sn}")
+                        continue
+                    else:
+                        print(f"车辆 {car_sn} 等待无人机返回")
+                elif state == WorkState.MOVE_CAR_GO_TO_LOADING_POINT:
+                    # 沿循环路径移动
+                    path = self.fixed_cycles_from_key_point[car_sn]
+                    waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
+                    next_waypoint = path[waypoint_index]
+                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
+                    if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
+                        if self.des_pos_reached(car_pos, self.loading_cargo_position, 2.0):
+                            # 到达加载点，解绑无人机
+                            drone_sn = current_car_physical_status.drone_sn
+                            assert len(drone_sn) > 0
+                            self.drone_retrieve(drone_sn, car_sn)
+                            self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_BACK_TO_DRONE_KEY_POINT
+                            continue
+                        next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
+                        end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
+                        path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
+                        if path_result:
+                            self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
+                            self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                        else:
+                            print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
+                    else:
+                        print(f"车辆 {car_sn} 正在从key point移动到loading point，请等待...")
+                elif state == WorkState.MOVE_CAR_BACK_TO_DRONE_KEY_POINT:
+                    # 返回关键点
+                    path = self.fixed_cycles_from_key_point[car_sn]
+                    waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
+                    next_waypoint = path[waypoint_index]
+                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
+                    if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 4 > len(self.fixed_cycles_from_key_point[car_sn]):
+                            self.car_state_dict[car_sn]['ready_for_landing'] = True
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
+                            self.car_state_dict[car_sn]['current_waypoint_index'] = 0
+                            self.car_state_dict[car_sn]['state'] = WorkState.WAIT_FOR_DRONE_RETURN
+                            print(f"无人车{car_sn}成功返回到key point等待飞机着陆")
+                            continue     
+                        next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
+                        end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
+                        path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
+                        if path_result:
+                            self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
+                            self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                        else:
+                            print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
+                    else:
+                        print(f"车辆 {car_sn} 正在从loading point回到key point，请等待...")
+                rospy.sleep(0.1)
 
             # ----------------------------------------------------------------------------------------
             # 处理无人机的释放和返回
