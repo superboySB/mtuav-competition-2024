@@ -460,11 +460,11 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time > timeout or current_time + 11000 < orderTime:
+            if current_time > timeout or current_time + 12000 < orderTime:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 115000 > betterTime:
+            if current_time + 120000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
