@@ -953,7 +953,7 @@ class DemoPipeline:
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         # TODO：同时决定小车和飞机之间有没有提前量，同时决定下一个飞机要不要起飞，这可能是safety和performance的性能取舍关键点
-                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 11 > len(self.fixed_cycles_from_key_point[car_sn]):
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 12 > len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['ready_for_landing'] = True
 
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
