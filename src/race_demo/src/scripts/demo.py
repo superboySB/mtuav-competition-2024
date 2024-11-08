@@ -629,14 +629,13 @@ class DemoPipeline:
             if i == 0 and self.des_pos_reached(end_pos, special_key_point, 2.0):
                 middle_point = DroneWayPoint()
                 middle_point.type = DroneWayPoint.POINT_FLYING
-                middle_point.pos.x = 100
-                middle_point.pos.y = 449
+                middle_point.pos.x = 120
+                middle_point.pos.y = 350
                 middle_point.pos.z = altitude
-                middle_point.v = 10.0
+                middle_point.v = speed
                 middle_point.timeoutsec = 1000
                 print(f"Special Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
                 msg.drone_way_point_info.way_point.append(middle_point)
-
         
         middle_point = DroneWayPoint()
         middle_point.type = DroneWayPoint.POINT_FLYING
@@ -772,7 +771,22 @@ class DemoPipeline:
                     next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
-                    if path_result:
+
+                    # 先让还飞机的走吧
+                    car_wait_center_pos = Position(x=183, y=425, z=self.loading_cargo_position.z)
+                    car_wait_flag = False
+                    for other_car_sn, _ in self.car_state_dict.items():
+                        if other_car_sn == car_sn:
+                            continue  # 跳过自己
+                        other_car_physical_status = next(
+                            (car for car in self.car_physical_status if car.sn == other_car_sn), None)
+                        other_car_pos = other_car_physical_status.pos.position
+                        if self.des_pos_reached(other_car_pos, car_wait_center_pos, 5.0):
+                            car_wait_flag = True
+                            print("有其它接驳车在等待，先让他们把小飞机还了吧")
+                            break
+
+                    if path_result and (not car_wait_flag):
                         self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
                         self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
                     else:
@@ -903,7 +917,7 @@ class DemoPipeline:
                     next_waypoint = path[waypoint_index]
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 4 > len(self.fixed_cycles_from_key_point[car_sn]):
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 5 > len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['ready_for_landing'] = True
 
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
@@ -917,7 +931,8 @@ class DemoPipeline:
                         if path_result:
                             self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
                             self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
-                            if self.car_state_dict[car_sn]['current_waypoint_index'] + 10 > len(self.fixed_cycles_from_key_point[car_sn]) and \
+                            another_chance = 6 if car_sn=="SIM-MAGV-0003" else 8  # 还是要对极端的那一个有所区别
+                            if self.car_state_dict[car_sn]['current_waypoint_index'] + another_chance > len(self.fixed_cycles_from_key_point[car_sn]) and \
                               (not self.car_state_dict[car_sn]['ready_for_another_drone']):
                                 self.car_state_dict[car_sn]['ready_for_another_drone'] = True
                         else:
