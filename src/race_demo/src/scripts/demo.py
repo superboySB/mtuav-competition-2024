@@ -737,10 +737,7 @@ class DemoPipeline:
                 car_pos = current_car_physical_status.pos.position
                 state = car_data['state']
 
-                print(f"正在处理无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, \
-                      {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, \
-                      小车物理状态：{current_car_physical_status.car_work_state}, \
-                        小车逻辑状态：{state}")
+                print(f"正在处理接驳无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}")
 
                 if state == WorkState.START:
                     # 移动到关键点
@@ -830,10 +827,7 @@ class DemoPipeline:
             car_pos = current_car_physical_status.pos.position
             state = car_data['state']
 
-            print(f"正在处理无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, \
-                      {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, \
-                      小车物理状态：{current_car_physical_status.car_work_state}, \
-                        小车逻辑状态：{state}")
+            print(f"正在处理放飞无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}")
             
             if state == WorkState.START:
                 # 移动到关键点
@@ -924,42 +918,40 @@ class DemoPipeline:
                     self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 else:
                     print(f"车辆 {car_sn} 还没移动到起飞点，等待...")
-
+            rospy.sleep(0.2)
 
             # ----------------------------------------------------------------------------------------
             # 处理无人机的释放和返回
             # 检查无人机是否需要释放货物或返回
             for drone_sn, usage in self.drone_usage.items():
-                drone_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
-                print(f"正在处理无人机{drone_sn}, 位置：{current_drone_physical_status.pos.position.x}, \
-                      {current_drone_physical_status.pos.position.y},{current_drone_physical_status.pos.position.z}, \
-                      无人机物理状态：{current_drone_physical_status.drone_work_state}")
+                current_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
+                print(f"正在处理无人机{drone_sn}, 位置：{current_drone_physical_status.pos.position.x}, {current_drone_physical_status.pos.position.y},{current_drone_physical_status.pos.position.z}, 无人机物理状态：{current_drone_physical_status.drone_work_state}")
 
                 if usage['available']:
                     print(f"无人机{drone_sn}正在出生点躺尸")
                     continue
                 
-                if usage['current_order'] and drone_status.drone_work_state == DronePhysicalStatus.READY:
+                if usage['current_order'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
                     print(f"无人机{drone_sn}落地了")
                     # 释放货物
                     cargo_id = usage['current_order']
                     self.release_cargo(cargo_id, drone_sn, WorkState.RELEASE_DRONE_RETURN)
-                    self.is_delivering_pointed_cargos[(int(round(drone_status.pos.position.x)), int(round(drone_status.pos.position.y)))] = False
+                    self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
                     
                     # 无人机返回
-                    landing_car_sn = self.unloading_point_car_map[(int(round(drone_status.pos.position.x)), int(round(drone_status.pos.position.y)))]
+                    landing_car_sn = self.unloading_point_car_map[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]
                     end_pos = Position(self.fixed_cycles_from_key_point[landing_car_sn][0][0], self.fixed_cycles_from_key_point[landing_car_sn][0][1], self.loading_cargo_point["z"]-5)
-                    altitude = self.unloading_points[(int(round(drone_status.pos.position.x)), int(round(drone_status.pos.position.y)))]['return_height']
-                    self.fly_one_route(drone_sn, drone_status.pos.position, end_pos, altitude, 15.0)
+                    altitude = self.unloading_points[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]['return_height']
+                    self.fly_one_route(drone_sn, current_drone_physical_status.pos.position, end_pos, altitude, 15.0)
 
-                if drone_status.drone_work_state == DronePhysicalStatus.FLYING:
+                if current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
                     print(f"无人机{drone_sn}正在飞行")
+                rospy.sleep(0.2)
 
             # ----------------------------------------------------------------------------------------
             print("--------------------------------------------------------------")
             print(f"当前用时{time.time() - start_time}秒, 当前得分：{self.score}")
             print("--------------------------------------------------------------")
-            rospy.sleep(0.5)
 
             # 检查是否已经超过一小时
             if time.time() - start_time > 3700:
