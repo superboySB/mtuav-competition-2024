@@ -426,8 +426,7 @@ class DemoPipeline:
                 self.cmd_pub.publish(msg)
                 retry_times += 5
 
-    # 修改select_best_order函数
-    def select_best_order(self):
+    def select_best_order_when_on_loading_point(self):
         current_time = int(time.time() * 1000)
         available_orders = []
         for bill_status in self.bills_status:
@@ -436,15 +435,15 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 80000 > betterTime:
+            if current_time < orderTime or current_time + 85000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
             
             available_orders.append((bill_status, orderTime, betterTime, timeout))
 
-            print(f"!!! Available bill: {bill_status.index}, orderTime:{orderTime}, betterTime:{betterTime}, timeout:{timeout}")
-            print(f"current_time = {betterTime-current_time}, betterTime-current_time = {betterTime-current_time}, timeout-current_time = {timeout - current_time}")
+            print(f"!!! Current available bill: {bill_status.index}, orderTime:{orderTime}, betterTime:{betterTime}, timeout:{timeout}")
+            print(f"current_time = {betterTime-current_time}, order_time - current_time = {orderTime-current_time}, betterTime-current_time = {betterTime-current_time}, timeout-current_time = {timeout - current_time}")
 
         if available_orders:
             selected_order = max(available_orders, key=lambda x: x[2])
@@ -452,6 +451,33 @@ class DemoPipeline:
         else:
             return None
 
+    def select_best_order_when_on_drone_releasing_point(self):
+        current_time = int(time.time() * 1000)
+        available_orders = []
+        for bill_status in self.bills_status:
+            if bill_status.status != BillStatus.NOT_STARTED:
+                continue
+            orderTime = bill_status.orderTime
+            betterTime = bill_status.betterTime
+            timeout = bill_status.timeout
+            if current_time > timeout or current_time + 15000 < orderTime:
+                continue
+            if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
+                continue
+            if current_time + 115000 > betterTime:
+                continue
+
+            available_orders.append((bill_status, orderTime, betterTime, timeout))
+
+            print(f"!!! Future available or current easy bill: {bill_status.index}, orderTime:{orderTime}, betterTime:{betterTime}, timeout:{timeout}")
+            print(f"current_time = {betterTime-current_time}, order_time - current_time = {orderTime-current_time}, betterTime-current_time = {betterTime-current_time}, timeout-current_time = {timeout - current_time}")
+
+        if available_orders:
+            return True
+        else:
+            print("现在你过去取货也没前途呀，先别着急去了！！")
+            return False
+        
     def move_drone_on_car(self, drone_sn, car_sn):
         msg = UserCmdRequest()
         msg.peer_id = self.peer_id
@@ -476,10 +502,9 @@ class DemoPipeline:
                 self.cmd_pub.publish(msg)
                 retry_times += 5
 
-    # 修改move_cargo_in_drone函数
     def move_cargo_in_drone(self, car_sn, drone_sn, next_state):
         # 选择最佳订单
-        waybill = self.select_best_order()
+        waybill = self.select_best_order_when_on_loading_point()
         if waybill is None:
             print(f"无人机 {drone_sn} 无可用订单，等待...")
             return
@@ -772,25 +797,34 @@ class DemoPipeline:
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
 
-                    # 先让还飞机的走吧
-                    car_wait_center_pos = Position(x=183, y=425, z=self.loading_cargo_position.z)
-                    car_wait_flag = False
-                    for other_car_sn, _ in self.car_state_dict.items():
-                        if other_car_sn == car_sn:
-                            continue  # 跳过自己
-                        other_car_physical_status = next(
-                            (car for car in self.car_physical_status if car.sn == other_car_sn), None)
-                        other_car_pos = other_car_physical_status.pos.position
-                        if self.des_pos_reached(other_car_pos, car_wait_center_pos, 5.0):
-                            car_wait_flag = True
-                            print("有其它接驳车在等待，先让他们把小飞机还了吧")
-                            break
+                    if path_result:
+                        # TODO：起飞和接驳协同trick2：让飞机先查外卖再去loading point
+                        car_need_hurry_load_cargo_flag = self.select_best_order_when_on_drone_releasing_point()
 
-                    if path_result and (not car_wait_flag):
-                        self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
-                        self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                        # TODO: 起飞和接驳协同trick1：先让还飞机的走吧，增加更多取外卖的选择
+                        car_wait_center_pos = Position(x=183, y=425, z=self.loading_cargo_position.z)
+                        car_wait_flag = False
+                        for other_car_sn, _ in self.car_state_dict.items():
+                            if other_car_sn == car_sn:
+                                continue  # 跳过自己
+                            other_car_physical_status = next(
+                                (car for car in self.car_physical_status if car.sn == other_car_sn), None)
+                            other_car_pos = other_car_physical_status.pos.position
+                            if self.des_pos_reached(other_car_pos, car_wait_center_pos, 3.0):
+                                car_wait_flag = True
+                                break
+
+                        if car_need_hurry_load_cargo_flag:
+                            print("现在你可以马上过去取货，很有前途！！")
+                            self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
+                            self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                        
+                        if car_wait_flag:
+                            print("有其它接驳车在等待，先看他们把小飞机还了吧，反正现在也没有好货")
+
                     else:
                         print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
+
                 else:
                     print(f"车辆 {car_sn} 正在从key point移动到loading point，请等待...")
             elif state == WorkState.MOVE_DRONE_ON_CAR:
@@ -917,7 +951,8 @@ class DemoPipeline:
                     next_waypoint = path[waypoint_index]
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 6 > len(self.fixed_cycles_from_key_point[car_sn]):
+                        # TODO：同时决定小车和飞机之间有没有提前量，同时决定下一个飞机要不要起飞，这可能是safety和performance的性能取舍关键点
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 10 > len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['ready_for_landing'] = True
 
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
