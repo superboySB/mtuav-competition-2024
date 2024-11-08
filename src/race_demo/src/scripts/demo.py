@@ -121,7 +121,7 @@ class DemoPipeline:
                 'state': WorkState.START,
                 'current_waypoint_index': 0,  # 新增字段用于循环路径
                 'ready_for_landing': True, # 做好让飞机降落的准备
-                'ready_for_another_drone': True, # 尽量让两个飞机在一个高空吧
+                # 'ready_for_another_drone': True, # 尽量让两个飞机在一个高空吧
             }
 
         # 初始化每个无人机的状态字典
@@ -917,7 +917,7 @@ class DemoPipeline:
                     next_waypoint = path[waypoint_index]
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 5 > len(self.fixed_cycles_from_key_point[car_sn]):
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 6 > len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['ready_for_landing'] = True
 
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
@@ -931,10 +931,10 @@ class DemoPipeline:
                         if path_result:
                             self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
                             self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
-                            another_chance = 6 if car_sn=="SIM-MAGV-0003" else 8  # 还是要对极端的那一个有所区别
-                            if self.car_state_dict[car_sn]['current_waypoint_index'] + another_chance > len(self.fixed_cycles_from_key_point[car_sn]) and \
-                              (not self.car_state_dict[car_sn]['ready_for_another_drone']):
-                                self.car_state_dict[car_sn]['ready_for_another_drone'] = True
+                            # another_chance = 6 if car_sn=="SIM-MAGV-0003" else 8  # 还是要对极端的那一个有所区别
+                            # if self.car_state_dict[car_sn]['current_waypoint_index'] + another_chance > len(self.fixed_cycles_from_key_point[car_sn]) and \
+                            #   (not self.car_state_dict[car_sn]['ready_for_another_drone']):
+                            #     self.car_state_dict[car_sn]['ready_for_another_drone'] = True
                         else:
                             print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
                     else:
@@ -968,10 +968,10 @@ class DemoPipeline:
                 if usage['wait_for_landing_car'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
                     # 无人机返回
                     landing_car_sn = self.unloading_point_car_map[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]
-                    if self.car_state_dict[landing_car_sn]["ready_for_another_drone"]:
-                        self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
-                        print(f"现在接驳车{landing_car_sn}上没有飞机了，准备再派一架来!!!!!!!!!!")
-                        self.car_state_dict[landing_car_sn]['ready_for_another_drone'] = False
+                    # if self.car_state_dict[landing_car_sn]["ready_for_another_drone"]:
+                    #     self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
+                    #     print(f"现在接驳车{landing_car_sn}上没有飞机了，准备再派一架来!!!!!!!!!!")
+                    #     self.car_state_dict[landing_car_sn]['ready_for_another_drone'] = False
                         
 
                     if self.car_state_dict[landing_car_sn]["ready_for_landing"]:
@@ -980,6 +980,7 @@ class DemoPipeline:
                         altitude = self.unloading_points[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]['return_height']
                         self.fly_one_route(drone_sn, current_drone_physical_status.pos.position, end_pos, altitude, 15.0)
                         usage['wait_for_landing_car'] = False
+                        self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
                     else:
                         print(f"现在接驳车{landing_car_sn}上还有飞机或者飞机还没到，可能不一定回得来!!!!!!!!!!")
                         
