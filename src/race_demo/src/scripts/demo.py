@@ -876,7 +876,8 @@ class DemoPipeline:
                     self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 else:
                     print(f"车辆 {car_sn} 还没移动到起飞点，等待...")
-
+            rospy.sleep(0.1)
+            
             # ----------------------------------------------------------------------------------------
             # 处理接收车
             for car_sn in ["SIM-MAGV-0002", "SIM-MAGV-0003", "SIM-MAGV-0004", "SIM-MAGV-0005", "SIM-MAGV-0006"]:
@@ -975,6 +976,7 @@ class DemoPipeline:
                             print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
                     else:
                         print(f"车辆 {car_sn} 正在从loading point回到key point，请等待...")
+            rospy.sleep(0.1)
 
             # ----------------------------------------------------------------------------------------
             # 处理无人机的释放和返回
