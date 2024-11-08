@@ -108,11 +108,11 @@ class DemoPipeline:
         # 固定循环路径
         self.fixed_cycles_from_key_point = {
             "SIM-MAGV-0001": [(187,431), (190,425), (187,431)],
-            "SIM-MAGV-0002": [(193,449), (193,443), (193,439), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (199,425), (199,439), (193,439), (193,443), (193,449)],
-            "SIM-MAGV-0003": [(181,449), (181,443), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (199,425), (199,439), (193,439), (189,439), (181,439), (181,443), (181,449)],
+            "SIM-MAGV-0002": [(193,449), (193,443), (193,439), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (195,425), (199,425), (199,431), (199,435), (199,439), (193,439), (193,443), (193,449)],
+            "SIM-MAGV-0003": [(181,449), (181,443), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (195,425), (199,425), (199,431), (199,435), (199,439), (193,439), (189,439), (181,439), (181,443), (181,449)],
             "SIM-MAGV-0004": [(193,431), (190,425), (193,431)],
-            "SIM-MAGV-0005": [(187,449), (189,443), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (199,425), (199,439), (193,439), (189,439), (189,443), (187,449)],
-            "SIM-MAGV-0006": [(199,449), (199,443), (199,439), (193,439), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (199,425), (199,439), (199,443), (199,449)],
+            "SIM-MAGV-0005": [(187,449), (189,443), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (195,425), (199,425), (199,431), (199,435), (199,439), (193,439), (189,439), (189,443), (187,449)],
+            "SIM-MAGV-0006": [(199,449), (199,443), (199,439), (193,439), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (195,425), (199,425), (199,431), (199,435), (199,439), (199,443), (199,449)],
         }
 
         # 初始化每个车辆的状态字典
@@ -934,15 +934,16 @@ class DemoPipeline:
                     landing_car_sn = self.unloading_point_car_map[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]
                     current_car_physical_status = next((car for car in self.car_physical_status if car.sn == landing_car_sn), None)
                     car_pos = current_car_physical_status.pos.position
-                    loading_point_next_position = Position(x = 199, y= 431, z = car_pos.z)
-                    if self.des_pos_reached(car_pos, loading_point_next_position, 2.0):
-                        print(f"现在接驳车{landing_car_sn}上还有飞机，可能不一定回得来!!!!!!!!!!")
-                    else:
+                    loading_point_next_position = Position(x = 199, y= 439, z = car_pos.z)
+                    if (not current_car_physical_status.drone_sn) and self.des_pos_reached(car_pos, loading_point_next_position, 2.0):
                         print(f"现在接驳车{landing_car_sn}上没有飞机了，正在赶回来，可以让无人机先回来了")
                         end_pos = Position(self.fixed_cycles_from_key_point[landing_car_sn][0][0], self.fixed_cycles_from_key_point[landing_car_sn][0][1], self.loading_cargo_point["z"]-5)
                         altitude = self.unloading_points[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]['return_height']
                         self.fly_one_route(drone_sn, current_drone_physical_status.pos.position, end_pos, altitude, 15.0)
                         usage['wait_for_landing_car'] = False
+                    else:
+                        print(f"现在接驳车{landing_car_sn}上还有飞机，可能不一定回得来!!!!!!!!!!")
+                        
 
                 if (not usage['current_order']) and current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
                     print(f"无人机{drone_sn}正在飞行到接驳车")
