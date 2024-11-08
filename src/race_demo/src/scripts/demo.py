@@ -721,7 +721,7 @@ class DemoPipeline:
                 car_pos = current_car_physical_status.pos.position
                 state = car_data['state']
 
-                print(f"正在处理接驳无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}")
+                print(f"正在处理接驳无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}, 小车上飞机: {current_car_physical_status.drone_sn}")
 
                 if state == WorkState.START:
                     # 移动到关键点
@@ -811,7 +811,7 @@ class DemoPipeline:
             car_pos = current_car_physical_status.pos.position
             state = car_data['state']
 
-            print(f"正在处理放飞无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}")
+            print(f"正在处理放飞无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}, 小车上飞机: {current_car_physical_status.drone_sn}")
             
             if state == WorkState.START:
                 # 移动到关键点
@@ -933,8 +933,10 @@ class DemoPipeline:
                     # 无人机返回
                     landing_car_sn = self.unloading_point_car_map[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]
                     current_car_physical_status = next((car for car in self.car_physical_status if car.sn == landing_car_sn), None)
-                    if current_car_physical_status.drone_sn:
-                        print(f"现在接驳车{landing_car_sn}上还有飞机，可能不一定回得来")
+                    car_pos = current_car_physical_status.pos.position
+                    loading_point_next_position = Position(x = 199, y= 431, z = car_pos.z)
+                    if self.des_pos_reached(car_pos, loading_point_next_position, 2.0):
+                        print(f"现在接驳车{landing_car_sn}上还有飞机，可能不一定回得来!!!!!!!!!!")
                     else:
                         print(f"现在接驳车{landing_car_sn}上没有飞机了，正在赶回来，可以让无人机先回来了")
                         end_pos = Position(self.fixed_cycles_from_key_point[landing_car_sn][0][0], self.fixed_cycles_from_key_point[landing_car_sn][0][1], self.loading_cargo_point["z"]-5)
