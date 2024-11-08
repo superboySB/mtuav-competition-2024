@@ -843,9 +843,9 @@ class DemoPipeline:
                 assert drone_sn
                 current_drone_physical_status = next(
                     (drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
-                if (current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and
-                        current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and
-                                current_drone_physical_status.bind_cargo_id != 0):
+                # 这个条件没准还是有初赛的问题
+                if current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY and \
+                        current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
                     waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
                     next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
@@ -940,6 +940,7 @@ class DemoPipeline:
                         if path_result:
                             self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
                             self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                            break
                         else:
                             print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
                     else:
@@ -952,7 +953,7 @@ class DemoPipeline:
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         # TODO：同时决定小车和飞机之间有没有提前量，同时决定下一个飞机要不要起飞，这可能是safety和performance的性能取舍关键点
-                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 10 > len(self.fixed_cycles_from_key_point[car_sn]):
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 11 > len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['ready_for_landing'] = True
 
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
@@ -974,7 +975,6 @@ class DemoPipeline:
                             print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
                     else:
                         print(f"车辆 {car_sn} 正在从loading point回到key point，请等待...")
-                rospy.sleep(0.1)
 
             # ----------------------------------------------------------------------------------------
             # 处理无人机的释放和返回
@@ -1022,8 +1022,6 @@ class DemoPipeline:
 
                 if (not usage['current_order']) and current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
                     print(f"无人机{drone_sn}正在飞行到接驳车")
-
-                rospy.sleep(0.1)
 
             # ----------------------------------------------------------------------------------------
             print("--------------------------------------------------------------")
