@@ -99,7 +99,7 @@ class DemoPipeline:
         self.fixed_paths_from_start_to_key_point = {
             "SIM-MAGV-0001": [(183,434), (183,431), (187,431)],
             "SIM-MAGV-0002": [(190,438), (193,438), (193,449)],
-            "SIM-MAGV-0003": [(183,446), (181, 446), (181,449)],
+            "SIM-MAGV-0003": [(183,446), (181,446), (181,449)],
             "SIM-MAGV-0004": [(197,434), (197,431), (193,431)],
             "SIM-MAGV-0005": [(190,444), (190,449), (187,449)],
             "SIM-MAGV-0006": [(197,446), (199, 446), (199,449)],
@@ -142,10 +142,10 @@ class DemoPipeline:
 
         # 将卸货点映射到车辆
         self.unloading_point_car_map = {
-            (564,394): "SIM-MAGV-0006",
-            (430,184): "SIM-MAGV-0005",
-            (490,390): "SIM-MAGV-0002",
-            (508,514): "SIM-MAGV-0004",
+            (564,394): "SIM-MAGV-0002",
+            (430,184): "SIM-MAGV-0004",
+            (490,390): "SIM-MAGV-0005",
+            (508,514): "SIM-MAGV-0006",
             (146,186): "SIM-MAGV-0003",
         }
 
@@ -613,6 +613,8 @@ class DemoPipeline:
         msg.drone_way_point_info.way_point.append(takeoff_point)
 
         # 添加飞行路径点
+        # TODO： 针对start_pos为（146,186）、end_pos为进行一些特判吧。
+        special_key_point = Position(x=181, y=449, z=self.loading_cargo_position.z-5)
         for i, coord in enumerate(full_path_coords):
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
@@ -624,6 +626,18 @@ class DemoPipeline:
             print(f"Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
             msg.drone_way_point_info.way_point.append(middle_point)
 
+            if i == 0 and self.des_pos_reached(end_pos, special_key_point, 2.0):
+                middle_point = DroneWayPoint()
+                middle_point.type = DroneWayPoint.POINT_FLYING
+                middle_point.pos.x = 100
+                middle_point.pos.y = 449
+                middle_point.pos.z = altitude
+                middle_point.v = 10.0
+                middle_point.timeoutsec = 1000
+                print(f"Special Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
+                msg.drone_way_point_info.way_point.append(middle_point)
+
+        
         middle_point = DroneWayPoint()
         middle_point.type = DroneWayPoint.POINT_FLYING
         middle_point.pos.x = end_pos.x
@@ -715,7 +729,7 @@ class DemoPipeline:
 
         while not rospy.is_shutdown() and self.state != WorkState.FINISHED:
             # ----------------------------------------------------------------------------------------
-            # 处理SIM-MAGV-0004发射车
+            # 处理SIM-MAGV-0001发射车
             car_sn = "SIM-MAGV-0001"
             car_data = self.car_state_dict[car_sn]
             current_car_physical_status = next(

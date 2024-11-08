@@ -2,7 +2,7 @@ import pymtmap
 
 def main():
     # 创建Map实例，假设地图文件路径为 "path/to/map/file"
-    map_file_path = "/home/sdk_for_user/map_client_sdk/for_py/voxel_map.bin"
+    map_file_path = "/home/sdk_for_user/map_client_sdk/for_py/voxel_map_final.bin"
     map_instance = pymtmap.Map(map_file_path)
 
     # 检查地图是否有效
@@ -15,7 +15,7 @@ def main():
               f"z({map_instance.min_z()} to {map_instance.max_z()})")
         
         # 查询特定坐标的体素信息
-        x, y, z = 146, 186, -34
+        x, y, z = 100, 300, -115
         # x, y, z = 146, 186, -119
         # x, y, z = 430, 184, -10
         # x, y, z = 430, 184, -105
