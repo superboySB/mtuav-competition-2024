@@ -971,7 +971,7 @@ class DemoPipeline:
                     if self.car_state_dict[landing_car_sn]["ready_for_another_drone"]:
                         self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
                         print(f"现在接驳车{landing_car_sn}上没有飞机了，准备再派一架来!!!!!!!!!!")
-                        self.car_state_dict[car_sn]['ready_for_another_drone'] = False
+                        self.car_state_dict[landing_car_sn]['ready_for_another_drone'] = False
                         
 
                     if self.car_state_dict[landing_car_sn]["ready_for_landing"]:
