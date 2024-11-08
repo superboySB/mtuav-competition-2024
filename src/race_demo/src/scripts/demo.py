@@ -165,6 +165,7 @@ class DemoPipeline:
                 'capacity': 100, 
                 'current_order': None,
                 'go_to_unloading_point': False,
+                'wait_for_landing_car': False,
             }
 
     # 仿真回调函数
@@ -784,7 +785,7 @@ class DemoPipeline:
                     next_waypoint = path[waypoint_index]
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        if self.car_state_dict[car_sn]['current_waypoint_index']+1 == len(self.car_state_dict[car_sn]):
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['current_waypoint_index'] = 0
                             self.car_state_dict[car_sn]['state'] = WorkState.WAIT_FOR_DRONE_RETURN
                             print(f"无人车{car_sn}成功返回到key point等待飞机着陆")
@@ -799,7 +800,7 @@ class DemoPipeline:
                             print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
                     else:
                         print(f"车辆 {car_sn} 正在从loading point回到key point，请等待...")
-                rospy.sleep(0.2)
+                rospy.sleep(0.1)
 
             # ----------------------------------------------------------------------------------------
             # 处理SIM-MAGV-0004发射车
@@ -921,17 +922,25 @@ class DemoPipeline:
                     cargo_id = usage['current_order']
                     self.release_cargo(cargo_id, drone_sn)
                     self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
-                    
-                    # 无人机返回
-                    landing_car_sn = self.unloading_point_car_map[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]
-                    end_pos = Position(self.fixed_cycles_from_key_point[landing_car_sn][0][0], self.fixed_cycles_from_key_point[landing_car_sn][0][1], self.loading_cargo_point["z"]-5)
-                    altitude = self.unloading_points[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]['return_height']
-                    self.fly_one_route(drone_sn, current_drone_physical_status.pos.position, end_pos, altitude, 15.0)
+                    usage['wait_for_landing_car'] = True
                     usage['go_to_unloading_point'] = False
 
                 if usage['current_order'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
                     usage['go_to_unloading_point'] = True
                     print(f"无人机{drone_sn}正在飞行到卸货点")
+
+                if usage['wait_for_landing_car'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
+                    # 无人机返回
+                    landing_car_sn = self.unloading_point_car_map[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]
+                    current_car_physical_status = next((car for car in self.car_physical_status if car.sn == landing_car_sn), None)
+                    if current_car_physical_status.drone_sn:
+                        print(f"现在接驳车{landing_car_sn}上还有飞机，可能不一定回得来")
+                    else:
+                        print(f"现在接驳车{landing_car_sn}上没有飞机了，正在赶回来，可以让无人机先回来了")
+                        end_pos = Position(self.fixed_cycles_from_key_point[landing_car_sn][0][0], self.fixed_cycles_from_key_point[landing_car_sn][0][1], self.loading_cargo_point["z"]-5)
+                        altitude = self.unloading_points[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]['return_height']
+                        self.fly_one_route(drone_sn, current_drone_physical_status.pos.position, end_pos, altitude, 15.0)
+                        usage['wait_for_landing_car'] = False
 
                 if (not usage['current_order']) and current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
                     print(f"无人机{drone_sn}正在飞行到接驳车")
