@@ -5,7 +5,7 @@
             "name": "Python: ROS",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/src/race_demo/src/scripts/demo_fusai_v0.py",
+            "program": "${workspaceFolder}/src/race_demo/src/scripts/demo.py",
             "console": "integratedTerminal",
             "pythonPath": "/usr/bin/python3",
             "env": {

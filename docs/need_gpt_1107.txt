@@ -1,0 +1,70 @@
+你是一个路径规划代码大师，现在我需要大改整个策略，请你帮我做如下改动：
+1、self.__init__里面保留self.fixed_paths_start_to_key_point ，但是里面的值已经被我修改self.fixed_paths_start_to_key_point = {
+            "SIM-MAGV-0001": [
+                [(183,434), (183,431), (187,431)]
+            ],
+            "SIM-MAGV-0002": [
+                [(190,438), (193,438), (193,449)]
+            ],
+            "SIM-MAGV-0003": [
+                [(183,446), (181, 446), (181,449)]
+            ],
+            "SIM-MAGV-0004": [
+                [(197,434), (197,431), (193,431)]
+            ],
+            "SIM-MAGV-0005": [
+                [(190,444), (190,449), (187,449)]
+            ],
+            "SIM-MAGV-0006": [
+                [(197,446), (199, 446), (199,449)]
+            ],
+        }
+保留MOVE_CAR_TO_DRONE_KEY_POINT这样的状态，一开始让各个小车移动到一个比较容易后续展开工作的初始位置。此外，不管哪个外卖，哪个飞机，飞机起飞点不再是各个小车key point了，改为(193,431)，z轴可以用取货点的z轴。
+
+----------
+
+2、此外，当"SIM-MAGV-0001"到达了(187,431)这个keypoint之后，后续循环轮到这个小车，都直接continue，一定要保证这个小车到达了最后一个也就是keypoint才开始跳过它。也就是说，我们后面正式展开工作，只使用其它五个小车。
+
+----------
+
+3、取消self.fixed_paths_key_point_to_loading这种只有keypoint到loading的路径，也不需要返程直接对列表取逆，字典元素改为引入一个固定的循环路径表示这个小车所有时间段、所有状态的waypoints，因此每一个key下只有一个list，起点和终点都是keypoint表示这是一个循环，即：
+self.fixed_paths_from_key_point = {
+        "SIM-MAGV-0001": [(187,431), (190,425), (187,431)],
+	"SIM-MAGV-0002": [(193,449), (193,443), (193,439), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (199,425), (199,439), (193,439), (193,443), (193,449)],
+	"SIM-MAGV-0003": [(181,449), (181,443), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (199,425), (199,439), (193,439), (189,439), (181,439), (181,443), (181,449)],
+	"SIM-MAGV-0004": [(193,431), (190,425), (193,431)],
+	"SIM-MAGV-0005": [(187,449), (189,443), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (199,425), (199,439), (193,439), (189,439), (189,443), (187,449)],
+	"SIM-MAGV-0006": [(199,449), (199,443), (199,439), (193,439), (189,439), (181,439), (181,435), (181,431), (181,425), (185,425), (190,425), (199,425), (199,439), (199,443), (199,449)],
+}
+其中，(190,425)是一开始move drone on car以及load cargo的唯一地点，"SIM-MAGV-0001"暂时不使用。当小车"SIM-MAGV-0004"移动到(190,425)的时候，它负责的是绑定无人机、取货，并且取货后移动回起飞点放飞无人机，走这样一个循环。然而"SIM-MAGV-0002"、"SIM-MAGV-0003、"SIM-MAGV-0005"、"SIM-MAGV-0006"走的是另一个循环，如果当前在key point，此时if current_car_physical_status.drone_sn并且current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY则小车才能在self.fixed_paths_from_key_point的对应元素下开始沿着路径下一个元素移动（注意路径是一个循环，移动到最后一个的话自动跳回到第一个）；if条件不成立，则此时小车上没有飞机，小车固定不动，主循环continue到下一个小车。不同于小车"SIM-MAGV-0004，装着飞机的"SIM-MAGV-0002"、"SIM-MAGV-0003、"SIM-MAGV-0005"或者"SIM-MAGV-0006"只负责在key point等待飞机降落，然后带着这个飞机移动到(190,425)的时候，它负责的是直接解绑飞机，引入下面这种解绑的相关函数（这里给出了ros msg的格式）：
+# 回收飞机函数
+ def drone_retrieve(self, drone_sn, car_sn, next_state):
+        msg = UserCmdRequest()
+        msg.peer_id = self.peer_id
+        msg.task_guid = self.task_guid
+        msg.type = UserCmdRequest.USER_CMD_MOVE_DRONE_ON_BIRTHPLACE
+        msg.unbind_info.drone_sn = drone_sn
+        msg.unbind_info.car_sn = car_sn
+        self.cmd_pub.publish(msg)
+        self.state = next_state
+
+----------
+
+4、现在有self.fixed_paths_from_key_point作为循环，循环中有很大的各个小车公共部分。所以每个小车不论当前是什么state，肯定要么静止，要么沿自己self.fixed_paths_from_key_point的下一站移动。现在我们大大简化目前的小车冲突避免吧，不需要在plan_path_avoiding_obstacles获取路径上所有的点，只需要对CAR_READY的小车，判断自己当前位置周围3是禁止区域并添加到障碍；对于正在CAR_RUNNING的小车，判断自己当前位置周围3、以及正在移动前往的下一个waypoint周围3是禁止区域并添加到障碍。对于每一个在CAR_READY想要改为CAR_RUNNING的小车，看一下当前下一个waypoint是否落在了障碍的范围内即可判断能否执行move_car_with_start_and_end；如果被占用了，就print一下自己是哪个目标点被哪个car_sn占用。在这样的简化下，car_state_dict里面的final_destination就没有意义了，可以改为自己当前都在哪两个waypoint之间等等更局部的信息，让小车可以尽量同时移动。
+
+----------
+
+5、添加关于[146,186]，[528,172], [564,394], [430,184], [490,390],[508,514]六个外卖卸货点相关的状态机，key就是卸货点坐标。各个卸货点的drone_delivery_fly_height属性的value均设为-115吧，意思是无人机送这六个地方的外卖都从统一的self.take_off_point起飞、平飞高度都是-115。各个卸货点的drone_return_fly_height属性的value分别设为-115、-115、-85、-105、-85、-75这六个高度，意思是无人机从六个地方的外卖回来时的平飞高度。现在我们有统一的起飞点(193,431)并且统一有SIM-MAGV-0004来负责取货配送。然后我们现在改一下self.select_best_order的实现，删除self.waybill_dict[drone_sn]这样呆板的预定义操作代码，函数应该不需要drone_sn作为入参了，直接遍历self.bills_status，已知订单的生成时间戳ordertime还是按照订单编号从小变大的，所以策略可以改为先看当前available_orders里面，betterTime最晚的那个外卖的betterTime-current_time是否还能不少于120秒，如果是，就送这一单。如果不是，就放弃这些外卖，你加一个新的逻辑。考虑订单是随着时间不断生成的、也就是current_time之后若干秒一定有订单生成，则盯着未来最近的这个外卖，程序里标记一下盯是哪个外卖，然后打印我现在关注的外卖的bill_status.index、orderTime、betterTime、timeout以及current_time、还有orderTime-current也就是还有多少时间能看到这个外卖并且开始送，然后可以先return None，让其它小车能够继续行动。之后再遍历到SIM-MAGV-0004的时候，如果看到current_time已经大于了orderTime，就直接开始送这单。
+
+----------
+
+6、上一条考虑了一种新的统一的选单策略，下面我们开始考虑用哪个飞机送单、和用哪个车去接飞机。我们先考虑简单的情况，只考虑外卖[564,394], [430,184], [490,390],[508,514]这4个卸货点，其余两个卸货点上的外卖先不考虑去送（添加到self.select_best_order里面），正好可以将这四个位置分别绑定在"SIM-MAGV-0002"、"SIM-MAGV-0003、"SIM-MAGV-0005"或者"SIM-MAGV-0006这四个无人车，让四个无人车分别去接从这四个点卸完货、飞回来的飞机。再说飞机，我们其实有30个无人机，其中"SIM-DRONE-0001"到"SIM-DRONE-0005"送卸货点[564,394]的外卖；"SIM-DRONE-0006"到"SIM-DRONE-0010"送卸货点[430,184]的外卖；"SIM-DRONE-0011"到"SIM-DRONE-0015"送卸货点[490,39]的外卖；"SIM-DRONE-0016"到"SIM-DRONE-0020"送卸货点[508,514]的外卖；剩下的无人机可以待命。我们维护一个状态机区看一下所有无人机的current_drone_physical_status.remianing_capacity，如果当前小车送回来的无人机电量小于30了、则直接解绑，注意我们在代码中取消了WorkState.DRONE_BATTERY_REPLACEMENT（比较耗时），改为让SIM-MAGV-0004下次送相应卸货点的外卖时在WorkState.MOVE_CARGO_IN_DRONE使用下一架飞机；如果当前飞机电量还有富裕，则WorkState.MOVE_CARGO_IN_DRONE的时候还使用这一架飞机。以上这一条需要你定义新的字典结构来管理30个无人机的状态机、或者需要丰富之前六个外卖卸货点相关的状态机，让它可以知道自己目前相关的无人机、无人车的index以及其它算法需要的情况。
+
+----------
+
+7、严格认真的修改主函数！！！确保MOVE_CAR_TO_DRONE_KEY_POINT、MOVE_CAR_GO_TO_LOADING_POINT、MOVE_CAR_BACK_TO_LOADING_POINT里面真的实现了小车沿着自己self.fixed_paths_start_to_key_point做了多段的轨迹规划，并确保各个小车都是同时在做规划的。此时主函数一定要改，需要对小车"SIM-MAGV-0002"、"SIM-MAGV-0003、"SIM-MAGV-0005"、"SIM-MAGV-0006"在RELEASE_DRONE_OUT和"SIM-MAGV-0004做区分，前面四辆小车的生命周期状态顺序为START、MOVE_CAR_TO_DRONE_KEY_POINT、WAIT_FOR_DRONE_RETURN（新添加，keypoint的小车只有接驳到了自己的飞机才可以离开）、MOVE_CAR_GO_TO_LOADING_POINT、DRONE_RETRIEVE、MOVE_CAR_BACK_TO_DRONE_KEY_POINT（新添加，区别于MOVE_CAR_TO_DRONE_KEY_POINT这种从出生点到keypoint，新的状态是从loading point回到key point），然后紧接着就是WAIT_FOR_DRONE_RETURN、MOVE_CAR_GO_TO_LOADING_POINT、DRONE_RETRIEVE.....形成一个循环。然而，SIM-MAGV-0004不一样，它的生命周期为START、MOVE_CAR_TO_DRONE_KEY_POINT、MOVE_CAR_GO_TO_LOADING_POINT、MOVE_DRONE_ON_CAR、MOVE_CARGO_IN_DRONE、MOVE_CAR_TO_LEAVING_POINT、RELEASE_DRONE_OUT、MOVE_CAR_BACK_TO_LOADING_POINT，然后紧接着就是MOVE_DRONE_ON_CAR、MOVE_CARGO_IN_DRONE、MOVE_CAR_TO_LEAVING_POINT......形成一个循环。至于RELEASE_CARGO和RELEASE_DRONE_RETURN可以通过在循环中循环6个小车的时候，每个小车的循环内部一开始，都判断一次30架飞机哪些被RELEASE_DRONE_OUT过，通过判断什么时候在再次变成DronePhysicalStatus.READY，决定是不是要RELEASE_CARGO、RELEASE_DRONE_RETURN。也就是说，我需要你大改主函数，将不同角色的状态都拆开。
+
+
+---
+
+请你理解我上述的需求，帮我实现到目前的代码中，并给我改后的完整代码。注意不要修改和我上面让你改进的地方无关的代码和注释。具体要求如下：如果有些函数本质上不需要改，可以只给定义、省略实现。如果有的函数没必要再用，直接删掉。如果有的函数被修改，不可以省略，要给完整实现。最重要的是，def running(self):里面一定不可以省略！！！！！def running(self):里面一定不可以省略！！！！！def running(self):里面一定不可以省略！！！！！def running(self):里面一定不可以省略！！！！！

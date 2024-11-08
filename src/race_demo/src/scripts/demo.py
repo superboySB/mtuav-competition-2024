@@ -97,24 +97,12 @@ class DemoPipeline:
 
         # 固定路径从出生点到关键点
         self.fixed_paths_from_start_to_key_point = {
-            "SIM-MAGV-0001": [
-                [(183,434), (183,431), (187,431)]
-            ],
-            "SIM-MAGV-0002": [
-                [(190,438), (193,438), (193,449)]
-            ],
-            "SIM-MAGV-0003": [
-                [(183,446), (181, 446), (181,449)]
-            ],
-            "SIM-MAGV-0004": [
-                [(197,434), (197,431), (193,431)]
-            ],
-            "SIM-MAGV-0005": [
-                [(190,444), (190,449), (187,449)]
-            ],
-            "SIM-MAGV-0006": [
-                [(197,446), (199, 446), (199,449)]
-            ],
+            "SIM-MAGV-0001": [(183,434), (183,431), (187,431)],
+            "SIM-MAGV-0002": [(190,438), (193,438), (193,449)],
+            "SIM-MAGV-0003": [(183,446), (181, 446), (181,449)],
+            "SIM-MAGV-0004": [(197,434), (197,431), (193,431)],
+            "SIM-MAGV-0005": [(190,444), (190,449), (187,449)],
+            "SIM-MAGV-0006": [(197,446), (199, 446), (199,449)],
         }
 
         # 固定循环路径
@@ -176,6 +164,7 @@ class DemoPipeline:
                 'available': True,
                 'capacity': 100, 
                 'current_order': None,
+                'go_to_unloading_point': False,
             }
 
     # 仿真回调函数
@@ -444,9 +433,9 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time > timeout:
-                continue  # 订单未开始或已超时，无法接单
-            if self.is_delivering_pointed_cargos[(int(bill_status.targetPosition.x),int(bill_status.targetPosition.y))]:
+            if current_time < orderTime or current_time > betterTime:
+                continue  # 订单未开始或已超过最佳送达时间，我不接
+            if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
             
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -454,14 +443,8 @@ class DemoPipeline:
             print(f"!!! Available bill: {bill_status.index}, orderTime:{orderTime}, betterTime:{betterTime}, timeout:{timeout}")
             print(f"current_time = {betterTime-current_time}, betterTime-current_time = {betterTime-current_time}, timeout-current_time = {timeout - current_time}")
 
-        if not available_orders:
-            return None
-
-        # 优先选择在 betterTime 前的订单
-        orders_before_better = [order for order in available_orders if current_time + 120 < order[2]]
-        if orders_before_better:
-            # 选择最新的 betterTime，给自己留足够的送达时间
-            selected_order = max(orders_before_better, key=lambda x: x[2])
+        if available_orders:
+            selected_order = max(available_orders, key=lambda x: x[2])
             return selected_order[0]
         else:
             return None
@@ -503,7 +486,7 @@ class DemoPipeline:
         orderTime = waybill.orderTime
         betterTime = waybill.betterTime
         timeout = waybill.timeout
-        self.is_delivering_pointed_cargos[(int(waybill.targetPosition.x),int(waybill.targetPosition.y))] = True
+        self.is_delivering_pointed_cargos[(int(waybill.target_pos.x),int(waybill.target_pos.y))] = True
 
         current_time = int(time.time() * 1000)
         print(f"无人机 {drone_sn} 接单：订单ID {cargo_id}, orderTime {orderTime}, betterTime {betterTime}, timeout {timeout}")
@@ -535,7 +518,7 @@ class DemoPipeline:
         self.car_state_dict[car_sn]['state'] = next_state
 
     # 移动无人机的函数，增加碰撞检测和路径优化
-    def fly_one_route(self, drone_sn, car_sn, start_pos, end_pos, altitude, speed):
+    def fly_one_route(self, drone_sn, start_pos, end_pos, altitude, speed):
         # 检查无人机是否处于 READY 状态
         drone_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
         if drone_status is None or drone_status.drone_work_state != DronePhysicalStatus.READY:
@@ -748,7 +731,7 @@ class DemoPipeline:
                     next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index]
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                        if waypoint_index == len(self.fixed_paths_from_start_to_key_point[car_sn]):
+                        if waypoint_index + 1 == len(self.fixed_paths_from_start_to_key_point[car_sn]):
                             self.car_state_dict[car_sn]['state'] = WorkState.WAIT_FOR_DRONE_RETURN
                             self.car_state_dict[car_sn]['current_waypoint_index'] = 0
                             continue
@@ -838,8 +821,8 @@ class DemoPipeline:
                 next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index]
                 end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                 if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                    if waypoint_index == len(self.fixed_paths_from_start_to_key_point[car_sn]):
-                        self.car_state_dict[car_sn]['state'] = WorkState.WAIT_FOR_DRONE_RETURN
+                    if waypoint_index + 1 == len(self.fixed_paths_from_start_to_key_point[car_sn]):
+                        self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                         self.car_state_dict[car_sn]['current_waypoint_index'] = 0
                         continue
                     self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
@@ -859,7 +842,7 @@ class DemoPipeline:
                     if self.des_pos_reached(car_pos, self.loading_cargo_position, 2.0):
                         self.car_state_dict[car_sn]['state'] = WorkState.MOVE_DRONE_ON_CAR
                         continue
-                    next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index + 1]
+                    next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
                     if path_result:
@@ -909,16 +892,16 @@ class DemoPipeline:
                     current_drone_physical_status = next(
                         (drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
                     cargo_id = current_drone_physical_status.bind_cargo_id
-                    waybill = next((wb for wb in self.waybill_infos if wb['cargoParam']['index'] == cargo_id), None)
+                    waybill = next((wb for wb in self.bills_status if wb.index == cargo_id), None)
                     assert waybill is not None
-                    target_pos = waybill['targetPosition']
-                    end_pos = Position(x=target_pos['x'], y=target_pos['y'], z=target_pos['z']-5)
-                    altitude = self.unloading_points[(target_pos['x'], target_pos['y'])]['delivery_height']
-                    self.fly_one_route(drone_sn, car_sn, car_pos, end_pos, altitude, 15.0)
+                    target_pos = waybill.target_pos
+                    end_pos = Position(x=target_pos.x, y=target_pos.y, z=target_pos.z-5)
+                    altitude = self.unloading_points[(int(round(target_pos.x)), int(round(target_pos.y)))]['delivery_height']
+                    self.fly_one_route(drone_sn, car_pos, end_pos, altitude, 15.0)
                     self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 else:
                     print(f"车辆 {car_sn} 还没移动到起飞点，等待...")
-            rospy.sleep(0.2)
+            rospy.sleep(0.5)
 
             # ----------------------------------------------------------------------------------------
             # 处理无人机的释放和返回
@@ -931,11 +914,12 @@ class DemoPipeline:
                     print(f"无人机{drone_sn}正在出生点躺尸")
                     continue
                 
-                if usage['current_order'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
+                if usage['current_order'] and usage['go_to_unloading_point'] and \
+                  current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
                     print(f"无人机{drone_sn}落地了")
                     # 释放货物
                     cargo_id = usage['current_order']
-                    self.release_cargo(cargo_id, drone_sn, WorkState.RELEASE_DRONE_RETURN)
+                    self.release_cargo(cargo_id, drone_sn)
                     self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
                     
                     # 无人机返回
@@ -943,9 +927,15 @@ class DemoPipeline:
                     end_pos = Position(self.fixed_cycles_from_key_point[landing_car_sn][0][0], self.fixed_cycles_from_key_point[landing_car_sn][0][1], self.loading_cargo_point["z"]-5)
                     altitude = self.unloading_points[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]['return_height']
                     self.fly_one_route(drone_sn, current_drone_physical_status.pos.position, end_pos, altitude, 15.0)
+                    usage['go_to_unloading_point'] = False
 
-                if current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
-                    print(f"无人机{drone_sn}正在飞行")
+                if usage['current_order'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
+                    usage['go_to_unloading_point'] = True
+                    print(f"无人机{drone_sn}正在飞行到卸货点")
+
+                if (not usage['current_order']) and current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
+                    print(f"无人机{drone_sn}正在飞行到接驳车")
+
                 rospy.sleep(0.2)
 
             # ----------------------------------------------------------------------------------------
