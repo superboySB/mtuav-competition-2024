@@ -435,7 +435,7 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 105000 > betterTime:
+            if current_time < orderTime or current_time + 100000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
@@ -464,7 +464,7 @@ class DemoPipeline:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 120000 > betterTime:
+            if current_time + 115000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -758,10 +758,10 @@ class DemoPipeline:
             car_data = self.car_state_dict[car_sn]
             current_car_physical_status = next(
                 (car for car in self.car_physical_status if car.sn == car_sn), None)
-            car_pos = current_car_physical_status.pos.position
+            release_car_pos = current_car_physical_status.pos.position
             state = car_data['state']
 
-            print(f"正在处理放飞无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}, 小车上飞机: {current_car_physical_status.drone_sn}")
+            print(f"正在处理放飞无人车{car_sn}, 位置：{release_car_pos.x}, {release_car_pos.y},{release_car_pos.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}, 小车上飞机: {current_car_physical_status.drone_sn}")
             
             if state == WorkState.START:
                 # 移动到关键点
@@ -770,8 +770,8 @@ class DemoPipeline:
             elif state == WorkState.MOVE_CAR_TO_DRONE_KEY_POINT:
                 waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
                 next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index]
-                end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
+                end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=release_car_pos.z)
+                if self.des_pos_reached(release_car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                     if waypoint_index + 1 == len(self.fixed_paths_from_start_to_key_point[car_sn]):
                         self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                         self.car_state_dict[car_sn]['current_waypoint_index'] = 0
@@ -779,8 +779,8 @@ class DemoPipeline:
                     self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
                     waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
                     next_waypoint = self.fixed_paths_from_start_to_key_point[car_sn][waypoint_index]
-                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                    self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=release_car_pos.z)
+                    self.move_car_with_start_and_end(car_sn, release_car_pos, end_pos)
                 else:
                     print(f"车辆 {car_sn} 正在从起点移动到key point，请等待...")
             elif state == WorkState.MOVE_CAR_GO_TO_LOADING_POINT:
@@ -788,14 +788,14 @@ class DemoPipeline:
                 path = self.fixed_cycles_from_key_point[car_sn]
                 waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
                 next_waypoint = path[waypoint_index]
-                end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
-                    if self.des_pos_reached(car_pos, self.loading_cargo_position, 2.0):
+                end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=release_car_pos.z)
+                if self.des_pos_reached(release_car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
+                    if self.des_pos_reached(release_car_pos, self.loading_cargo_position, 2.0):
                         self.car_state_dict[car_sn]['state'] = WorkState.MOVE_DRONE_ON_CAR
                         continue
                     next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
-                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                    path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
+                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=release_car_pos.z)
+                    path_result = self.plan_path_avoiding_obstacles(car_sn, release_car_pos, end_pos)
 
                     if path_result:
                         # TODO：起飞和接驳协同trick2：让飞机先查外卖再去loading point
@@ -817,7 +817,7 @@ class DemoPipeline:
                         if car_need_hurry_load_cargo_flag:
                             print("现在你可以马上过去取货，很有前途！！")
                             self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
-                            self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                            self.move_car_with_start_and_end(car_sn, release_car_pos, end_pos)
                         
                         if car_wait_flag:
                             print("有其它接驳车在等待，先看他们把小飞机还了吧，反正现在也没有好货")
@@ -848,9 +848,9 @@ class DemoPipeline:
                         current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
                     waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
                     next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
-                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
+                    end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=release_car_pos.z)
                     self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
-                    self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
+                    self.move_car_with_start_and_end(car_sn, release_car_pos, end_pos)
                     self.car_state_dict[car_sn]['state'] = WorkState.RELEASE_DRONE_OUT
                 else:
                     print(f"车辆 {car_sn} 上的飞机还没装好货，等待...")
@@ -859,8 +859,8 @@ class DemoPipeline:
                 path = self.fixed_cycles_from_key_point[car_sn]
                 waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
                 next_waypoint = path[waypoint_index]
-                end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
-                if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
+                end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=release_car_pos.z)
+                if self.des_pos_reached(release_car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                     self.car_state_dict[car_sn]['current_waypoint_index'] = 0
                     drone_sn = current_car_physical_status.drone_sn
                     assert drone_sn
@@ -872,7 +872,7 @@ class DemoPipeline:
                     target_pos = waybill.target_pos
                     end_pos = Position(x=target_pos.x, y=target_pos.y, z=target_pos.z-5)
                     altitude = self.unloading_points[(int(round(target_pos.x)), int(round(target_pos.y)))]['delivery_height']
-                    self.fly_one_route(drone_sn, car_pos, end_pos, altitude, 15.0)
+                    self.fly_one_route(drone_sn, release_car_pos, end_pos, altitude, 15.0)
                     self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 else:
                     print(f"车辆 {car_sn} 还没移动到起飞点，等待...")
@@ -937,10 +937,17 @@ class DemoPipeline:
                         next_waypoint = self.fixed_cycles_from_key_point[car_sn][waypoint_index + 1]
                         end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                         path_result = self.plan_path_avoiding_obstacles(car_sn, car_pos, end_pos)
+                        car_need_hurry_load_cargo_flag = self.select_best_order_when_on_drone_releasing_point()
+
+                        drone_release_pos = Position(x=187, y=431, z=self.loading_cargo_position.z)
+                        if self.des_pos_reached(end_pos, self.loading_cargo_position, 2.0) and self.des_pos_reached(release_car_pos, drone_release_pos, 2.0) \
+                                and car_need_hurry_load_cargo_flag:
+                            print("对不起，你得等着还飞机，要让放飞车现在马上过去取货，更加有前途！！")
+                            continue
+
                         if path_result:
                             self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
                             self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
-                            break
                         else:
                             print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
                     else:
@@ -953,7 +960,15 @@ class DemoPipeline:
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         # TODO：同时决定小车和飞机之间有没有提前量，同时决定下一个飞机要不要起飞，这可能是safety和performance的性能取舍关键点
-                        if self.car_state_dict[car_sn]['current_waypoint_index'] + 12 > len(self.fixed_cycles_from_key_point[car_sn]):
+                        if car_sn == "SIM-MAGV-0003":
+                            ready_steps = 10
+                        elif car_sn == "SIM-MAGV-0005":
+                            ready_steps = 13
+                        elif car_sn == "SIM-MAGV-0002":
+                            ready_steps = 15
+                        else:
+                            ready_steps = 17
+                        if self.car_state_dict[car_sn]['current_waypoint_index'] + ready_steps > len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['ready_for_landing'] = True
 
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(self.fixed_cycles_from_key_point[car_sn]):
