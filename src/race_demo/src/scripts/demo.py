@@ -673,7 +673,7 @@ class DemoPipeline:
                 middle_point = DroneWayPoint()
                 middle_point.type = DroneWayPoint.POINT_FLYING
                 middle_point.pos.x = 590
-                middle_point.pos.y = 300
+                middle_point.pos.y = 394
                 middle_point.pos.z = altitude
                 middle_point.v = speed
                 middle_point.timeoutsec = 1000
@@ -693,7 +693,7 @@ class DemoPipeline:
                 middle_point = DroneWayPoint()
                 middle_point.type = DroneWayPoint.POINT_FLYING
                 middle_point.pos.x = 508
-                middle_point.pos.y = 590
+                middle_point.pos.y = 530
                 middle_point.pos.z = altitude
                 middle_point.v = speed
                 middle_point.timeoutsec = 1000
@@ -703,7 +703,7 @@ class DemoPipeline:
                 middle_point = DroneWayPoint()
                 middle_point.type = DroneWayPoint.POINT_FLYING
                 middle_point.pos.x = 400
-                middle_point.pos.y = 590
+                middle_point.pos.y = 530
                 middle_point.pos.z = altitude
                 middle_point.v = speed
                 middle_point.timeoutsec = 1000
@@ -1010,11 +1010,11 @@ class DemoPipeline:
                         if car_sn == "SIM-MAGV-0003":
                             ready_steps = 9
                         elif car_sn == "SIM-MAGV-0005":
-                            ready_steps = 13
+                            ready_steps = 12
                         elif car_sn == "SIM-MAGV-0002":
                             ready_steps = 15
                         else:
-                            ready_steps = 17
+                            ready_steps = 18
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + ready_steps > len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['ready_for_landing'] = True
 
@@ -1040,7 +1040,8 @@ class DemoPipeline:
             prior_drone_is_waiting_flag = False
             for drone_sn, usage in self.drone_usage.items():
                 current_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
-                if usage['wait_for_landing_car'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and \
+                if usage['wait_for_landing_car'] and \
+                  (current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY or current_drone_physical_status.drone_work_state == DronePhysicalStatus.LANDING) and \
                   int(usage['current_order_x']) == 508 and int(usage['current_order_x']) == 514:
                     prior_drone_is_waiting_flag = True
 
