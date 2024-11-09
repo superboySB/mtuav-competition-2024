@@ -438,7 +438,7 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 105000 > betterTime:
+            if current_time < orderTime or current_time + 103000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
@@ -463,11 +463,11 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time > timeout or current_time + 12000 < orderTime:
+            if current_time > timeout or current_time + 13000 < orderTime:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 120000 > betterTime:
+            if current_time + 115000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -1014,11 +1014,11 @@ class DemoPipeline:
                         if car_sn == "SIM-MAGV-0003":
                             ready_steps = 9
                         elif car_sn == "SIM-MAGV-0005":
-                            ready_steps = 12
+                            ready_steps = 17
                         elif car_sn == "SIM-MAGV-0002":
-                            ready_steps = 15
+                            ready_steps = 19
                         else:
-                            ready_steps = 18
+                            ready_steps = 21
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + ready_steps > len(self.fixed_cycles_from_key_point[car_sn]):
                             self.car_state_dict[car_sn]['ready_for_landing'] = True
 
