@@ -435,7 +435,7 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 100000 > betterTime:
+            if current_time < orderTime or current_time + 95000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
@@ -460,11 +460,11 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time > timeout or current_time + 12000 < orderTime:
+            if current_time > timeout or current_time + 15000 < orderTime:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 115000 > betterTime:
+            if current_time + 110000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -961,7 +961,7 @@ class DemoPipeline:
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         # TODO：同时决定小车和飞机之间有没有提前量，同时决定下一个飞机要不要起飞，这可能是safety和performance的性能取舍关键点
                         if car_sn == "SIM-MAGV-0003":
-                            ready_steps = 10
+                            ready_steps = 9
                         elif car_sn == "SIM-MAGV-0005":
                             ready_steps = 13
                         elif car_sn == "SIM-MAGV-0002":
