@@ -1,0 +1,988 @@
+{
+    "controlType": "SIMPLE_FLIGHT",
+    "peerId": 49609451,
+    "port": 9999,
+    "sceneIp": "192.168.100.5",
+    "taskParam": {
+        "batteryConsuming": true,
+        "droneLimitConfig": {
+            "maxCargoSlots": 1,
+            "maxFlightRange": 10000,
+            "maxHoriAcc": 7.5,
+            "maxHoriFlySpeed": 10,
+            "maxTakeOffHeight": 120,
+            "maxVertAcc": 7.5,
+            "maxVertFlySpeed": 10,
+            "maxWeight": 5,
+            "minTakeOffHeight": 60
+        },
+        "droneParamList": [
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0001",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150059,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 50163369,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7000,
+                "udpPort": 7001
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0002",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150061,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49874448,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7002,
+                "udpPort": 7003
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0003",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150061,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49678991,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7004,
+                "udpPort": 7005
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0004",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150063,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49607313,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7006,
+                "udpPort": 7007
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0005",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150063,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49484036,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7008,
+                "udpPort": 7009
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0006",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150065,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49352045,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7010,
+                "udpPort": 7011
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0007",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150067,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49395360,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7012,
+                "udpPort": 7013
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0008",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150068,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49773093,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7014,
+                "udpPort": 7015
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0009",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150069,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49440826,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7016,
+                "udpPort": 7017
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0010",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150071,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49771769,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7018,
+                "udpPort": 7019
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0011",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150071,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49354688,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7020,
+                "udpPort": 7021
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0012",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150073,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 50327849,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7022,
+                "udpPort": 7023
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0013",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150074,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49916179,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7024,
+                "udpPort": 7025
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0014",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150074,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 50251728,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7026,
+                "udpPort": 7027
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0015",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150076,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49949820,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7028,
+                "udpPort": 7029
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0016",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150078,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49724087,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7030,
+                "udpPort": 7031
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0017",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150079,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49564364,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7032,
+                "udpPort": 7033
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0018",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150080,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49564755,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7034,
+                "udpPort": 7035
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0019",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150082,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49737312,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7036,
+                "udpPort": 7037
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0020",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150082,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49731036,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7038,
+                "udpPort": 7039
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0021",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150084,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49953454,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7040,
+                "udpPort": 7041
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0022",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150084,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49577671,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7042,
+                "udpPort": 7043
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0023",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150086,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49625551,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7044,
+                "udpPort": 7045
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0024",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150088,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49817193,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7046,
+                "udpPort": 7047
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0025",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150088,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49606665,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7048,
+                "udpPort": 7049
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0026",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150090,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49473986,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7050,
+                "udpPort": 7051
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0027",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150092,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49937116,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7052,
+                "udpPort": 7053
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0028",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150094,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49422921,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7054,
+                "udpPort": 7055
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0029",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150096,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 50042019,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7056,
+                "udpPort": 7057
+            },
+            {
+                "birthplace": {
+                    "x": 185,
+                    "y": 425,
+                    "z": -16
+                },
+                "controlType": "SIMPLE_FLIGHT",
+                "currentDir": "/opt/race/drone",
+                "droneSn": "SIM-DRONE-0030",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.3",
+                "lastReportTime": 1726227150097,
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49511109,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 7058,
+                "udpPort": 7059
+            }
+        ],
+        "guid": "GUID_267_1000_1",
+        "hasObstacles": false,
+        "loadingCargoPoint": {
+            "x": 190,
+            "y": 425,
+            "z": -16
+        },
+        "magvAviationOperationsBoundaryInfo": {
+            "bottomLeft": {
+                "x": 180,
+                "y": 430,
+                "z": -16
+            },
+            "bottomRight": {
+                "x": 200,
+                "y": 430,
+                "z": -16
+            },
+            "topLeft": {
+                "x": 180,
+                "y": 450,
+                "z": -16
+            },
+            "topRight": {
+                "x": 200,
+                "y": 450,
+                "z": -16
+            }
+        },
+        "magvBoundaryInfo": {
+            "bottomLeft": {
+                "x": 180,
+                "y": 420,
+                "z": -16
+            },
+            "bottomRight": {
+                "x": 200,
+                "y": 420,
+                "z": -16
+            },
+            "topLeft": {
+                "x": 180,
+                "y": 450,
+                "z": -16
+            },
+            "topRight": {
+                "x": 200,
+                "y": 450,
+                "z": -16
+            }
+        },
+        "magvLimitConfig": {
+            "maxHoriAcc": 1,
+            "maxHoriDec": 0.4,
+            "maxHoriMoveSpeed": 1.4,
+            "maxThetaAcc": 2.5,
+            "maxThetaSpeed": 3
+        },
+        "magvParamList": [
+            {
+                "birthplace": {
+                    "x": 183,
+                    "y": 434,
+                    "z": -16
+                },
+                "currentDir": "/opt/race/magv",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.2",
+                "lastReportTime": 1726227150100,
+                "magvSn": "SIM-MAGV-0001",
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49867824,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 3000,
+                "udpPort": 3001
+            },
+            {
+                "birthplace": {
+                    "x": 190,
+                    "y": 438,
+                    "z": -16
+                },
+                "currentDir": "/opt/race/magv",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.2",
+                "lastReportTime": 1726227150101,
+                "magvSn": "SIM-MAGV-0002",
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49490346,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 3002,
+                "udpPort": 3003
+            },
+            {
+                "birthplace": {
+                    "x": 183,
+                    "y": 446,
+                    "z": -16
+                },
+                "currentDir": "/opt/race/magv",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.2",
+                "lastReportTime": 1726227150103,
+                "magvSn": "SIM-MAGV-0003",
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49573885,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 3004,
+                "udpPort": 3005
+            },
+            {
+                "birthplace": {
+                    "x": 197,
+                    "y": 434,
+                    "z": -16
+                },
+                "currentDir": "/opt/race/magv",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.2",
+                "lastReportTime": 1726227150105,
+                "magvSn": "SIM-MAGV-0004",
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49585657,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 3006,
+                "udpPort": 3007
+            },
+            {
+                "birthplace": {
+                    "x": 190,
+                    "y": 444,
+                    "z": -16
+                },
+                "currentDir": "/opt/race/magv",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.2",
+                "lastReportTime": 1726227150106,
+                "magvSn": "SIM-MAGV-0005",
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49570240,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 3008,
+                "udpPort": 3009
+            },
+            {
+                "birthplace": {
+                    "x": 197,
+                    "y": 446,
+                    "z": -16
+                },
+                "currentDir": "/opt/race/magv",
+                "guid": "GUID_267_1000_1",
+                "ip": "192.168.100.2",
+                "lastReportTime": 1726227150106,
+                "magvSn": "SIM-MAGV-0006",
+                "mapServerIp": "192.168.100.5",
+                "mapServerPort": 5050,
+                "peerId": 49396470,
+                "sceneIp": "192.168.100.5",
+                "scenePeerId": 50296386,
+                "scenePort": 9999,
+                "status": "PEER_NO_CONNECTION",
+                "taskId": 1000,
+                "tcpPort": 3010,
+                "udpPort": 3011
+            }
+        ],
+        "mapBoundaryInfo": {
+            "bottomLeft": {
+                "x": 100,
+                "y": 100,
+                "z": 0
+            },
+            "bottomRight": {
+                "x": 600,
+                "y": 100,
+                "z": 0
+            },
+            "heightLimit": 10,
+            "lowLimit": -120,
+            "topLeft": {
+                "x": 100,
+                "y": 600,
+                "z": 0
+            },
+            "topRight": {
+                "x": 600,
+                "y": 600,
+                "z": 0
+            }
+        },
+        "mapServerIp": "192.168.100.5",
+        "mapServerPort": 5050,
+        "taskId": 1000,
+        "unloadingCargoStationList": [
+            {
+                "index": 1,
+                "name": "测试卸货点1",
+                "position": {
+                    "x": 146,
+                    "y": 186,
+                    "z": -34
+                }
+            },
+            {
+                "index": 2,
+                "name": "测试卸货点2",
+                "position": {
+                    "x": 430,
+                    "y": 184,
+                    "z": -10
+                }
+            },
+            {
+                "index": 3,
+                "name": "测试卸货点3",
+                "position": {
+                    "x": 528,
+                    "y": 172,
+                    "z": -20
+                }
+            },
+            {
+                "index": 4,
+                "name": "测试卸货点4",
+                "position": {
+                    "x": 508,
+                    "y": 514,
+                    "z": -22
+                }
+            },
+            {
+                "index": 5,
+                "name": "测试卸货点5",
+                "position": {
+                    "x": 564,
+                    "y": 394,
+                    "z": -16
+                }
+            },
+            {
+                "index": 6,
+                "name": "测试卸货点6",
+                "position": {
+                    "x": 490,
+                    "y": 390,
+                    "z": -22
+                }
+            }
+        ],
+        "waybillParamList": [{"betterTime":177000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":1,"name":"测试货物1","weight":1.048},"index":1,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[0].cargoParam.birthplace"},"orderTime":48000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":477000},{"betterTime":182000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":2,"name":"测试货物2","weight":1.029},"index":2,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[1].cargoParam.birthplace"},"orderTime":59000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":482000},{"betterTime":238000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":3,"name":"测试货物3","weight":2.116},"index":3,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[2].cargoParam.birthplace"},"orderTime":89000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":538000},{"betterTime":215000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":4,"name":"测试货物4","weight":1.286},"index":4,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[3].cargoParam.birthplace"},"orderTime":94000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":515000},{"betterTime":230000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":5,"name":"测试货物5","weight":2.382},"index":5,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[4].cargoParam.birthplace"},"orderTime":102000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":530000},{"betterTime":303000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":6,"name":"测试货物6","weight":1.921},"index":6,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[5].cargoParam.birthplace"},"orderTime":168000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":603000},{"betterTime":308000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":7,"name":"测试货物7","weight":1.92},"index":7,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[6].cargoParam.birthplace"},"orderTime":172000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":608000},{"betterTime":331000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":8,"name":"测试货物8","weight":2.333},"index":8,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[7].cargoParam.birthplace"},"orderTime":184000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":631000},{"betterTime":320000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":9,"name":"测试货物9","weight":3.028},"index":9,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[8].cargoParam.birthplace"},"orderTime":197000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":620000},{"betterTime":334000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":10,"name":"测试货物10","weight":2.356},"index":10,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[9].cargoParam.birthplace"},"orderTime":213000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":634000},{"betterTime":371000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":11,"name":"测试货物11","weight":2.893},"index":11,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[10].cargoParam.birthplace"},"orderTime":245000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":671000},{"betterTime":408000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":12,"name":"测试货物12","weight":1.855},"index":12,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[11].cargoParam.birthplace"},"orderTime":260000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":708000},{"betterTime":410000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":13,"name":"测试货物13","weight":2.841},"index":13,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[12].cargoParam.birthplace"},"orderTime":264000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":710000},{"betterTime":404000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":14,"name":"测试货物14","weight":1.347},"index":14,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[13].cargoParam.birthplace"},"orderTime":276000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":704000},{"betterTime":426000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":15,"name":"测试货物15","weight":2.934},"index":15,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[14].cargoParam.birthplace"},"orderTime":288000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":726000},{"betterTime":435000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":16,"name":"测试货物16","weight":1.264},"index":16,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[15].cargoParam.birthplace"},"orderTime":290000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":735000},{"betterTime":441000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":17,"name":"测试货物17","weight":2.638},"index":17,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[16].cargoParam.birthplace"},"orderTime":302000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":741000},{"betterTime":440000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":18,"name":"测试货物18","weight":3.789},"index":18,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[17].cargoParam.birthplace"},"orderTime":307000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":740000},{"betterTime":459000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":19,"name":"测试货物19","weight":3.899},"index":19,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[18].cargoParam.birthplace"},"orderTime":326000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":759000},{"betterTime":453000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":20,"name":"测试货物20","weight":2.225},"index":20,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[19].cargoParam.birthplace"},"orderTime":333000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":753000},{"betterTime":488000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":21,"name":"测试货物21","weight":3.937},"index":21,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[20].cargoParam.birthplace"},"orderTime":354000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":788000},{"betterTime":489000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":22,"name":"测试货物22","weight":2.444},"index":22,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[21].cargoParam.birthplace"},"orderTime":357000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":789000},{"betterTime":485000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":23,"name":"测试货物23","weight":1.312},"index":23,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[22].cargoParam.birthplace"},"orderTime":359000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":785000},{"betterTime":497000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":24,"name":"测试货物24","weight":1.71},"index":24,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[23].cargoParam.birthplace"},"orderTime":365000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":797000},{"betterTime":515000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":25,"name":"测试货物25","weight":2.489},"index":25,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[24].cargoParam.birthplace"},"orderTime":380000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":815000},{"betterTime":511000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":26,"name":"测试货物26","weight":2.114},"index":26,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[25].cargoParam.birthplace"},"orderTime":386000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":811000},{"betterTime":516000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":27,"name":"测试货物27","weight":2.197},"index":27,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[26].cargoParam.birthplace"},"orderTime":395000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":816000},{"betterTime":524000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":28,"name":"测试货物28","weight":1.292},"index":28,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[27].cargoParam.birthplace"},"orderTime":399000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":824000},{"betterTime":592000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":29,"name":"测试货物29","weight":2.815},"index":29,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[28].cargoParam.birthplace"},"orderTime":472000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":892000},{"betterTime":601000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":30,"name":"测试货物30","weight":2.328},"index":30,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[29].cargoParam.birthplace"},"orderTime":478000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":901000},{"betterTime":652000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":31,"name":"测试货物31","weight":3.91},"index":31,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[30].cargoParam.birthplace"},"orderTime":504000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":952000},{"betterTime":718000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":32,"name":"测试货物32","weight":3.783},"index":32,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[31].cargoParam.birthplace"},"orderTime":569000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1018000},{"betterTime":715000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":33,"name":"测试货物33","weight":3.787},"index":33,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[32].cargoParam.birthplace"},"orderTime":577000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1015000},{"betterTime":709000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":34,"name":"测试货物34","weight":2.072},"index":34,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[33].cargoParam.birthplace"},"orderTime":583000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1009000},{"betterTime":740000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":35,"name":"测试货物35","weight":2.483},"index":35,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[34].cargoParam.birthplace"},"orderTime":602000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1040000},{"betterTime":751000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":36,"name":"测试货物36","weight":3.787},"index":36,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[35].cargoParam.birthplace"},"orderTime":610000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1051000},{"betterTime":763000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":37,"name":"测试货物37","weight":2.5},"index":37,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[36].cargoParam.birthplace"},"orderTime":627000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1063000},{"betterTime":753000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":38,"name":"测试货物38","weight":1.634},"index":38,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[37].cargoParam.birthplace"},"orderTime":629000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1053000},{"betterTime":809000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":39,"name":"测试货物39","weight":2.633},"index":39,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[38].cargoParam.birthplace"},"orderTime":663000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1109000},{"betterTime":817000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":40,"name":"测试货物40","weight":2.955},"index":40,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[39].cargoParam.birthplace"},"orderTime":669000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1117000},{"betterTime":805000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":41,"name":"测试货物41","weight":2.449},"index":41,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[40].cargoParam.birthplace"},"orderTime":685000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1105000},{"betterTime":825000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":42,"name":"测试货物42","weight":3.226},"index":42,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[41].cargoParam.birthplace"},"orderTime":686000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1125000},{"betterTime":836000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":43,"name":"测试货物43","weight":3.15},"index":43,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[42].cargoParam.birthplace"},"orderTime":691000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1136000},{"betterTime":878000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":44,"name":"测试货物44","weight":2.632},"index":44,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[43].cargoParam.birthplace"},"orderTime":744000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1178000},{"betterTime":886000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":45,"name":"测试货物45","weight":2.203},"index":45,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[44].cargoParam.birthplace"},"orderTime":760000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1186000},{"betterTime":897000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":46,"name":"测试货物46","weight":1.048},"index":46,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[45].cargoParam.birthplace"},"orderTime":772000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1197000},{"betterTime":929000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":47,"name":"测试货物47","weight":3.947},"index":47,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[46].cargoParam.birthplace"},"orderTime":781000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1229000},{"betterTime":911000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":48,"name":"测试货物48","weight":1.255},"index":48,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[47].cargoParam.birthplace"},"orderTime":789000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1211000},{"betterTime":922000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":49,"name":"测试货物49","weight":3.422},"index":49,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[48].cargoParam.birthplace"},"orderTime":800000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1222000},{"betterTime":949000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":50,"name":"测试货物50","weight":1.51},"index":50,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[49].cargoParam.birthplace"},"orderTime":811000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1249000},{"betterTime":970000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":51,"name":"测试货物51","weight":2.571},"index":51,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[50].cargoParam.birthplace"},"orderTime":850000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1270000},{"betterTime":1041000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":52,"name":"测试货物52","weight":2.185},"index":52,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[51].cargoParam.birthplace"},"orderTime":892000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1341000},{"betterTime":1049000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":53,"name":"测试货物53","weight":2.213},"index":53,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[52].cargoParam.birthplace"},"orderTime":908000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1349000},{"betterTime":1065000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":54,"name":"测试货物54","weight":3.698},"index":54,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[53].cargoParam.birthplace"},"orderTime":920000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1365000},{"betterTime":1049000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":55,"name":"测试货物55","weight":3.461},"index":55,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[54].cargoParam.birthplace"},"orderTime":927000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1349000},{"betterTime":1081000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":56,"name":"测试货物56","weight":3.756},"index":56,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[55].cargoParam.birthplace"},"orderTime":932000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1381000},{"betterTime":1098000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":57,"name":"测试货物57","weight":3.408},"index":57,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[56].cargoParam.birthplace"},"orderTime":963000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1398000},{"betterTime":1179000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":58,"name":"测试货物58","weight":3.75},"index":58,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[57].cargoParam.birthplace"},"orderTime":1031000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1479000},{"betterTime":1155000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":59,"name":"测试货物59","weight":3.719},"index":59,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[58].cargoParam.birthplace"},"orderTime":1033000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1455000},{"betterTime":1177000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":60,"name":"测试货物60","weight":2.117},"index":60,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[59].cargoParam.birthplace"},"orderTime":1041000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1477000},{"betterTime":1187000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":61,"name":"测试货物61","weight":2.425},"index":61,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[60].cargoParam.birthplace"},"orderTime":1043000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1487000},{"betterTime":1196000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":62,"name":"测试货物62","weight":2.547},"index":62,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[61].cargoParam.birthplace"},"orderTime":1063000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1496000},{"betterTime":1191000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":63,"name":"测试货物63","weight":2.555},"index":63,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[62].cargoParam.birthplace"},"orderTime":1068000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1491000},{"betterTime":1203000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":64,"name":"测试货物64","weight":2.945},"index":64,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[63].cargoParam.birthplace"},"orderTime":1073000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1503000},{"betterTime":1215000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":65,"name":"测试货物65","weight":3.904},"index":65,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[64].cargoParam.birthplace"},"orderTime":1077000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1515000},{"betterTime":1238000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":66,"name":"测试货物66","weight":3.163},"index":66,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[65].cargoParam.birthplace"},"orderTime":1118000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1538000},{"betterTime":1271000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":67,"name":"测试货物67","weight":1.998},"index":67,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[66].cargoParam.birthplace"},"orderTime":1121000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1571000},{"betterTime":1322000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":68,"name":"测试货物68","weight":3.361},"index":68,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[67].cargoParam.birthplace"},"orderTime":1192000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1622000},{"betterTime":1343000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":69,"name":"测试货物69","weight":1.321},"index":69,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[68].cargoParam.birthplace"},"orderTime":1194000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1643000},{"betterTime":1345000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":70,"name":"测试货物70","weight":1.703},"index":70,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[69].cargoParam.birthplace"},"orderTime":1206000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1645000},{"betterTime":1365000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":71,"name":"测试货物71","weight":2.815},"index":71,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[70].cargoParam.birthplace"},"orderTime":1215000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1665000},{"betterTime":1356000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":72,"name":"测试货物72","weight":2.312},"index":72,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[71].cargoParam.birthplace"},"orderTime":1217000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1656000},{"betterTime":1363000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":73,"name":"测试货物73","weight":3.26},"index":73,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[72].cargoParam.birthplace"},"orderTime":1243000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1663000},{"betterTime":1432000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":74,"name":"测试货物74","weight":2.627},"index":74,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[73].cargoParam.birthplace"},"orderTime":1310000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1732000},{"betterTime":1453000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":75,"name":"测试货物75","weight":1.904},"index":75,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[74].cargoParam.birthplace"},"orderTime":1329000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1753000},{"betterTime":1472000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":76,"name":"测试货物76","weight":2.365},"index":76,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[75].cargoParam.birthplace"},"orderTime":1336000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1772000},{"betterTime":1473000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":77,"name":"测试货物77","weight":2.961},"index":77,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[76].cargoParam.birthplace"},"orderTime":1347000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1773000},{"betterTime":1489000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":78,"name":"测试货物78","weight":1.28},"index":78,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[77].cargoParam.birthplace"},"orderTime":1349000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1789000},{"betterTime":1504000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":79,"name":"测试货物79","weight":1.765},"index":79,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[78].cargoParam.birthplace"},"orderTime":1383000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1804000},{"betterTime":1555000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":80,"name":"测试货物80","weight":2.251},"index":80,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[79].cargoParam.birthplace"},"orderTime":1407000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1855000},{"betterTime":1543000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":81,"name":"测试货物81","weight":1.183},"index":81,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[80].cargoParam.birthplace"},"orderTime":1419000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1843000},{"betterTime":1561000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":82,"name":"测试货物82","weight":2.246},"index":82,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[81].cargoParam.birthplace"},"orderTime":1419000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1861000},{"betterTime":1560000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":83,"name":"测试货物83","weight":3.884},"index":83,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[82].cargoParam.birthplace"},"orderTime":1434000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1860000},{"betterTime":1582000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":84,"name":"测试货物84","weight":3.596},"index":84,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[83].cargoParam.birthplace"},"orderTime":1453000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1882000},{"betterTime":1593000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":85,"name":"测试货物85","weight":1.294},"index":85,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[84].cargoParam.birthplace"},"orderTime":1454000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1893000},{"betterTime":1588000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":86,"name":"测试货物86","weight":2.233},"index":86,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[85].cargoParam.birthplace"},"orderTime":1458000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1888000},{"betterTime":1608000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":87,"name":"测试货物87","weight":2.137},"index":87,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[86].cargoParam.birthplace"},"orderTime":1462000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1908000},{"betterTime":1630000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":88,"name":"测试货物88","weight":1.108},"index":88,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[87].cargoParam.birthplace"},"orderTime":1482000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":1930000},{"betterTime":1607000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":89,"name":"测试货物89","weight":1.863},"index":89,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[88].cargoParam.birthplace"},"orderTime":1485000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":1907000},{"betterTime":1644000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":90,"name":"测试货物90","weight":3.488},"index":90,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[89].cargoParam.birthplace"},"orderTime":1502000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":1944000},{"betterTime":1674000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":91,"name":"测试货物91","weight":2.523},"index":91,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[90].cargoParam.birthplace"},"orderTime":1527000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":1974000},{"betterTime":1665000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":92,"name":"测试货物92","weight":3.035},"index":92,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[91].cargoParam.birthplace"},"orderTime":1534000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":1965000},{"betterTime":1665000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":93,"name":"测试货物93","weight":1.837},"index":93,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[92].cargoParam.birthplace"},"orderTime":1539000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":1965000},{"betterTime":1700000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":94,"name":"测试货物94","weight":1.305},"index":94,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[93].cargoParam.birthplace"},"orderTime":1576000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2000000},{"betterTime":1721000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":95,"name":"测试货物95","weight":2.69},"index":95,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[94].cargoParam.birthplace"},"orderTime":1590000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2021000},{"betterTime":1732000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":96,"name":"测试货物96","weight":1.975},"index":96,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[95].cargoParam.birthplace"},"orderTime":1610000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2032000},{"betterTime":1749000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":97,"name":"测试货物97","weight":2.67},"index":97,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[96].cargoParam.birthplace"},"orderTime":1614000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2049000},{"betterTime":1781000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":98,"name":"测试货物98","weight":1.91},"index":98,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[97].cargoParam.birthplace"},"orderTime":1637000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2081000},{"betterTime":1797000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":99,"name":"测试货物99","weight":1.924},"index":99,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[98].cargoParam.birthplace"},"orderTime":1656000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2097000},{"betterTime":1800000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":100,"name":"测试货物100","weight":1.1},"index":100,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[99].cargoParam.birthplace"},"orderTime":1660000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2100000},{"betterTime":1819000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":101,"name":"测试货物101","weight":3.552},"index":101,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[100].cargoParam.birthplace"},"orderTime":1698000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2119000},{"betterTime":1848000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":102,"name":"测试货物102","weight":3.986},"index":102,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[101].cargoParam.birthplace"},"orderTime":1709000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2148000},{"betterTime":1839000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":103,"name":"测试货物103","weight":2.304},"index":103,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[102].cargoParam.birthplace"},"orderTime":1714000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2139000},{"betterTime":1866000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":104,"name":"测试货物104","weight":1.556},"index":104,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[103].cargoParam.birthplace"},"orderTime":1722000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2166000},{"betterTime":1886000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":105,"name":"测试货物105","weight":1.084},"index":105,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[104].cargoParam.birthplace"},"orderTime":1746000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2186000},{"betterTime":1897000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":106,"name":"测试货物106","weight":1.28},"index":106,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[105].cargoParam.birthplace"},"orderTime":1773000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2197000},{"betterTime":1915000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":107,"name":"测试货物107","weight":3.898},"index":107,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[106].cargoParam.birthplace"},"orderTime":1777000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2215000},{"betterTime":1946000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":108,"name":"测试货物108","weight":2.232},"index":108,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[107].cargoParam.birthplace"},"orderTime":1808000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2246000},{"betterTime":1977000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":109,"name":"测试货物109","weight":2.453},"index":109,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[108].cargoParam.birthplace"},"orderTime":1843000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2277000},{"betterTime":2003000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":110,"name":"测试货物110","weight":3.158},"index":110,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[109].cargoParam.birthplace"},"orderTime":1869000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2303000},{"betterTime":1997000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":111,"name":"测试货物111","weight":1.861},"index":111,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[110].cargoParam.birthplace"},"orderTime":1876000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2297000},{"betterTime":2003000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":112,"name":"测试货物112","weight":1.212},"index":112,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[111].cargoParam.birthplace"},"orderTime":1881000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2303000},{"betterTime":2020000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":113,"name":"测试货物113","weight":2.319},"index":113,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[112].cargoParam.birthplace"},"orderTime":1884000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2320000},{"betterTime":2018000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":114,"name":"测试货物114","weight":1.578},"index":114,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[113].cargoParam.birthplace"},"orderTime":1887000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2318000},{"betterTime":2039000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":115,"name":"测试货物115","weight":3.348},"index":115,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[114].cargoParam.birthplace"},"orderTime":1899000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2339000},{"betterTime":2076000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":116,"name":"测试货物116","weight":1.106},"index":116,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[115].cargoParam.birthplace"},"orderTime":1930000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2376000},{"betterTime":2064000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":117,"name":"测试货物117","weight":1.275},"index":117,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[116].cargoParam.birthplace"},"orderTime":1931000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2364000},{"betterTime":2102000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":118,"name":"测试货物118","weight":3.796},"index":118,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[117].cargoParam.birthplace"},"orderTime":1953000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2402000},{"betterTime":2085000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":119,"name":"测试货物119","weight":1.158},"index":119,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[118].cargoParam.birthplace"},"orderTime":1956000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2385000},{"betterTime":2107000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":120,"name":"测试货物120","weight":3.009},"index":120,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[119].cargoParam.birthplace"},"orderTime":1961000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2407000},{"betterTime":2118000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":121,"name":"测试货物121","weight":1.799},"index":121,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[120].cargoParam.birthplace"},"orderTime":1988000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2418000},{"betterTime":2199000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":122,"name":"测试货物122","weight":1.197},"index":122,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[121].cargoParam.birthplace"},"orderTime":2072000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2499000},{"betterTime":2200000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":123,"name":"测试货物123","weight":1.951},"index":123,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[122].cargoParam.birthplace"},"orderTime":2074000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2500000},{"betterTime":2216000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":124,"name":"测试货物124","weight":1.163},"index":124,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[123].cargoParam.birthplace"},"orderTime":2088000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2516000},{"betterTime":2233000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":125,"name":"测试货物125","weight":1.25},"index":125,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[124].cargoParam.birthplace"},"orderTime":2113000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2533000},{"betterTime":2251000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":126,"name":"测试货物126","weight":3.907},"index":126,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[125].cargoParam.birthplace"},"orderTime":2117000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2551000},{"betterTime":2292000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":127,"name":"测试货物127","weight":3.836},"index":127,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[126].cargoParam.birthplace"},"orderTime":2156000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2592000},{"betterTime":2313000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":128,"name":"测试货物128","weight":2.365},"index":128,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[127].cargoParam.birthplace"},"orderTime":2171000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2613000},{"betterTime":2303000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":129,"name":"测试货物129","weight":1.432},"index":129,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[128].cargoParam.birthplace"},"orderTime":2174000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2603000},{"betterTime":2315000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":130,"name":"测试货物130","weight":3.344},"index":130,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[129].cargoParam.birthplace"},"orderTime":2191000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2615000},{"betterTime":2323000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":131,"name":"测试货物131","weight":1.023},"index":131,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[130].cargoParam.birthplace"},"orderTime":2193000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2623000},{"betterTime":2331000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":132,"name":"测试货物132","weight":3.961},"index":132,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[131].cargoParam.birthplace"},"orderTime":2193000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2631000},{"betterTime":2327000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":133,"name":"测试货物133","weight":3.803},"index":133,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[132].cargoParam.birthplace"},"orderTime":2198000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2627000},{"betterTime":2337000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":134,"name":"测试货物134","weight":1.594},"index":134,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[133].cargoParam.birthplace"},"orderTime":2200000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2637000},{"betterTime":2345000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":135,"name":"测试货物135","weight":2.08},"index":135,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[134].cargoParam.birthplace"},"orderTime":2204000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2645000},{"betterTime":2391000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":136,"name":"测试货物136","weight":1.646},"index":136,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[135].cargoParam.birthplace"},"orderTime":2268000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2691000},{"betterTime":2428000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":137,"name":"测试货物137","weight":2.368},"index":137,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[136].cargoParam.birthplace"},"orderTime":2288000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2728000},{"betterTime":2427000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":138,"name":"测试货物138","weight":2.422},"index":138,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[137].cargoParam.birthplace"},"orderTime":2301000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2727000},{"betterTime":2462000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":139,"name":"测试货物139","weight":1.188},"index":139,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[138].cargoParam.birthplace"},"orderTime":2314000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2762000},{"betterTime":2454000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":140,"name":"测试货物140","weight":1.531},"index":140,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[139].cargoParam.birthplace"},"orderTime":2319000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2754000},{"betterTime":2457000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":141,"name":"测试货物141","weight":2.724},"index":141,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[140].cargoParam.birthplace"},"orderTime":2321000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2757000},{"betterTime":2460000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":142,"name":"测试货物142","weight":2.892},"index":142,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[141].cargoParam.birthplace"},"orderTime":2327000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2760000},{"betterTime":2511000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":143,"name":"测试货物143","weight":3.592},"index":143,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[142].cargoParam.birthplace"},"orderTime":2364000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2811000},{"betterTime":2558000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":144,"name":"测试货物144","weight":3.775},"index":144,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[143].cargoParam.birthplace"},"orderTime":2419000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2858000},{"betterTime":2574000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":145,"name":"测试货物145","weight":1.667},"index":145,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[144].cargoParam.birthplace"},"orderTime":2425000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2874000},{"betterTime":2591000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":146,"name":"测试货物146","weight":1.934},"index":146,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[145].cargoParam.birthplace"},"orderTime":2443000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2891000},{"betterTime":2581000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":147,"name":"测试货物147","weight":1.206},"index":147,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[146].cargoParam.birthplace"},"orderTime":2456000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2881000},{"betterTime":2583000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":148,"name":"测试货物148","weight":1.712},"index":148,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[147].cargoParam.birthplace"},"orderTime":2461000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2883000},{"betterTime":2617000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":149,"name":"测试货物149","weight":2.127},"index":149,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[148].cargoParam.birthplace"},"orderTime":2484000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2917000},{"betterTime":2625000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":150,"name":"测试货物150","weight":2.802},"index":150,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[149].cargoParam.birthplace"},"orderTime":2484000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":2925000},{"betterTime":2635000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":151,"name":"测试货物151","weight":2.07},"index":151,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[150].cargoParam.birthplace"},"orderTime":2492000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":2935000},{"betterTime":2640000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":152,"name":"测试货物152","weight":2.728},"index":152,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[151].cargoParam.birthplace"},"orderTime":2500000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":2940000},{"betterTime":2637000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":153,"name":"测试货物153","weight":3.064},"index":153,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[152].cargoParam.birthplace"},"orderTime":2501000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":2937000},{"betterTime":2647000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":154,"name":"测试货物154","weight":2.17},"index":154,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[153].cargoParam.birthplace"},"orderTime":2518000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":2947000},{"betterTime":2673000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":155,"name":"测试货物155","weight":1.102},"index":155,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[154].cargoParam.birthplace"},"orderTime":2535000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":2973000},{"betterTime":2722000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":156,"name":"测试货物156","weight":3.189},"index":156,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[155].cargoParam.birthplace"},"orderTime":2573000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3022000},{"betterTime":2708000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":157,"name":"测试货物157","weight":3.262},"index":157,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[156].cargoParam.birthplace"},"orderTime":2583000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3008000},{"betterTime":2737000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":158,"name":"测试货物158","weight":2.644},"index":158,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[157].cargoParam.birthplace"},"orderTime":2599000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3037000},{"betterTime":2746000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":159,"name":"测试货物159","weight":3.196},"index":159,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[158].cargoParam.birthplace"},"orderTime":2610000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3046000},{"betterTime":2740000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":160,"name":"测试货物160","weight":3.476},"index":160,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[159].cargoParam.birthplace"},"orderTime":2616000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3040000},{"betterTime":2816000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":161,"name":"测试货物161","weight":1.77},"index":161,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[160].cargoParam.birthplace"},"orderTime":2675000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3116000},{"betterTime":2841000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":162,"name":"测试货物162","weight":1.715},"index":162,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[161].cargoParam.birthplace"},"orderTime":2708000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3141000},{"betterTime":2851000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":163,"name":"测试货物163","weight":3.454},"index":163,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[162].cargoParam.birthplace"},"orderTime":2728000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3151000},{"betterTime":2899000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":164,"name":"测试货物164","weight":2.684},"index":164,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[163].cargoParam.birthplace"},"orderTime":2754000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3199000},{"betterTime":2890000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":165,"name":"测试货物165","weight":2.967},"index":165,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[164].cargoParam.birthplace"},"orderTime":2759000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3190000},{"betterTime":2925000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":166,"name":"测试货物166","weight":1.659},"index":166,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[165].cargoParam.birthplace"},"orderTime":2792000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3225000},{"betterTime":2926000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":167,"name":"测试货物167","weight":2.876},"index":167,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[166].cargoParam.birthplace"},"orderTime":2793000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3226000},{"betterTime":2940000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":168,"name":"测试货物168","weight":2.728},"index":168,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[167].cargoParam.birthplace"},"orderTime":2806000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3240000},{"betterTime":2952000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":169,"name":"测试货物169","weight":2.978},"index":169,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[168].cargoParam.birthplace"},"orderTime":2819000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3252000},{"betterTime":2975000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":170,"name":"测试货物170","weight":3.551},"index":170,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[169].cargoParam.birthplace"},"orderTime":2849000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3275000},{"betterTime":3013000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":171,"name":"测试货物171","weight":1.465},"index":171,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[170].cargoParam.birthplace"},"orderTime":2890000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3313000},{"betterTime":3024000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":172,"name":"测试货物172","weight":3.526},"index":172,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[171].cargoParam.birthplace"},"orderTime":2903000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3324000},{"betterTime":3057000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":173,"name":"测试货物173","weight":2.343},"index":173,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[172].cargoParam.birthplace"},"orderTime":2909000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3357000},{"betterTime":3082000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":174,"name":"测试货物174","weight":3.495},"index":174,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[173].cargoParam.birthplace"},"orderTime":2938000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3382000},{"betterTime":3073000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":175,"name":"测试货物175","weight":1.242},"index":175,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[174].cargoParam.birthplace"},"orderTime":2950000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3373000},{"betterTime":3103000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":176,"name":"测试货物176","weight":3.57},"index":176,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[175].cargoParam.birthplace"},"orderTime":2953000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3403000},{"betterTime":3080000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":177,"name":"测试货物177","weight":2.524},"index":177,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[176].cargoParam.birthplace"},"orderTime":2955000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3380000},{"betterTime":3090000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":178,"name":"测试货物178","weight":2.275},"index":178,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[177].cargoParam.birthplace"},"orderTime":2969000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3390000},{"betterTime":3123000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":179,"name":"测试货物179","weight":3.189},"index":179,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[178].cargoParam.birthplace"},"orderTime":2978000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3423000},{"betterTime":3137000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":180,"name":"测试货物180","weight":1.559},"index":180,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[179].cargoParam.birthplace"},"orderTime":3011000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3437000},{"betterTime":3175000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":181,"name":"测试货物181","weight":3.944},"index":181,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[180].cargoParam.birthplace"},"orderTime":3033000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3475000},{"betterTime":3220000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":182,"name":"测试货物182","weight":3.983},"index":182,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[181].cargoParam.birthplace"},"orderTime":3075000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3520000},{"betterTime":3239000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":183,"name":"测试货物183","weight":1.632},"index":183,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[182].cargoParam.birthplace"},"orderTime":3094000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3539000},{"betterTime":3247000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":184,"name":"测试货物184","weight":2.823},"index":184,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[183].cargoParam.birthplace"},"orderTime":3097000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3547000},{"betterTime":3241000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":185,"name":"测试货物185","weight":2.878},"index":185,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[184].cargoParam.birthplace"},"orderTime":3106000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3541000},{"betterTime":3262000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":186,"name":"测试货物186","weight":1.731},"index":186,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[185].cargoParam.birthplace"},"orderTime":3117000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3562000},{"betterTime":3261000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":187,"name":"测试货物187","weight":1.032},"index":187,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[186].cargoParam.birthplace"},"orderTime":3139000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3561000},{"betterTime":3279000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":188,"name":"测试货物188","weight":3.105},"index":188,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[187].cargoParam.birthplace"},"orderTime":3143000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3579000},{"betterTime":3280000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":189,"name":"测试货物189","weight":3.554},"index":189,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[188].cargoParam.birthplace"},"orderTime":3149000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3580000},{"betterTime":3298000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":190,"name":"测试货物190","weight":2.366},"index":190,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[189].cargoParam.birthplace"},"orderTime":3169000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3598000},{"betterTime":3337000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":191,"name":"测试货物191","weight":1.581},"index":191,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[190].cargoParam.birthplace"},"orderTime":3190000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3637000},{"betterTime":3341000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":192,"name":"测试货物192","weight":1.726},"index":192,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[191].cargoParam.birthplace"},"orderTime":3202000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3641000},{"betterTime":3339000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":193,"name":"测试货物193","weight":3.4},"index":193,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[192].cargoParam.birthplace"},"orderTime":3212000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3639000},{"betterTime":3355000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":194,"name":"测试货物194","weight":2.051},"index":194,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[193].cargoParam.birthplace"},"orderTime":3219000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3655000},{"betterTime":3380000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":195,"name":"测试货物195","weight":3.406},"index":195,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[194].cargoParam.birthplace"},"orderTime":3233000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3680000},{"betterTime":3381000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":196,"name":"测试货物196","weight":1.449},"index":196,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[195].cargoParam.birthplace"},"orderTime":3244000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3681000},{"betterTime":3417000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":197,"name":"测试货物197","weight":1.339},"index":197,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[196].cargoParam.birthplace"},"orderTime":3284000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3717000},{"betterTime":3441000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":198,"name":"测试货物198","weight":3.862},"index":198,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[197].cargoParam.birthplace"},"orderTime":3306000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3741000},{"betterTime":3461000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":199,"name":"测试货物199","weight":1.536},"index":199,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[198].cargoParam.birthplace"},"orderTime":3321000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3761000},{"betterTime":3460000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":200,"name":"测试货物200","weight":1.271},"index":200,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[199].cargoParam.birthplace"},"orderTime":3329000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3760000},{"betterTime":3465000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":201,"name":"测试货物201","weight":3.542},"index":201,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[200].cargoParam.birthplace"},"orderTime":3342000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3765000},{"betterTime":3490000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":202,"name":"测试货物202","weight":3.913},"index":202,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[201].cargoParam.birthplace"},"orderTime":3368000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3790000},{"betterTime":3515000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":203,"name":"测试货物203","weight":3.14},"index":203,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[202].cargoParam.birthplace"},"orderTime":3374000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3815000},{"betterTime":3509000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":204,"name":"测试货物204","weight":1.052},"index":204,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[203].cargoParam.birthplace"},"orderTime":3375000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3809000},{"betterTime":3534000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":205,"name":"测试货物205","weight":3.963},"index":205,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[204].cargoParam.birthplace"},"orderTime":3399000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3834000},{"betterTime":3539000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":206,"name":"测试货物206","weight":3.241},"index":206,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[205].cargoParam.birthplace"},"orderTime":3407000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3839000},{"betterTime":3539000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":207,"name":"测试货物207","weight":3.817},"index":207,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[206].cargoParam.birthplace"},"orderTime":3408000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3839000},{"betterTime":3581000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":208,"name":"测试货物208","weight":1.293},"index":208,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[207].cargoParam.birthplace"},"orderTime":3442000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":3881000},{"betterTime":3628000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":209,"name":"测试货物209","weight":1.436},"index":209,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[208].cargoParam.birthplace"},"orderTime":3504000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":3928000},{"betterTime":3657000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":210,"name":"测试货物210","weight":3.522},"index":210,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[209].cargoParam.birthplace"},"orderTime":3523000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":3957000},{"betterTime":3667000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":211,"name":"测试货物211","weight":1.041},"index":211,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[210].cargoParam.birthplace"},"orderTime":3537000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":3967000},{"betterTime":3666000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":212,"name":"测试货物212","weight":2.468},"index":212,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[211].cargoParam.birthplace"},"orderTime":3540000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":3966000},{"betterTime":3684000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":213,"name":"测试货物213","weight":1.942},"index":213,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[212].cargoParam.birthplace"},"orderTime":3554000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":3984000},{"betterTime":3703000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":214,"name":"测试货物214","weight":2.786},"index":214,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[213].cargoParam.birthplace"},"orderTime":3561000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4003000},{"betterTime":3704000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":215,"name":"测试货物215","weight":2.049},"index":215,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[214].cargoParam.birthplace"},"orderTime":3576000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4004000},{"betterTime":3734000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":216,"name":"测试货物216","weight":2.144},"index":216,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[215].cargoParam.birthplace"},"orderTime":3611000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4034000},{"betterTime":3764000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":217,"name":"测试货物217","weight":1.049},"index":217,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[216].cargoParam.birthplace"},"orderTime":3634000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4064000},{"betterTime":3796000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":218,"name":"测试货物218","weight":3.61},"index":218,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[217].cargoParam.birthplace"},"orderTime":3665000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4096000},{"betterTime":3812000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":219,"name":"测试货物219","weight":2.711},"index":219,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[218].cargoParam.birthplace"},"orderTime":3686000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4112000},{"betterTime":3815000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":220,"name":"测试货物220","weight":2.679},"index":220,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[219].cargoParam.birthplace"},"orderTime":3692000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4115000},{"betterTime":3863000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":221,"name":"测试货物221","weight":3.326},"index":221,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[220].cargoParam.birthplace"},"orderTime":3715000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4163000},{"betterTime":3841000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":222,"name":"测试货物222","weight":1.823},"index":222,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[221].cargoParam.birthplace"},"orderTime":3720000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4141000},{"betterTime":3905000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":223,"name":"测试货物223","weight":1.082},"index":223,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[222].cargoParam.birthplace"},"orderTime":3769000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4205000},{"betterTime":3908000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":224,"name":"测试货物224","weight":2.543},"index":224,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[223].cargoParam.birthplace"},"orderTime":3788000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4208000},{"betterTime":3940000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":225,"name":"测试货物225","weight":2.827},"index":225,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[224].cargoParam.birthplace"},"orderTime":3807000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4240000},{"betterTime":3928000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":226,"name":"测试货物226","weight":3.459},"index":226,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[225].cargoParam.birthplace"},"orderTime":3808000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4228000},{"betterTime":3951000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":227,"name":"测试货物227","weight":3.49},"index":227,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[226].cargoParam.birthplace"},"orderTime":3826000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4251000},{"betterTime":3957000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":228,"name":"测试货物228","weight":3.295},"index":228,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[227].cargoParam.birthplace"},"orderTime":3830000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4257000},{"betterTime":4002000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":229,"name":"测试货物229","weight":1.492},"index":229,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[228].cargoParam.birthplace"},"orderTime":3853000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4302000},{"betterTime":3986000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":230,"name":"测试货物230","weight":3.702},"index":230,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[229].cargoParam.birthplace"},"orderTime":3855000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4286000},{"betterTime":3991000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":231,"name":"测试货物231","weight":3.122},"index":231,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[230].cargoParam.birthplace"},"orderTime":3865000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4291000},{"betterTime":4036000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":232,"name":"测试货物232","weight":2.946},"index":232,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[231].cargoParam.birthplace"},"orderTime":3901000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4336000},{"betterTime":4035000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":233,"name":"测试货物233","weight":1.54},"index":233,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[232].cargoParam.birthplace"},"orderTime":3909000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4335000},{"betterTime":4036000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":234,"name":"测试货物234","weight":3.747},"index":234,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[233].cargoParam.birthplace"},"orderTime":3911000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4336000},{"betterTime":4061000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":235,"name":"测试货物235","weight":1.163},"index":235,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[234].cargoParam.birthplace"},"orderTime":3930000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4361000},{"betterTime":4082000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":236,"name":"测试货物236","weight":1.865},"index":236,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[235].cargoParam.birthplace"},"orderTime":3935000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4382000},{"betterTime":4076000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":237,"name":"测试货物237","weight":1.63},"index":237,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[236].cargoParam.birthplace"},"orderTime":3946000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4376000},{"betterTime":4076000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":238,"name":"测试货物238","weight":2.878},"index":238,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[237].cargoParam.birthplace"},"orderTime":3947000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4376000},{"betterTime":4122000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":239,"name":"测试货物239","weight":1.594},"index":239,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[238].cargoParam.birthplace"},"orderTime":3974000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4422000},{"betterTime":4116000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":240,"name":"测试货物240","weight":3.525},"index":240,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[239].cargoParam.birthplace"},"orderTime":3982000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4416000},{"betterTime":4156000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":241,"name":"测试货物241","weight":3.725},"index":241,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[240].cargoParam.birthplace"},"orderTime":4021000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4456000},{"betterTime":4155000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":242,"name":"测试货物242","weight":2.732},"index":242,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[241].cargoParam.birthplace"},"orderTime":4023000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4455000},{"betterTime":4168000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":243,"name":"测试货物243","weight":1.778},"index":243,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[242].cargoParam.birthplace"},"orderTime":4030000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4468000},{"betterTime":4226000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":244,"name":"测试货物244","weight":2.234},"index":244,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[243].cargoParam.birthplace"},"orderTime":4076000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4526000},{"betterTime":4233000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":245,"name":"测试货物245","weight":3.207},"index":245,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[244].cargoParam.birthplace"},"orderTime":4083000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4533000},{"betterTime":4228000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":246,"name":"测试货物246","weight":2.517},"index":246,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[245].cargoParam.birthplace"},"orderTime":4089000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4528000},{"betterTime":4220000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":247,"name":"测试货物247","weight":3.955},"index":247,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[246].cargoParam.birthplace"},"orderTime":4096000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4520000},{"betterTime":4236000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":248,"name":"测试货物248","weight":1.59},"index":248,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[247].cargoParam.birthplace"},"orderTime":4097000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4536000},{"betterTime":4258000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":249,"name":"测试货物249","weight":2.941},"index":249,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[248].cargoParam.birthplace"},"orderTime":4123000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4558000},{"betterTime":4291000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":250,"name":"测试货物250","weight":3.053},"index":250,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[249].cargoParam.birthplace"},"orderTime":4159000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4591000},{"betterTime":4322000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":251,"name":"测试货物251","weight":2.717},"index":251,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[250].cargoParam.birthplace"},"orderTime":4187000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4622000},{"betterTime":4326000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":252,"name":"测试货物252","weight":2.677},"index":252,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[251].cargoParam.birthplace"},"orderTime":4195000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4626000},{"betterTime":4410000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":253,"name":"测试货物253","weight":1.486},"index":253,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[252].cargoParam.birthplace"},"orderTime":4271000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4710000},{"betterTime":4406000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":254,"name":"测试货物254","weight":2.753},"index":254,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[253].cargoParam.birthplace"},"orderTime":4282000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4706000},{"betterTime":4419000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":255,"name":"测试货物255","weight":3.485},"index":255,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[254].cargoParam.birthplace"},"orderTime":4291000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4719000},{"betterTime":4460000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":256,"name":"测试货物256","weight":3.051},"index":256,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[255].cargoParam.birthplace"},"orderTime":4311000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4760000},{"betterTime":4447000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":257,"name":"测试货物257","weight":1.758},"index":257,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[256].cargoParam.birthplace"},"orderTime":4323000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4747000},{"betterTime":4448000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":258,"name":"测试货物258","weight":1.178},"index":258,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[257].cargoParam.birthplace"},"orderTime":4326000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4748000},{"betterTime":4482000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":259,"name":"测试货物259","weight":3.881},"index":259,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[258].cargoParam.birthplace"},"orderTime":4337000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4782000},{"betterTime":4481000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":260,"name":"测试货物260","weight":2.276},"index":260,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[259].cargoParam.birthplace"},"orderTime":4338000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4781000},{"betterTime":4491000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":261,"name":"测试货物261","weight":2.902},"index":261,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[260].cargoParam.birthplace"},"orderTime":4347000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4791000},{"betterTime":4545000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":262,"name":"测试货物262","weight":2.519},"index":262,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[261].cargoParam.birthplace"},"orderTime":4396000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4845000},{"betterTime":4567000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":263,"name":"测试货物263","weight":3.774},"index":263,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[262].cargoParam.birthplace"},"orderTime":4439000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4867000},{"betterTime":4567000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":264,"name":"测试货物264","weight":3.257},"index":264,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[263].cargoParam.birthplace"},"orderTime":4442000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4867000},{"betterTime":4575000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":265,"name":"测试货物265","weight":2.151},"index":265,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[264].cargoParam.birthplace"},"orderTime":4455000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4875000},{"betterTime":4592000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":266,"name":"测试货物266","weight":1.275},"index":266,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[265].cargoParam.birthplace"},"orderTime":4457000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4892000},{"betterTime":4597000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":267,"name":"测试货物267","weight":2.607},"index":267,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[266].cargoParam.birthplace"},"orderTime":4459000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":4897000},{"betterTime":4596000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":268,"name":"测试货物268","weight":3.74},"index":268,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[267].cargoParam.birthplace"},"orderTime":4466000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":4896000},{"betterTime":4615000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":269,"name":"测试货物269","weight":1.849},"index":269,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[268].cargoParam.birthplace"},"orderTime":4469000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":4915000},{"betterTime":4604000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":270,"name":"测试货物270","weight":1.588},"index":270,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[269].cargoParam.birthplace"},"orderTime":4475000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":4904000},{"betterTime":4675000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":271,"name":"测试货物271","weight":2.414},"index":271,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[270].cargoParam.birthplace"},"orderTime":4547000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":4975000},{"betterTime":4674000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":272,"name":"测试货物272","weight":1.297},"index":272,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[271].cargoParam.birthplace"},"orderTime":4550000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":4974000},{"betterTime":4711000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":273,"name":"测试货物273","weight":3.765},"index":273,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[272].cargoParam.birthplace"},"orderTime":4566000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5011000},{"betterTime":4728000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":274,"name":"测试货物274","weight":3.028},"index":274,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[273].cargoParam.birthplace"},"orderTime":4583000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5028000},{"betterTime":4722000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":275,"name":"测试货物275","weight":3.703},"index":275,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[274].cargoParam.birthplace"},"orderTime":4598000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5022000},{"betterTime":4753000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":276,"name":"测试货物276","weight":3.653},"index":276,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[275].cargoParam.birthplace"},"orderTime":4621000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5053000},{"betterTime":4762000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":277,"name":"测试货物277","weight":2.197},"index":277,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[276].cargoParam.birthplace"},"orderTime":4638000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5062000},{"betterTime":4782000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":278,"name":"测试货物278","weight":2.243},"index":278,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[277].cargoParam.birthplace"},"orderTime":4653000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5082000},{"betterTime":4784000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":279,"name":"测试货物279","weight":3.146},"index":279,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[278].cargoParam.birthplace"},"orderTime":4660000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5084000},{"betterTime":4806000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":280,"name":"测试货物280","weight":1.617},"index":280,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[279].cargoParam.birthplace"},"orderTime":4676000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5106000},{"betterTime":4801000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":281,"name":"测试货物281","weight":2.196},"index":281,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[280].cargoParam.birthplace"},"orderTime":4678000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5101000},{"betterTime":4823000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":282,"name":"测试货物282","weight":3.691},"index":282,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[281].cargoParam.birthplace"},"orderTime":4702000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5123000},{"betterTime":4855000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":283,"name":"测试货物283","weight":1.697},"index":283,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[282].cargoParam.birthplace"},"orderTime":4712000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5155000},{"betterTime":4856000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":284,"name":"测试货物284","weight":3.848},"index":284,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[283].cargoParam.birthplace"},"orderTime":4719000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5156000},{"betterTime":4866000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":285,"name":"测试货物285","weight":2.588},"index":285,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[284].cargoParam.birthplace"},"orderTime":4734000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5166000},{"betterTime":4878000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":286,"name":"测试货物286","weight":1.708},"index":286,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[285].cargoParam.birthplace"},"orderTime":4741000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5178000},{"betterTime":4866000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":287,"name":"测试货物287","weight":3.448},"index":287,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[286].cargoParam.birthplace"},"orderTime":4743000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5166000},{"betterTime":4916000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":288,"name":"测试货物288","weight":2.522},"index":288,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[287].cargoParam.birthplace"},"orderTime":4796000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5216000},{"betterTime":4945000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":289,"name":"测试货物289","weight":1.247},"index":289,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[288].cargoParam.birthplace"},"orderTime":4822000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5245000},{"betterTime":4971000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":290,"name":"测试货物290","weight":1.387},"index":290,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[289].cargoParam.birthplace"},"orderTime":4824000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5271000},{"betterTime":4988000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":291,"name":"测试货物291","weight":1.202},"index":291,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[290].cargoParam.birthplace"},"orderTime":4855000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5288000},{"betterTime":5020000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":292,"name":"测试货物292","weight":3.383},"index":292,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[291].cargoParam.birthplace"},"orderTime":4879000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5320000},{"betterTime":5024000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":293,"name":"测试货物293","weight":3.32},"index":293,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[292].cargoParam.birthplace"},"orderTime":4881000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5324000},{"betterTime":5051000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":294,"name":"测试货物294","weight":3.266},"index":294,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[293].cargoParam.birthplace"},"orderTime":4908000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5351000},{"betterTime":5079000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":295,"name":"测试货物295","weight":1.316},"index":295,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[294].cargoParam.birthplace"},"orderTime":4937000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5379000},{"betterTime":5094000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":296,"name":"测试货物296","weight":1.926},"index":296,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[295].cargoParam.birthplace"},"orderTime":4962000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5394000},{"betterTime":5110000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":297,"name":"测试货物297","weight":2.844},"index":297,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[296].cargoParam.birthplace"},"orderTime":4969000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5410000},{"betterTime":5106000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":298,"name":"测试货物298","weight":2.442},"index":298,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[297].cargoParam.birthplace"},"orderTime":4981000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5406000},{"betterTime":5121000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":299,"name":"测试货物299","weight":3.992},"index":299,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[298].cargoParam.birthplace"},"orderTime":4982000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5421000},{"betterTime":5128000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":300,"name":"测试货物300","weight":3.327},"index":300,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[299].cargoParam.birthplace"},"orderTime":4984000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5428000},{"betterTime":5116000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":301,"name":"测试货物301","weight":3.39},"index":301,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[300].cargoParam.birthplace"},"orderTime":4994000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5416000},{"betterTime":5157000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":302,"name":"测试货物302","weight":2.694},"index":302,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[301].cargoParam.birthplace"},"orderTime":5027000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5457000},{"betterTime":5166000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":303,"name":"测试货物303","weight":2.731},"index":303,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[302].cargoParam.birthplace"},"orderTime":5043000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5466000},{"betterTime":5182000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":304,"name":"测试货物304","weight":3.416},"index":304,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[303].cargoParam.birthplace"},"orderTime":5049000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5482000},{"betterTime":5196000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":305,"name":"测试货物305","weight":2.022},"index":305,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[304].cargoParam.birthplace"},"orderTime":5068000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5496000},{"betterTime":5224000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":306,"name":"测试货物306","weight":3.28},"index":306,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[305].cargoParam.birthplace"},"orderTime":5074000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5524000},{"betterTime":5254000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":307,"name":"测试货物307","weight":3.172},"index":307,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[306].cargoParam.birthplace"},"orderTime":5120000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5554000},{"betterTime":5289000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":308,"name":"测试货物308","weight":3.321},"index":308,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[307].cargoParam.birthplace"},"orderTime":5139000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5589000},{"betterTime":5292000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":309,"name":"测试货物309","weight":1.989},"index":309,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[308].cargoParam.birthplace"},"orderTime":5159000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5592000},{"betterTime":5316000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":310,"name":"测试货物310","weight":3.436},"index":310,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[309].cargoParam.birthplace"},"orderTime":5177000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5616000},{"betterTime":5311000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":311,"name":"测试货物311","weight":3.066},"index":311,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[310].cargoParam.birthplace"},"orderTime":5178000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5611000},{"betterTime":5316000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":312,"name":"测试货物312","weight":3.494},"index":312,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[311].cargoParam.birthplace"},"orderTime":5181000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5616000},{"betterTime":5307000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":313,"name":"测试货物313","weight":3.193},"index":313,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[312].cargoParam.birthplace"},"orderTime":5184000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5607000},{"betterTime":5361000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":314,"name":"测试货物314","weight":2.158},"index":314,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[313].cargoParam.birthplace"},"orderTime":5222000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5661000},{"betterTime":5359000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":315,"name":"测试货物315","weight":1.562},"index":315,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[314].cargoParam.birthplace"},"orderTime":5233000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5659000},{"betterTime":5390000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":316,"name":"测试货物316","weight":2.64},"index":316,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[315].cargoParam.birthplace"},"orderTime":5240000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5690000},{"betterTime":5382000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":317,"name":"测试货物317","weight":1.511},"index":317,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[316].cargoParam.birthplace"},"orderTime":5259000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5682000},{"betterTime":5419000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":318,"name":"测试货物318","weight":3.647},"index":318,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[317].cargoParam.birthplace"},"orderTime":5285000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5719000},{"betterTime":5471000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":319,"name":"测试货物319","weight":3.419},"index":319,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[318].cargoParam.birthplace"},"orderTime":5337000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5771000},{"betterTime":5469000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":320,"name":"测试货物320","weight":1.564},"index":320,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[319].cargoParam.birthplace"},"orderTime":5343000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5769000},{"betterTime":5496000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":321,"name":"测试货物321","weight":2.61},"index":321,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[320].cargoParam.birthplace"},"orderTime":5353000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5796000},{"betterTime":5513000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":322,"name":"测试货物322","weight":3.754},"index":322,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[321].cargoParam.birthplace"},"orderTime":5366000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5813000},{"betterTime":5511000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":323,"name":"测试货物323","weight":3.17},"index":323,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[322].cargoParam.birthplace"},"orderTime":5385000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5811000},{"betterTime":5539000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":324,"name":"测试货物324","weight":1.199},"index":324,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[323].cargoParam.birthplace"},"orderTime":5409000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5839000},{"betterTime":5553000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":325,"name":"测试货物325","weight":3.897},"index":325,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[324].cargoParam.birthplace"},"orderTime":5424000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5853000},{"betterTime":5576000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":326,"name":"测试货物326","weight":1.034},"index":326,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[325].cargoParam.birthplace"},"orderTime":5436000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5876000},{"betterTime":5589000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":327,"name":"测试货物327","weight":3.617},"index":327,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[326].cargoParam.birthplace"},"orderTime":5455000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5889000},{"betterTime":5591000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":328,"name":"测试货物328","weight":3.022},"index":328,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[327].cargoParam.birthplace"},"orderTime":5470000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5891000},{"betterTime":5640000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":329,"name":"测试货物329","weight":2.717},"index":329,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[328].cargoParam.birthplace"},"orderTime":5513000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":5940000},{"betterTime":5644000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":330,"name":"测试货物330","weight":1.409},"index":330,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[329].cargoParam.birthplace"},"orderTime":5516000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":5944000},{"betterTime":5641000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":331,"name":"测试货物331","weight":2.36},"index":331,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[330].cargoParam.birthplace"},"orderTime":5521000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":5941000},{"betterTime":5658000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":332,"name":"测试货物332","weight":2.742},"index":332,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[331].cargoParam.birthplace"},"orderTime":5526000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":5958000},{"betterTime":5664000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":333,"name":"测试货物333","weight":1.855},"index":333,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[332].cargoParam.birthplace"},"orderTime":5530000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":5964000},{"betterTime":5693000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":334,"name":"测试货物334","weight":2.123},"index":334,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[333].cargoParam.birthplace"},"orderTime":5562000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":5993000},{"betterTime":5711000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":335,"name":"测试货物335","weight":1.404},"index":335,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[334].cargoParam.birthplace"},"orderTime":5570000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6011000},{"betterTime":5719000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":336,"name":"测试货物336","weight":1.53},"index":336,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[335].cargoParam.birthplace"},"orderTime":5593000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6019000},{"betterTime":5732000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":337,"name":"测试货物337","weight":1.823},"index":337,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[336].cargoParam.birthplace"},"orderTime":5593000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6032000},{"betterTime":5753000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":338,"name":"测试货物338","weight":3.532},"index":338,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[337].cargoParam.birthplace"},"orderTime":5626000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6053000},{"betterTime":5804000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":339,"name":"测试货物339","weight":2.108},"index":339,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[338].cargoParam.birthplace"},"orderTime":5654000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6104000},{"betterTime":5796000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":340,"name":"测试货物340","weight":2.164},"index":340,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[339].cargoParam.birthplace"},"orderTime":5660000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6096000},{"betterTime":5782000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":341,"name":"测试货物341","weight":3.276},"index":341,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[340].cargoParam.birthplace"},"orderTime":5661000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6082000},{"betterTime":5828000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":342,"name":"测试货物342","weight":2.372},"index":342,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[341].cargoParam.birthplace"},"orderTime":5698000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6128000},{"betterTime":5881000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":343,"name":"测试货物343","weight":1.038},"index":343,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[342].cargoParam.birthplace"},"orderTime":5731000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6181000},{"betterTime":5871000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":344,"name":"测试货物344","weight":2.312},"index":344,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[343].cargoParam.birthplace"},"orderTime":5732000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6171000},{"betterTime":5905000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":345,"name":"测试货物345","weight":2.275},"index":345,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[344].cargoParam.birthplace"},"orderTime":5762000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6205000},{"betterTime":5942000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":346,"name":"测试货物346","weight":3.452},"index":346,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[345].cargoParam.birthplace"},"orderTime":5798000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6242000},{"betterTime":5977000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":347,"name":"测试货物347","weight":3.445},"index":347,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[346].cargoParam.birthplace"},"orderTime":5840000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6277000},{"betterTime":5971000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":348,"name":"测试货物348","weight":2.68},"index":348,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[347].cargoParam.birthplace"},"orderTime":5843000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6271000},{"betterTime":5989000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":349,"name":"测试货物349","weight":1.904},"index":349,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[348].cargoParam.birthplace"},"orderTime":5845000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6289000},{"betterTime":6002000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":350,"name":"测试货物350","weight":3.267},"index":350,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[349].cargoParam.birthplace"},"orderTime":5859000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6302000},{"betterTime":6004000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":351,"name":"测试货物351","weight":2.306},"index":351,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[350].cargoParam.birthplace"},"orderTime":5869000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6304000},{"betterTime":6032000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":352,"name":"测试货物352","weight":2.068},"index":352,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[351].cargoParam.birthplace"},"orderTime":5882000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6332000},{"betterTime":6017000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":353,"name":"测试货物353","weight":3.073},"index":353,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[352].cargoParam.birthplace"},"orderTime":5886000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6317000},{"betterTime":6038000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":354,"name":"测试货物354","weight":2.741},"index":354,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[353].cargoParam.birthplace"},"orderTime":5906000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6338000},{"betterTime":6060000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":355,"name":"测试货物355","weight":1.982},"index":355,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[354].cargoParam.birthplace"},"orderTime":5931000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6360000},{"betterTime":6060000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":356,"name":"测试货物356","weight":1.315},"index":356,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[355].cargoParam.birthplace"},"orderTime":5932000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6360000},{"betterTime":6088000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":357,"name":"测试货物357","weight":3.059},"index":357,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[356].cargoParam.birthplace"},"orderTime":5948000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6388000},{"betterTime":6101000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":358,"name":"测试货物358","weight":1.321},"index":358,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[357].cargoParam.birthplace"},"orderTime":5978000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6401000},{"betterTime":6133000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":359,"name":"测试货物359","weight":1.699},"index":359,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[358].cargoParam.birthplace"},"orderTime":5998000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6433000},{"betterTime":6147000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":360,"name":"测试货物360","weight":3.845},"index":360,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[359].cargoParam.birthplace"},"orderTime":6008000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6447000},{"betterTime":6198000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":361,"name":"测试货物361","weight":3.596},"index":361,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[360].cargoParam.birthplace"},"orderTime":6050000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6498000},{"betterTime":6198000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":362,"name":"测试货物362","weight":3.793},"index":362,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[361].cargoParam.birthplace"},"orderTime":6076000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6498000},{"betterTime":6235000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":363,"name":"测试货物363","weight":1.108},"index":363,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[362].cargoParam.birthplace"},"orderTime":6099000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6535000},{"betterTime":6226000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":364,"name":"测试货物364","weight":1.93},"index":364,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[363].cargoParam.birthplace"},"orderTime":6104000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6526000},{"betterTime":6245000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":365,"name":"测试货物365","weight":3.985},"index":365,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[364].cargoParam.birthplace"},"orderTime":6107000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6545000},{"betterTime":6241000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":366,"name":"测试货物366","weight":1.614},"index":366,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[365].cargoParam.birthplace"},"orderTime":6118000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6541000},{"betterTime":6255000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":367,"name":"测试货物367","weight":2.246},"index":367,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[366].cargoParam.birthplace"},"orderTime":6121000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6555000},{"betterTime":6264000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":368,"name":"测试货物368","weight":1.947},"index":368,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[367].cargoParam.birthplace"},"orderTime":6133000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6564000},{"betterTime":6285000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":369,"name":"测试货物369","weight":3.894},"index":369,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[368].cargoParam.birthplace"},"orderTime":6143000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6585000},{"betterTime":6336000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":370,"name":"测试货物370","weight":2.179},"index":370,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[369].cargoParam.birthplace"},"orderTime":6190000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6636000},{"betterTime":6329000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":371,"name":"测试货物371","weight":1.266},"index":371,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[370].cargoParam.birthplace"},"orderTime":6196000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6629000},{"betterTime":6345000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":372,"name":"测试货物372","weight":1.731},"index":372,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[371].cargoParam.birthplace"},"orderTime":6222000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6645000},{"betterTime":6373000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":373,"name":"测试货物373","weight":3.123},"index":373,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[372].cargoParam.birthplace"},"orderTime":6241000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6673000},{"betterTime":6423000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":374,"name":"测试货物374","weight":1.278},"index":374,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[373].cargoParam.birthplace"},"orderTime":6273000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6723000},{"betterTime":6420000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":375,"name":"测试货物375","weight":2.245},"index":375,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[374].cargoParam.birthplace"},"orderTime":6280000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6720000},{"betterTime":6414000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":376,"name":"测试货物376","weight":1.736},"index":376,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[375].cargoParam.birthplace"},"orderTime":6283000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6714000},{"betterTime":6429000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":377,"name":"测试货物377","weight":2.712},"index":377,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[376].cargoParam.birthplace"},"orderTime":6290000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6729000},{"betterTime":6438000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":378,"name":"测试货物378","weight":1.056},"index":378,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[377].cargoParam.birthplace"},"orderTime":6302000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6738000},{"betterTime":6463000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":379,"name":"测试货物379","weight":3.399},"index":379,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[378].cargoParam.birthplace"},"orderTime":6322000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6763000},{"betterTime":6462000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":380,"name":"测试货物380","weight":2.999},"index":380,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[379].cargoParam.birthplace"},"orderTime":6333000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6762000},{"betterTime":6522000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":381,"name":"测试货物381","weight":2.369},"index":381,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[380].cargoParam.birthplace"},"orderTime":6384000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6822000},{"betterTime":6541000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":382,"name":"测试货物382","weight":3.089},"index":382,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[381].cargoParam.birthplace"},"orderTime":6402000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6841000},{"betterTime":6554000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":383,"name":"测试货物383","weight":2.9},"index":383,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[382].cargoParam.birthplace"},"orderTime":6418000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6854000},{"betterTime":6568000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":384,"name":"测试货物384","weight":1.903},"index":384,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[383].cargoParam.birthplace"},"orderTime":6430000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6868000},{"betterTime":6578000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":385,"name":"测试货物385","weight":1.181},"index":385,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[384].cargoParam.birthplace"},"orderTime":6436000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6878000},{"betterTime":6593000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":386,"name":"测试货物386","weight":1.66},"index":386,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[385].cargoParam.birthplace"},"orderTime":6445000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6893000},{"betterTime":6607000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":387,"name":"测试货物387","weight":2.453},"index":387,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[386].cargoParam.birthplace"},"orderTime":6475000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6907000},{"betterTime":6603000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":388,"name":"测试货物388","weight":3.497},"index":388,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[387].cargoParam.birthplace"},"orderTime":6479000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":6903000},{"betterTime":6625000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":389,"name":"测试货物389","weight":3.13},"index":389,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[388].cargoParam.birthplace"},"orderTime":6479000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":6925000},{"betterTime":6664000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":390,"name":"测试货物390","weight":3.058},"index":390,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[389].cargoParam.birthplace"},"orderTime":6519000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":6964000},{"betterTime":6650000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":391,"name":"测试货物391","weight":3.595},"index":391,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[390].cargoParam.birthplace"},"orderTime":6527000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":6950000},{"betterTime":6665000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":392,"name":"测试货物392","weight":2.555},"index":392,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[391].cargoParam.birthplace"},"orderTime":6533000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":6965000},{"betterTime":6685000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":393,"name":"测试货物393","weight":2.874},"index":393,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[392].cargoParam.birthplace"},"orderTime":6545000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":6985000},{"betterTime":6706000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":394,"name":"测试货物394","weight":2.659},"index":394,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[393].cargoParam.birthplace"},"orderTime":6560000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7006000},{"betterTime":6700000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":395,"name":"测试货物395","weight":1.558},"index":395,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[394].cargoParam.birthplace"},"orderTime":6565000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7000000},{"betterTime":6719000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":396,"name":"测试货物396","weight":3.755},"index":396,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[395].cargoParam.birthplace"},"orderTime":6592000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7019000},{"betterTime":6754000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":397,"name":"测试货物397","weight":3.725},"index":397,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[396].cargoParam.birthplace"},"orderTime":6622000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7054000},{"betterTime":6793000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":398,"name":"测试货物398","weight":1.679},"index":398,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[397].cargoParam.birthplace"},"orderTime":6652000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7093000},{"betterTime":6806000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":399,"name":"测试货物399","weight":2.32},"index":399,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[398].cargoParam.birthplace"},"orderTime":6663000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7106000},{"betterTime":6792000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":400,"name":"测试货物400","weight":1.208},"index":400,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[399].cargoParam.birthplace"},"orderTime":6665000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7092000},{"betterTime":6799000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":401,"name":"测试货物401","weight":1.64},"index":401,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[400].cargoParam.birthplace"},"orderTime":6676000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7099000},{"betterTime":6823000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":402,"name":"测试货物402","weight":2.899},"index":402,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[401].cargoParam.birthplace"},"orderTime":6702000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7123000},{"betterTime":6848000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":403,"name":"测试货物403","weight":3.247},"index":403,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[402].cargoParam.birthplace"},"orderTime":6704000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7148000},{"betterTime":6864000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":404,"name":"测试货物404","weight":1.229},"index":404,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[403].cargoParam.birthplace"},"orderTime":6720000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7164000},{"betterTime":6890000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":405,"name":"测试货物405","weight":3.456},"index":405,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[404].cargoParam.birthplace"},"orderTime":6749000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7190000},{"betterTime":6928000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":406,"name":"测试货物406","weight":2.23},"index":406,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[405].cargoParam.birthplace"},"orderTime":6796000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7228000},{"betterTime":6927000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":407,"name":"测试货物407","weight":1.471},"index":407,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[406].cargoParam.birthplace"},"orderTime":6799000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7227000},{"betterTime":6946000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":408,"name":"测试货物408","weight":2.519},"index":408,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[407].cargoParam.birthplace"},"orderTime":6818000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7246000},{"betterTime":6989000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":409,"name":"测试货物409","weight":3.418},"index":409,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[408].cargoParam.birthplace"},"orderTime":6852000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7289000},{"betterTime":7001000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":410,"name":"测试货物410","weight":2.803},"index":410,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[409].cargoParam.birthplace"},"orderTime":6854000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7301000},{"betterTime":6997000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":411,"name":"测试货物411","weight":3.849},"index":411,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[410].cargoParam.birthplace"},"orderTime":6874000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7297000},{"betterTime":7048000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":412,"name":"测试货物412","weight":2.011},"index":412,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[411].cargoParam.birthplace"},"orderTime":6913000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7348000},{"betterTime":7039000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":413,"name":"测试货物413","weight":1.396},"index":413,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[412].cargoParam.birthplace"},"orderTime":6913000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7339000},{"betterTime":7065000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":414,"name":"测试货物414","weight":2.294},"index":414,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[413].cargoParam.birthplace"},"orderTime":6916000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7365000},{"betterTime":7056000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":415,"name":"测试货物415","weight":2.045},"index":415,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[414].cargoParam.birthplace"},"orderTime":6922000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7356000},{"betterTime":7075000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":416,"name":"测试货物416","weight":2.361},"index":416,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[415].cargoParam.birthplace"},"orderTime":6931000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7375000},{"betterTime":7082000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":417,"name":"测试货物417","weight":2.954},"index":417,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[416].cargoParam.birthplace"},"orderTime":6933000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7382000},{"betterTime":7096000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":418,"name":"测试货物418","weight":3.473},"index":418,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[417].cargoParam.birthplace"},"orderTime":6948000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7396000},{"betterTime":7105000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":419,"name":"测试货物419","weight":2.911},"index":419,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[418].cargoParam.birthplace"},"orderTime":6958000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7405000},{"betterTime":7098000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":420,"name":"测试货物420","weight":3.591},"index":420,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[419].cargoParam.birthplace"},"orderTime":6978000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7398000},{"betterTime":7121000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":421,"name":"测试货物421","weight":2.705},"index":421,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[420].cargoParam.birthplace"},"orderTime":6999000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7421000},{"betterTime":7141000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":422,"name":"测试货物422","weight":3.379},"index":422,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[421].cargoParam.birthplace"},"orderTime":7001000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7441000},{"betterTime":7190000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":423,"name":"测试货物423","weight":2.956},"index":423,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[422].cargoParam.birthplace"},"orderTime":7053000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7490000},{"betterTime":7183000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":424,"name":"测试货物424","weight":3.558},"index":424,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[423].cargoParam.birthplace"},"orderTime":7054000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7483000},{"betterTime":7187000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":425,"name":"测试货物425","weight":2.105},"index":425,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[424].cargoParam.birthplace"},"orderTime":7058000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7487000},{"betterTime":7199000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":426,"name":"测试货物426","weight":3.261},"index":426,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[425].cargoParam.birthplace"},"orderTime":7070000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7499000},{"betterTime":7229000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":427,"name":"测试货物427","weight":1.29},"index":427,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[426].cargoParam.birthplace"},"orderTime":7089000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7529000},{"betterTime":7253000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":428,"name":"测试货物428","weight":1.856},"index":428,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[427].cargoParam.birthplace"},"orderTime":7115000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7553000},{"betterTime":7284000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":429,"name":"测试货物429","weight":1.033},"index":429,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[428].cargoParam.birthplace"},"orderTime":7138000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7584000},{"betterTime":7262000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":430,"name":"测试货物430","weight":1.312},"index":430,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[429].cargoParam.birthplace"},"orderTime":7139000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7562000},{"betterTime":7267000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":431,"name":"测试货物431","weight":1.981},"index":431,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[430].cargoParam.birthplace"},"orderTime":7141000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7567000},{"betterTime":7311000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":432,"name":"测试货物432","weight":1.402},"index":432,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[431].cargoParam.birthplace"},"orderTime":7162000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7611000},{"betterTime":7366000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":433,"name":"测试货物433","weight":1.17},"index":433,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[432].cargoParam.birthplace"},"orderTime":7238000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7666000},{"betterTime":7397000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":434,"name":"测试货物434","weight":1.328},"index":434,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[433].cargoParam.birthplace"},"orderTime":7247000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7697000},{"betterTime":7406000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":435,"name":"测试货物435","weight":1.264},"index":435,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[434].cargoParam.birthplace"},"orderTime":7284000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7706000},{"betterTime":7428000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":436,"name":"测试货物436","weight":1.312},"index":436,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[435].cargoParam.birthplace"},"orderTime":7290000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7728000},{"betterTime":7429000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":437,"name":"测试货物437","weight":2.32},"index":437,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[436].cargoParam.birthplace"},"orderTime":7293000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7729000},{"betterTime":7471000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":438,"name":"测试货物438","weight":1.801},"index":438,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[437].cargoParam.birthplace"},"orderTime":7335000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7771000},{"betterTime":7484000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":439,"name":"测试货物439","weight":1.576},"index":439,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[438].cargoParam.birthplace"},"orderTime":7343000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7784000},{"betterTime":7481000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":440,"name":"测试货物440","weight":3.752},"index":440,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[439].cargoParam.birthplace"},"orderTime":7357000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7781000},{"betterTime":7498000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":441,"name":"测试货物441","weight":3.422},"index":441,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[440].cargoParam.birthplace"},"orderTime":7359000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7798000},{"betterTime":7493000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":442,"name":"测试货物442","weight":3.489},"index":442,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[441].cargoParam.birthplace"},"orderTime":7365000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7793000},{"betterTime":7519000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":443,"name":"测试货物443","weight":1.797},"index":443,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[442].cargoParam.birthplace"},"orderTime":7377000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7819000},{"betterTime":7522000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":444,"name":"测试货物444","weight":2.23},"index":444,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[443].cargoParam.birthplace"},"orderTime":7382000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7822000},{"betterTime":7516000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":445,"name":"测试货物445","weight":3.052},"index":445,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[444].cargoParam.birthplace"},"orderTime":7389000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":7816000},{"betterTime":7538000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":446,"name":"测试货物446","weight":1.306},"index":446,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[445].cargoParam.birthplace"},"orderTime":7406000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":7838000},{"betterTime":7569000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":447,"name":"测试货物447","weight":2.559},"index":447,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[446].cargoParam.birthplace"},"orderTime":7423000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":7869000},{"betterTime":7562000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":448,"name":"测试货物448","weight":1.346},"index":448,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[447].cargoParam.birthplace"},"orderTime":7431000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":7862000},{"betterTime":7593000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":449,"name":"测试货物449","weight":1.788},"index":449,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[448].cargoParam.birthplace"},"orderTime":7463000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":7893000},{"betterTime":7638000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":450,"name":"测试货物450","weight":2.351},"index":450,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[449].cargoParam.birthplace"},"orderTime":7490000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":7938000},{"betterTime":7705000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":451,"name":"测试货物451","weight":3.832},"index":451,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[450].cargoParam.birthplace"},"orderTime":7585000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8005000},{"betterTime":7715000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":452,"name":"测试货物452","weight":2.194},"index":452,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[451].cargoParam.birthplace"},"orderTime":7594000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8015000},{"betterTime":7744000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":453,"name":"测试货物453","weight":1.777},"index":453,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[452].cargoParam.birthplace"},"orderTime":7603000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":8044000},{"betterTime":7765000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":454,"name":"测试货物454","weight":3.142},"index":454,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[453].cargoParam.birthplace"},"orderTime":7627000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":8065000},{"betterTime":7775000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":455,"name":"测试货物455","weight":2.411},"index":455,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[454].cargoParam.birthplace"},"orderTime":7631000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":8075000},{"betterTime":7772000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":456,"name":"测试货物456","weight":2.634},"index":456,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[455].cargoParam.birthplace"},"orderTime":7640000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":8072000},{"betterTime":7794000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":457,"name":"测试货物457","weight":1.347},"index":457,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[456].cargoParam.birthplace"},"orderTime":7645000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8094000},{"betterTime":7768000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":458,"name":"测试货物458","weight":3.532},"index":458,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[457].cargoParam.birthplace"},"orderTime":7647000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8068000},{"betterTime":7804000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":459,"name":"测试货物459","weight":2.218},"index":459,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[458].cargoParam.birthplace"},"orderTime":7682000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":8104000},{"betterTime":7806000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":460,"name":"测试货物460","weight":2.246},"index":460,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[459].cargoParam.birthplace"},"orderTime":7684000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":8106000},{"betterTime":7821000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":461,"name":"测试货物461","weight":3.444},"index":461,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[460].cargoParam.birthplace"},"orderTime":7701000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":8121000},{"betterTime":7838000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":462,"name":"测试货物462","weight":1.452},"index":462,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[461].cargoParam.birthplace"},"orderTime":7711000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":8138000},{"betterTime":7837000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":463,"name":"测试货物463","weight":3.677},"index":463,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[462].cargoParam.birthplace"},"orderTime":7714000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8137000},{"betterTime":7834000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":464,"name":"测试货物464","weight":2.237},"index":464,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[463].cargoParam.birthplace"},"orderTime":7714000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8134000},{"betterTime":7856000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":465,"name":"测试货物465","weight":3.082},"index":465,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[464].cargoParam.birthplace"},"orderTime":7728000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":8156000},{"betterTime":7920000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":466,"name":"测试货物466","weight":2.494},"index":466,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[465].cargoParam.birthplace"},"orderTime":7786000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":8220000},{"betterTime":7922000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":467,"name":"测试货物467","weight":1.654},"index":467,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[466].cargoParam.birthplace"},"orderTime":7793000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":8222000},{"betterTime":7960000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":468,"name":"测试货物468","weight":2.621},"index":468,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[467].cargoParam.birthplace"},"orderTime":7812000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":8260000},{"betterTime":7958000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":469,"name":"测试货物469","weight":3.874},"index":469,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[468].cargoParam.birthplace"},"orderTime":7838000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8258000},{"betterTime":7973000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":470,"name":"测试货物470","weight":1.455},"index":470,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[469].cargoParam.birthplace"},"orderTime":7841000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8273000},{"betterTime":7973000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":471,"name":"测试货物471","weight":2.734},"index":471,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[470].cargoParam.birthplace"},"orderTime":7849000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":8273000},{"betterTime":8003000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":472,"name":"测试货物472","weight":1.872},"index":472,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[471].cargoParam.birthplace"},"orderTime":7853000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":8303000},{"betterTime":8009000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":473,"name":"测试货物473","weight":1.083},"index":473,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[472].cargoParam.birthplace"},"orderTime":7881000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":8309000},{"betterTime":8058000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":474,"name":"测试货物474","weight":3.246},"index":474,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[473].cargoParam.birthplace"},"orderTime":7927000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":8358000},{"betterTime":8075000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":475,"name":"测试货物475","weight":1.775},"index":475,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[474].cargoParam.birthplace"},"orderTime":7931000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8375000},{"betterTime":8119000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":476,"name":"测试货物476","weight":3.756},"index":476,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[475].cargoParam.birthplace"},"orderTime":7973000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8419000},{"betterTime":8108000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":477,"name":"测试货物477","weight":2.416},"index":477,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[476].cargoParam.birthplace"},"orderTime":7984000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":8408000},{"betterTime":8140000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":478,"name":"测试货物478","weight":1.127},"index":478,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[477].cargoParam.birthplace"},"orderTime":7997000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":8440000},{"betterTime":8152000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":479,"name":"测试货物479","weight":1.906},"index":479,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[478].cargoParam.birthplace"},"orderTime":8009000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":8452000},{"betterTime":8146000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":480,"name":"测试货物480","weight":2.325},"index":480,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[479].cargoParam.birthplace"},"orderTime":8023000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":8446000},{"betterTime":8164000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":481,"name":"测试货物481","weight":1.115},"index":481,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[480].cargoParam.birthplace"},"orderTime":8041000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8464000},{"betterTime":8235000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":482,"name":"测试货物482","weight":2.97},"index":482,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[481].cargoParam.birthplace"},"orderTime":8099000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8535000},{"betterTime":8245000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":483,"name":"测试货物483","weight":2.233},"index":483,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[482].cargoParam.birthplace"},"orderTime":8101000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":8545000},{"betterTime":8234000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":484,"name":"测试货物484","weight":2.062},"index":484,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[483].cargoParam.birthplace"},"orderTime":8113000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":8534000},{"betterTime":8253000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":485,"name":"测试货物485","weight":1.607},"index":485,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[484].cargoParam.birthplace"},"orderTime":8118000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":8553000},{"betterTime":8249000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":486,"name":"测试货物486","weight":1.206},"index":486,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[485].cargoParam.birthplace"},"orderTime":8120000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":8549000},{"betterTime":8300000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":487,"name":"测试货物487","weight":1.675},"index":487,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[486].cargoParam.birthplace"},"orderTime":8164000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8600000},{"betterTime":8309000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":488,"name":"测试货物488","weight":2.819},"index":488,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[487].cargoParam.birthplace"},"orderTime":8169000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8609000},{"betterTime":8333000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":489,"name":"测试货物489","weight":3.252},"index":489,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[488].cargoParam.birthplace"},"orderTime":8185000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":8633000},{"betterTime":8342000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":490,"name":"测试货物490","weight":2.327},"index":490,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[489].cargoParam.birthplace"},"orderTime":8217000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":8642000},{"betterTime":8366000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":491,"name":"测试货物491","weight":1.413},"index":491,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[490].cargoParam.birthplace"},"orderTime":8224000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":8666000},{"betterTime":8380000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":492,"name":"测试货物492","weight":3.664},"index":492,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[491].cargoParam.birthplace"},"orderTime":8232000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":8680000},{"betterTime":8389000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":493,"name":"测试货物493","weight":1.379},"index":493,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[492].cargoParam.birthplace"},"orderTime":8258000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8689000},{"betterTime":8417000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":494,"name":"测试货物494","weight":3.187},"index":494,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[493].cargoParam.birthplace"},"orderTime":8270000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8717000},{"betterTime":8430000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":495,"name":"测试货物495","weight":2.491},"index":495,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[494].cargoParam.birthplace"},"orderTime":8282000,"targetPosition":{"x":508.0,"y":514.0,"z":-22.0},"timeout":8730000},{"betterTime":8448000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":496,"name":"测试货物496","weight":2.862},"index":496,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[495].cargoParam.birthplace"},"orderTime":8310000,"targetPosition":{"x":564.0,"y":394.0,"z":-16.0},"timeout":8748000},{"betterTime":8450000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":497,"name":"测试货物497","weight":2.992},"index":497,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[496].cargoParam.birthplace"},"orderTime":8316000,"targetPosition":{"x":490.0,"y":390.0,"z":-22.0},"timeout":8750000},{"betterTime":8462000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":498,"name":"测试货物498","weight":2.989},"index":498,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[497].cargoParam.birthplace"},"orderTime":8323000,"targetPosition":{"x":146.0,"y":186.0,"z":-34.0},"timeout":8762000},{"betterTime":8508000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":499,"name":"测试货物499","weight":2.146},"index":499,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[498].cargoParam.birthplace"},"orderTime":8360000,"targetPosition":{"x":430.0,"y":184.0,"z":-10.0},"timeout":8808000},{"betterTime":8509000,"cargoParam":{"birthplace":{"x":190.0,"y":425.0,"z":-16.0},"index":500,"name":"测试货物500","weight":2.07},"index":500,"loadingStationInfo":{"$ref":"$.taskParam.waybillParamList[499].cargoParam.birthplace"},"orderTime":8362000,"targetPosition":{"x":528.0,"y":172.0,"z":-20.0},"timeout":8809000}]
+    }
+}

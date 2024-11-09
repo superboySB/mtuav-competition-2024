@@ -121,7 +121,7 @@ class DemoPipeline:
                 'state': WorkState.START,
                 'current_waypoint_index': 0,  # 新增字段用于循环路径
                 'ready_for_landing': True, # 做好让飞机降落的准备
-                # 'ready_for_another_drone': True, # 尽量让两个飞机在一个高空吧
+                'occupyed_for_landing': False,
             }
 
         # 初始化每个无人机的状态字典
@@ -147,6 +147,7 @@ class DemoPipeline:
             (490,390): "SIM-MAGV-0005",
             (508,514): "SIM-MAGV-0006",
             (146,186): "SIM-MAGV-0003",
+            (528,172): "SIM-MAGV-0006",
         }
 
         # 保证每个外卖只能同时被一条航线送
@@ -156,7 +157,7 @@ class DemoPipeline:
             (490,390): False,
             (508,514): False,
             (146,186): False,
-            (528,172): True
+            (528,172): False
         }
 
         # 初始化无人机使用状态
@@ -166,6 +167,8 @@ class DemoPipeline:
                 'available': True,
                 'capacity': 100, 
                 'current_order': None,
+                'current_order_x': -1,
+                'current_order_y': -1,
                 'go_to_unloading_point': False,
                 'wait_for_landing_car': False,
             }
@@ -435,7 +438,7 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 95000 > betterTime:
+            if current_time < orderTime or current_time + 100000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
@@ -464,7 +467,7 @@ class DemoPipeline:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 110000 > betterTime:
+            if current_time + 115000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -526,6 +529,8 @@ class DemoPipeline:
         msg.binding_cargo.cargo_id = cargo_id
         msg.binding_cargo.drone_sn = drone_sn
         self.drone_usage[drone_sn]['current_order'] = cargo_id
+        self.drone_usage[drone_sn]['current_order_x'] = waybill.target_pos.x
+        self.drone_usage[drone_sn]['current_order_y'] = waybill.target_pos.y
         self.cmd_pub.publish(msg)
 
         cmd_pub_start_time = time.time()
@@ -639,7 +644,9 @@ class DemoPipeline:
 
         # 添加飞行路径点
         # TODO： 针对start_pos为（146,186）、end_pos为进行一些特判吧。
-        special_key_point = Position(x=181, y=449, z=self.loading_cargo_position.z-5)
+        special_unloading_point_1 = Position(x=146, y=186, z=-34)
+        special_unloading_point_2 = Position(x=528, y=172, z=-20)
+
         for i, coord in enumerate(full_path_coords):
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
@@ -651,11 +658,52 @@ class DemoPipeline:
             print(f"Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
             msg.drone_way_point_info.way_point.append(middle_point)
 
-            if i == 0 and self.des_pos_reached(end_pos, special_key_point, 2.0):
+            if i == 0 and self.des_pos_reached(start_pos, special_unloading_point_1, 2.0):
                 middle_point = DroneWayPoint()
                 middle_point.type = DroneWayPoint.POINT_FLYING
                 middle_point.pos.x = 120
                 middle_point.pos.y = 350
+                middle_point.pos.z = altitude
+                middle_point.v = speed
+                middle_point.timeoutsec = 1000
+                print(f"Special Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
+                msg.drone_way_point_info.way_point.append(middle_point)
+            
+            if i == 0 and self.des_pos_reached(start_pos, special_unloading_point_2, 2.0):
+                middle_point = DroneWayPoint()
+                middle_point.type = DroneWayPoint.POINT_FLYING
+                middle_point.pos.x = 590
+                middle_point.pos.y = 300
+                middle_point.pos.z = altitude
+                middle_point.v = speed
+                middle_point.timeoutsec = 1000
+                print(f"Special Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
+                msg.drone_way_point_info.way_point.append(middle_point)
+
+                middle_point = DroneWayPoint()
+                middle_point.type = DroneWayPoint.POINT_FLYING
+                middle_point.pos.x = 590
+                middle_point.pos.y = 450
+                middle_point.pos.z = altitude
+                middle_point.v = speed
+                middle_point.timeoutsec = 1000
+                print(f"Special Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
+                msg.drone_way_point_info.way_point.append(middle_point)
+
+                middle_point = DroneWayPoint()
+                middle_point.type = DroneWayPoint.POINT_FLYING
+                middle_point.pos.x = 508
+                middle_point.pos.y = 590
+                middle_point.pos.z = altitude
+                middle_point.v = speed
+                middle_point.timeoutsec = 1000
+                print(f"Special Middle Point {i}: x={middle_point.pos.x}, y={middle_point.pos.y}, z={middle_point.pos.z}")
+                msg.drone_way_point_info.way_point.append(middle_point)
+
+                middle_point = DroneWayPoint()
+                middle_point.type = DroneWayPoint.POINT_FLYING
+                middle_point.pos.x = 400
+                middle_point.pos.y = 590
                 middle_point.pos.z = altitude
                 middle_point.v = speed
                 middle_point.timeoutsec = 1000
@@ -727,8 +775,6 @@ class DemoPipeline:
                 print("超时，重试发送")
                 self.cmd_pub.publish(msg)
                 retry_times += 5
-
-        self.drone_usage[drone_sn]['current_order'] = None
 
     # 主运行函数
     def running(self):
@@ -916,6 +962,7 @@ class DemoPipeline:
                         self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                         self.car_state_dict[car_sn]['current_waypoint_index'] = 0
                         self.car_state_dict[car_sn]['ready_for_landing'] = False
+                        self.car_state_dict[car_sn]["occupyed_for_landing"] = False
                         print(f"车辆 {car_sn} 接驳到了无人机 {current_car_physical_status.drone_sn}")
                         continue
                     else:
@@ -982,10 +1029,6 @@ class DemoPipeline:
                         if path_result:
                             self.car_state_dict[car_sn]['current_waypoint_index'] = waypoint_index + 1
                             self.move_car_with_start_and_end(car_sn, car_pos, end_pos)
-                            # another_chance = 6 if car_sn=="SIM-MAGV-0003" else 8  # 还是要对极端的那一个有所区别
-                            # if self.car_state_dict[car_sn]['current_waypoint_index'] + another_chance > len(self.fixed_cycles_from_key_point[car_sn]) and \
-                            #   (not self.car_state_dict[car_sn]['ready_for_another_drone']):
-                            #     self.car_state_dict[car_sn]['ready_for_another_drone'] = True
                         else:
                             print(f"车辆 {car_sn} 的目标点 ({end_pos.x}, {end_pos.y}) 被其他车辆占用")
                     else:
@@ -994,6 +1037,13 @@ class DemoPipeline:
             # ----------------------------------------------------------------------------------------
             # 处理无人机的释放和返回
             # 检查无人机是否需要释放货物或返回
+            prior_drone_is_waiting_flag = False
+            for drone_sn, usage in self.drone_usage.items():
+                current_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
+                if usage['wait_for_landing_car'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY and \
+                  int(usage['current_order_x']) == 508 and int(usage['current_order_x']) == 514:
+                    prior_drone_is_waiting_flag = True
+
             for drone_sn, usage in self.drone_usage.items():
                 current_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
                 print(f"正在处理无人机{drone_sn}, 位置：{current_drone_physical_status.pos.position.x}, {current_drone_physical_status.pos.position.y},{current_drone_physical_status.pos.position.z}, 无人机物理状态：{current_drone_physical_status.drone_work_state}")
@@ -1018,22 +1068,24 @@ class DemoPipeline:
                 if usage['wait_for_landing_car'] and current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY:
                     # 无人机返回
                     landing_car_sn = self.unloading_point_car_map[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]
-                    # if self.car_state_dict[landing_car_sn]["ready_for_another_drone"]:
-                    #     self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
-                    #     print(f"现在接驳车{landing_car_sn}上没有飞机了，准备再派一架来!!!!!!!!!!")
-                    #     self.car_state_dict[landing_car_sn]['ready_for_another_drone'] = False
-                        
+    
+                    if self.car_state_dict[landing_car_sn]["ready_for_landing"] and (not self.car_state_dict[landing_car_sn]["occupyed_for_landing"]):
+                        if landing_car_sn == "SIM-MAGV-0006" and int(usage['current_order_x']) == 528 and int(usage['current_order_x']) == 172 and \
+                          prior_drone_is_waiting_flag:
+                            continue
 
-                    if self.car_state_dict[landing_car_sn]["ready_for_landing"]:
                         print(f"现在接驳车{landing_car_sn}上没有飞机了，并且快要赶回来了，可以让无人机先回来了")
                         end_pos = Position(self.fixed_cycles_from_key_point[landing_car_sn][0][0], self.fixed_cycles_from_key_point[landing_car_sn][0][1], self.loading_cargo_point["z"]-5)
                         altitude = self.unloading_points[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]['return_height']
                         self.fly_one_route(drone_sn, current_drone_physical_status.pos.position, end_pos, altitude, 15.0)
                         usage['wait_for_landing_car'] = False
+                        usage['current_order'] = None
+                        usage['current_order_x'] = -1
+                        usage['current_order_y'] = -1
+                        self.car_state_dict[landing_car_sn]["occupyed_for_landing"] = True
                         self.is_delivering_pointed_cargos[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))] = False
                     else:
-                        print(f"现在接驳车{landing_car_sn}上还有飞机或者飞机还没到，可能不一定回得来!!!!!!!!!!")
-                        
+                        print(f"现在接驳车{landing_car_sn}正在被其它飞机占用返航，或者是还没有来得及回到key point")
 
                 if (not usage['current_order']) and current_drone_physical_status.drone_work_state == DronePhysicalStatus.FLYING:
                     print(f"无人机{drone_sn}正在飞行到接驳车")
