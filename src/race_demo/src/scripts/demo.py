@@ -201,14 +201,14 @@ class DemoPipeline:
             (528,172): False
         }
 
-        # TODO: 一开始应该可以无脑送两次
+        # 单点一开始应该可以无脑送两次
         self.initial_double_flag = {
-            (564,394): True,
-            (430,184): True,
-            (490,390): True,
+            (564,394): False,
+            (430,184): False,
+            (490,390): False,
             (508,514): True,
             (146,186): True,
-            (528,172): True
+            (528,172): False
         }
 
     # 仿真回调函数
