@@ -132,8 +132,8 @@ class DemoPipeline:
 
         # 卸货点及其飞行高度
         self.unloading_points = {
-            (146,186): {'delivery_height': -115, 'return_height': -115},
-            (528,172): {'delivery_height': -115, 'return_height': -115},
+            (146,186): {'delivery_height': -115, 'return_height': -85},
+            (528,172): {'delivery_height': -115, 'return_height': -75},
             (564,394): {'delivery_height': -115, 'return_height': -85},
             (430,184): {'delivery_height': -115, 'return_height': -105},
             (490,390): {'delivery_height': -115, 'return_height': -95},
@@ -438,7 +438,7 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 100000 > betterTime:
+            if current_time < orderTime or current_time + 105000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
@@ -463,11 +463,11 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time > timeout or current_time + 15000 < orderTime:
+            if current_time > timeout or current_time + 12000 < orderTime:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 115000 > betterTime:
+            if current_time + 120000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -646,8 +646,12 @@ class DemoPipeline:
         # TODO： 针对start_pos为（146,186）、end_pos为进行一些特判吧。
         special_unloading_point_1 = Position(x=146, y=186, z=-34)
         special_unloading_point_2 = Position(x=528, y=172, z=-20)
+        if self.des_pos_reached(start_pos, special_unloading_point_1, 2.0) or self.des_pos_reached(start_pos, special_unloading_point_2, 2.0):
+            procressed_full_path_coords = [full_path_coords[0], (end_pos.x, end_pos.y)]
+        else:
+            procressed_full_path_coords = full_path_coords
 
-        for i, coord in enumerate(full_path_coords):
+        for i, coord in enumerate(procressed_full_path_coords):
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
             middle_point.pos.x = coord[0]
@@ -1042,7 +1046,7 @@ class DemoPipeline:
                 current_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
                 if usage['wait_for_landing_car'] and \
                   (current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY or current_drone_physical_status.drone_work_state == DronePhysicalStatus.LANDING) and \
-                  int(usage['current_order_x']) == 508 and int(usage['current_order_x']) == 514:
+                  int(usage['current_order_x']) == 508 and int(usage['current_order_y']) == 514:
                     prior_drone_is_waiting_flag = True
 
             for drone_sn, usage in self.drone_usage.items():
@@ -1071,7 +1075,7 @@ class DemoPipeline:
                     landing_car_sn = self.unloading_point_car_map[(int(round(current_drone_physical_status.pos.position.x)), int(round(current_drone_physical_status.pos.position.y)))]
     
                     if self.car_state_dict[landing_car_sn]["ready_for_landing"] and (not self.car_state_dict[landing_car_sn]["occupyed_for_landing"]):
-                        if landing_car_sn == "SIM-MAGV-0006" and int(usage['current_order_x']) == 528 and int(usage['current_order_x']) == 172 and \
+                        if landing_car_sn == "SIM-MAGV-0006" and int(usage['current_order_x']) == 528 and int(usage['current_order_y']) == 172 and \
                           prior_drone_is_waiting_flag:
                             continue
 
