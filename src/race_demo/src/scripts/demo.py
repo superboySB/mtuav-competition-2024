@@ -30,8 +30,6 @@ from race_demo.msg import UserPhysicalStatus
 from race_demo.msg import Voxel
 from race_demo.srv import QueryVoxel, QueryVoxelRequest
 
-from utils import dijkstra, astar, check_path, is_direct_path
-
 class WorkState(Enum):
     START = 1
     TEST_MAP_QUERY = 2
@@ -42,13 +40,11 @@ class WorkState(Enum):
     RELEASE_DRONE_OUT = 7
     RELEASE_CARGO = 8
     RELEASE_DRONE_RETURN = 9
-    # MOVE_CAR_BACK_TO_LOADING_POINT = 10 # 已根据需求删除
-    # DRONE_BATTERY_REPLACEMENT = 11  # 已根据需求删除
-    DRONE_RETRIEVE = 12
-    FINISHED = 13
-    MOVE_CAR_TO_DRONE_KEY_POINT = 14
-    WAIT_FOR_DRONE_RETURN = 15  # 新增状态
-    MOVE_CAR_BACK_TO_DRONE_KEY_POINT = 16  # 新增状态
+    DRONE_RETRIEVE = 10
+    FINISHED = 11
+    MOVE_CAR_TO_DRONE_KEY_POINT = 12
+    WAIT_FOR_DRONE_RETURN = 13 
+    MOVE_CAR_BACK_TO_DRONE_KEY_POINT = 14
 
 class DemoPipeline:
     def __init__(self):
@@ -61,7 +57,6 @@ class DemoPipeline:
         self.cmd_sub = rospy.Subscriber('/user_cmd_response', UserCmdResponse, self.cmdResponseCallback)
         self.info_sub = rospy.Subscriber('/panoramic_info', PanoramicInfo, self.panoramic_info_callback, queue_size=10)
         self.map_client = rospy.ServiceProxy('query_voxel', QueryVoxel)
-        self.need_init = False  # 设置是否需要初始化地图
 
         # 读取配置文件和信息
         with open('/config/config.json', 'r') as file:
@@ -92,8 +87,6 @@ class DemoPipeline:
 
         # 定义高度层和空域划分
         self.full_altitude_levels = [-115, -105, -95, -85, -75, -65]
-        self.occ_map_dict = {}  # 存储不同高度层的障碍物地图
-        self.fast_path_dict = {}  # 存储不同高度层的快速通道
 
         # 固定路径从出生点到关键点
         self.fixed_paths_from_start_to_key_point = {
@@ -184,153 +177,6 @@ class DemoPipeline:
     def cmdResponseCallback(self, msg):
         self.cmd_response_type = msg.type
         self.cmd_description = msg.description
-
-    # 系统初始化(按需)
-    def sys_init(self):
-        # 初始化地图和路径
-        if self.need_init:
-            self.init_occ_map()
-            self.init_fast_paths()
-            self.state = WorkState.FINISHED
-            print("地图和路径初始化完成")
-        else:
-            # 从本地文件加载
-            self.occ_map_dict = {}
-            self.fast_path_dict = {}
-            # 获取需要加载的高度层
-            altitudes_to_load = set(self.full_altitude_levels)
-            for z in altitudes_to_load:
-                occ_map_file = f'/root/mtuav-competition-2024/occ_map_{int(z)}.json'
-                fast_path_file = f'/root/mtuav-competition-2024/fast_path_dict_{int(z)}.json'
-                if os.path.exists(occ_map_file):
-                    with open(occ_map_file, 'r') as f:
-                        self.occ_map_dict[str(z)] = json.load(f)
-                else:
-                    print(f"缺少高度 {z} 的 occ_map 文件，无法加载")
-                if os.path.exists(fast_path_file):
-                    with open(fast_path_file, 'r') as f:
-                        self.fast_path_dict[str(z)] = json.load(f)
-                else:
-                    print(f"缺少高度 {z} 的 fast_path 文件，无法加载")
-            print("地图和路径初始化导入成功")
-
-    # 构建障碍物地图
-    def init_occ_map(self):
-        print("开始构建障碍物地图...")
-
-        # 创建 Map 实例，加载地图文件
-        map_file_path = "/home/sdk_for_user/map_client_sdk/for_py/voxel_map_final.bin"  # 请根据实际路径修改
-        map_instance = pymtmap.Map(map_file_path)
-
-        # 检查地图是否有效
-        if not map_instance.IsValid():
-            print("地图无效，无法构建障碍物地图。")
-            return
-
-        x_min = int(max(self.map_boundary['bottomLeft']['x'], map_instance.min_x()))
-        x_max = int(min(self.map_boundary['bottomRight']['x'], map_instance.max_x()))
-        y_min = int(max(self.map_boundary['bottomLeft']['y'], map_instance.min_y()))
-        y_max = int(min(self.map_boundary['topLeft']['y'], map_instance.max_y()))
-        x_step = 1  # 采样步长，可根据需要调整
-        y_step = 1
-
-        for z in self.full_altitude_levels:
-            occ_map = []
-            print(f"构建高度 {z} 的障碍物地图...")
-            # 准备所有需要查询的点
-            points = [(x, y) for x in range(x_min, x_max + 1, x_step)
-                            for y in range(y_min, y_max + 1, y_step)]
-            # 定义处理单个点的函数
-            def process_point(point):
-                x, y = point
-                voxel = map_instance.Query(x, y, z)
-                if voxel.semantic == 255:
-                    return None  # 超出地图范围
-                if voxel.distance < 3.0001:
-                    return (x, y)
-                if voxel.cur_height_to_ground < 2.0001:
-                    return (x, y)
-                return None
-
-            # 使用线程池并行处理
-            with ThreadPoolExecutor(max_workers=64) as executor:
-                futures = [executor.submit(process_point, point) for point in points]
-                for future in as_completed(futures):
-                    result = future.result()
-                    if result is not None:
-                        occ_map.append(result)
-            self.occ_map_dict[str(z)] = occ_map
-            # 保存到本地文件（每个高度层一个文件）
-            with open(f'/root/mtuav-competition-2024/occ_map_{int(z)}.json', 'w') as f:
-                json.dump(occ_map, f)
-        print("完成构建障碍物地图...")
-
-    # 构建快速通道
-    def init_fast_paths(self):
-        print("开始构建快速通道...")
-        x_min = int(self.map_boundary['bottomLeft']['x'])
-        x_max = int(self.map_boundary['bottomRight']['x'])
-        y_min = int(self.map_boundary['bottomLeft']['y'])
-        y_max = int(self.map_boundary['topLeft']['y'])
-
-        for z in self.full_altitude_levels:
-            occ_map = set(map(tuple, self.occ_map_dict[str(z)]))  # 转换为集合，元素为 (x, y) 元组
-            print(f"构建高度 {z} 的快速通道...")
-
-            # 定义关键点集
-            key_points = []
-
-            # 添加地图边界上的采样点（每隔一定距离采样一次）
-            boundary_sampling_step = 1  # 调整采样距离
-            for x in range(x_min, x_max + 1, boundary_sampling_step):
-                for y in [y_min, y_max]:
-                    point = (x, y)
-                    if point not in occ_map:
-                        key_points.append(point)
-            for y in range(y_min, y_max + 1, boundary_sampling_step):
-                for x in [x_min, x_max]:
-                    point = (x, y)
-                    if point not in occ_map:
-                        key_points.append(point)
-
-            # 移除重复的关键点
-            key_points = list(set(key_points))
-
-            print(f"高度 {z} 的关键点数量：{len(key_points)}")
-
-            # 构建关键点之间的图，只包含有直线路径的边
-            graph = {}
-            from itertools import combinations
-
-            key_point_pairs = combinations(key_points, 2)
-
-            # 使用线程池并行处理
-            with ThreadPoolExecutor(max_workers=64) as executor:
-                futures = {executor.submit(check_path, pair, occ_map): pair for pair in key_point_pairs}
-                for future in as_completed(futures):
-                    result = future.result()
-                    if result is not None:
-                        start_str, end_str, distance = result
-                        if start_str not in graph:
-                            graph[start_str] = []
-                        if end_str not in graph:
-                            graph[end_str] = []
-                        graph[start_str].append((end_str, distance))
-                        graph[end_str].append((start_str, distance))  # 无向图
-
-            # 将 key_points 转换为字符串形式
-            key_points_str = [f"{p[0]}_{p[1]}" for p in key_points]
-
-            self.fast_path_dict[str(z)] = {
-                'key_points': key_points_str,
-                'graph': graph
-            }
-            print(f"高度 {z} 的关键点之间的直线路径数量：{sum(len(v) for v in graph.values()) // 2}")
-
-            # 保存到本地文件（每个高度层一个文件）
-            with open(f'/root/mtuav-competition-2024/fast_path_dict_{int(z)}.json', 'w') as f:
-                json.dump(self.fast_path_dict[str(z)], f)
-        print("完成构建快速通道...")
 
     # 检测位置到达的函数
     def des_pos_reached(self, des_pos, cur_pos, threshold):
@@ -552,82 +398,6 @@ class DemoPipeline:
 
     # 移动无人机的函数，增加碰撞检测和路径优化
     def fly_one_route(self, drone_sn, start_pos, end_pos, altitude, speed):
-        # 检查无人机是否处于 READY 状态
-        drone_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
-        if drone_status is None or drone_status.drone_work_state != DronePhysicalStatus.READY:
-            print(f"无人机 {drone_sn} 当前不处于 READY 状态，等待...")
-            return
-
-        altitude_str = str(altitude)
-        occ_map = set(map(tuple, self.occ_map_dict[altitude_str]))
-
-        # 将起点和终点转换为整数坐标和字符串形式
-        start_key = (int(round(start_pos.x)), int(round(start_pos.y)))
-        end_key = (int(round(end_pos.x)), int(round(end_pos.y)))
-        start_key_str = f"{start_key[0]}_{start_key[1]}"
-        end_key_str = f"{end_key[0]}_{end_key[1]}"
-
-        # 加载关键点集和图
-        fast_path_data = self.fast_path_dict[altitude_str]
-        key_points_str = fast_path_data['key_points']
-        graph = fast_path_data['graph']
-
-        key_points = [tuple(map(int, p_str.split('_'))) for p_str in key_points_str]
-
-        # 尝试直接飞行
-        if is_direct_path(start_key, end_key, occ_map):
-            full_path_coords = [start_key, end_key]
-        else:
-            # 找到距离起点最近的关键点
-            nearest_start_point = min(key_points, key=lambda p: np.hypot(p[0]-start_key[0], p[1]-start_key[1]))
-            nearest_start_point_str = f"{nearest_start_point[0]}_{nearest_start_point[1]}"
-            # 找到距离终点最近的关键点
-            nearest_end_point = min(key_points, key=lambda p: np.hypot(p[0]-end_key[0], p[1]-end_key[1]))
-            nearest_end_point_str = f"{nearest_end_point[0]}_{nearest_end_point[1]}"
-
-            # 构建完整路径
-            full_path_coords = []
-
-            # 起点到最近关键点
-            if is_direct_path(start_key, nearest_start_point, occ_map):
-                full_path_coords.extend([start_key, nearest_start_point])
-            else:
-                # 使用 A* 计算路径
-                path = astar(start_key, nearest_start_point, occ_map,
-                            (min(start_key[0], nearest_start_point[0]) - 50, max(start_key[0], nearest_start_point[0]) + 50),
-                            (min(start_key[1], nearest_start_point[1]) - 50, max(start_key[1], nearest_start_point[1]) + 50),
-                            1, 1)
-                if path:
-                    full_path_coords.extend(path)
-                else:
-                    print(f"无法找到从 {start_key} 到最近关键点 {nearest_start_point} 的路径")
-                    return
-
-            # 使用预计算的快速路径
-            key_point_path_str = dijkstra(graph, nearest_start_point_str, nearest_end_point_str)
-            if key_point_path_str:
-                # 将字符串形式的点转换回坐标
-                key_point_path = [tuple(map(int, p_str.split('_'))) for p_str in key_point_path_str]
-                full_path_coords.extend(key_point_path)
-            else:
-                print(f"无法找到关键点之间的路径：{nearest_start_point} 到 {nearest_end_point}")
-                return
-
-            # 最近关键点到终点
-            if is_direct_path(nearest_end_point, end_key, occ_map):
-                full_path_coords.extend([nearest_end_point, end_key])
-            else:
-                # 使用 A* 计算路径
-                path = astar(nearest_end_point, end_key, occ_map,
-                            (min(nearest_end_point[0], end_key[0]) - 50, max(nearest_end_point[0], end_key[0]) + 50),
-                            (min(nearest_end_point[1], end_key[1]) - 50, max(nearest_end_point[1], end_key[1]) + 50),
-                            1, 1)
-                if path:
-                    full_path_coords.extend(path[1:])  # 避免重复添加关键点
-                else:
-                    print(f"无法找到从最近关键点 {nearest_end_point} 到终点 {end_key}")
-                    return
-
         # 将路径转换为 DroneWayPoint
         msg = UserCmdRequest()
         msg.peer_id = self.peer_id
@@ -643,15 +413,12 @@ class DemoPipeline:
         msg.drone_way_point_info.way_point.append(takeoff_point)
 
         # 添加飞行路径点
-        # TODO： 针对start_pos为（146,186）、end_pos为进行一些特判吧。
+        # 针对不能直达的pos加一些特判吧。
         special_unloading_point_1 = Position(x=146, y=186, z=-34)
         special_unloading_point_2 = Position(x=528, y=172, z=-20)
-        if self.des_pos_reached(start_pos, special_unloading_point_1, 2.0) or self.des_pos_reached(start_pos, special_unloading_point_2, 2.0):
-            procressed_full_path_coords = [full_path_coords[0], (end_pos.x, end_pos.y)]
-        else:
-            procressed_full_path_coords = full_path_coords
+        full_path_coords = [(start_pos.x,start_pos.y),(end_pos.x,end_pos.y)]
 
-        for i, coord in enumerate(procressed_full_path_coords):
+        for i, coord in enumerate(full_path_coords):
             middle_point = DroneWayPoint()
             middle_point.type = DroneWayPoint.POINT_FLYING
             middle_point.pos.x = coord[0]
@@ -798,8 +565,6 @@ class DemoPipeline:
                 if waybill.status != BillStatus.NOT_STARTED:
                     wait_flag = True
         print("所有飞机、车辆、货物都已准备就绪，调度正式开始！！！")
-
-        self.sys_init()
 
         while not rospy.is_shutdown() and self.state != WorkState.FINISHED:
             # ----------------------------------------------------------------------------------------
