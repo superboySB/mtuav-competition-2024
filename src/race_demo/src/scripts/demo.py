@@ -123,7 +123,7 @@ class DemoPipeline:
 
 
         # 初始化每个车辆的状态字典
-        # route: "", "from_key_point_to_buwei_point", "from_buwei_point_key_point"
+        # route: "", "from_key_point_to_buwei_point", "from_buwei_point_to_key_point"
         for car_sn in self.car_sn_list:
             if car_sn == "SIM-MAGV-0003":
                 current_key_point = (181,449)
@@ -137,7 +137,7 @@ class DemoPipeline:
             elif car_sn == "SIM-MAGV-0006":
                 current_key_point = (199,449)
                 path_state = "from_key_point_to_buwei_point"
-            elif car_sn == "SIM-MAGV-0005":
+            elif car_sn == "SIM-MAGV-0004":
                 current_key_point = (-1,-1)
                 path_state = "from_buwei_point_to_key_point"
             else:
@@ -201,6 +201,16 @@ class DemoPipeline:
             (528,172): False
         }
 
+        # TODO: 一开始应该可以无脑送两次
+        self.initial_double_flag = {
+            (564,394): True,
+            (430,184): True,
+            (490,390): True,
+            (508,514): True,
+            (146,186): True,
+            (528,172): True
+        }
+
     # 仿真回调函数
     def panoramic_info_callback(self, panoramic_info):
         self.car_physical_status = panoramic_info.cars
@@ -240,7 +250,7 @@ class DemoPipeline:
                 path_state = other_data['path_state']
                 if path_state == "from_key_point_to_buwei_point":
                     path = self.fixed_paths_from_key_point_to_buwei_point[current_key_point]
-                elif path_state == "from_buwei_point_key_point":
+                elif path_state == "from_buwei_point_to_key_point":
                     path = self.fixed_paths_from_buwei_point_to_key_point[current_key_point]
                 else:
                     path = self.fixed_cycles_from_key_point[other_car_sn]
@@ -327,7 +337,7 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 105000 > betterTime:
+            if current_time < orderTime or current_time + 100000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
@@ -356,7 +366,7 @@ class DemoPipeline:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 115000 > betterTime:
+            if current_time + 110000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -437,7 +447,11 @@ class DemoPipeline:
                 retry_times += 5
 
         self.car_state_dict[car_sn]['state'] = next_state
-        self.is_delivering_pointed_cargos[(int(waybill.target_pos.x),int(waybill.target_pos.y))] = True
+        
+        if self.initial_double_flag[(int(waybill.target_pos.x),int(waybill.target_pos.y))]:
+            self.initial_double_flag[(int(waybill.target_pos.x),int(waybill.target_pos.y))] = False
+        else:
+            self.is_delivering_pointed_cargos[(int(waybill.target_pos.x),int(waybill.target_pos.y))] = True
 
     # 移动无人机的函数，增加碰撞检测和路径优化
     def fly_one_route(self, drone_sn, start_pos, end_pos, altitude, speed):
@@ -746,7 +760,7 @@ class DemoPipeline:
                 path_state = car_data['path_state']
 
                 print(f"正在处理接驳无人车{car_sn}, 位置：{current_car_physical_status.pos.position.x}, {current_car_physical_status.pos.position.y},{current_car_physical_status.pos.position.z}, 小车物理状态：{current_car_physical_status.car_work_state}, 小车逻辑状态：{state}, 小车上飞机: {current_car_physical_status.drone_sn}")
-                print(f"小车当前current_key_point: {current_key_point}, path_state: {path_state}")
+                print(f"小车当前current_key_point: {current_key_point}, path_state: {path_state}, current_waypoint_index: {car_data['current_waypoint_index']}")
 
                 if state == WorkState.START:
                     car_data['state'] = WorkState.MOVE_CAR_TO_DRONE_KEY_POINT
@@ -757,7 +771,7 @@ class DemoPipeline:
                     end_pos = Position(x=next_waypoint[0], y=next_waypoint[1], z=car_pos.z)
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         if waypoint_index + 1 == len(self.fixed_paths_from_start_to_key_point[car_sn]):
-                            car_data['state'] = WorkState.WAIT_FOR_DRONE_RETURN
+                            car_data['state'] = WorkState.WAIT_FOR_DRONE_RETURN if path_state == "from_key_point_to_buwei_point" else WorkState.MOVE_CAR_BACK_TO_DRONE_KEY_POINT
                             car_data['current_waypoint_index'] = 0
                             continue
                         car_data['current_waypoint_index'] = waypoint_index + 1
@@ -815,20 +829,26 @@ class DemoPipeline:
                 elif state == WorkState.MOVE_CAR_BACK_TO_DRONE_KEY_POINT:
                     if path_state == "from_key_point_to_buwei_point":
                         path = self.fixed_paths_from_key_point_to_buwei_point[current_key_point]
-                    elif path_state == "from_buwei_point_key_point":
+                    elif path_state == "from_buwei_point_to_key_point":
                         if current_key_point[0] == -1:
                             wait_flag = True
-                            for other_car_sn, other_data in self.car_state_dict.items():
-                                if other_car_sn == car_sn or other_car_sn =="SIM-MAGV-0001":
-                                    continue  # 跳过自己
-                                other_next_waypoint_index = other_data['current_waypoint_index']
-                                other_current_key_point = other_data['current_key_point']
-                                other_path_state = other_data['path_state']
-                                if other_path_state == "from_key_point_to_buwei_point" and other_next_waypoint_index > 2:
-                                    wait_flag = False
-                                    self.car_state_dict[car_sn]['current_key_point'] = other_current_key_point
-                                    print(f"地面车辆{car_sn}领到替{other_car_sn}补位接驳点{other_current_key_point}的任务!!!")
-                                    self.key_point_state_dict[other_current_key_point]['ready_for_landing'] = True
+                            for keypoint_sn, keypoint_dict in self.key_point_state_dict.items():
+                                if keypoint_dict['ready_for_landing'] or keypoint_dict['occupyed_for_landing']:
+                                    continue
+
+                                for other_car_sn, other_data in self.car_state_dict.items():
+                                    if other_car_sn == car_sn or other_car_sn =="SIM-MAGV-0001":
+                                        continue  # 跳过自己
+                                    other_next_waypoint_index = other_data['current_waypoint_index']
+                                    other_current_key_point = other_data['current_key_point']
+                                    if other_current_key_point == keypoint_sn and other_next_waypoint_index > 2:
+                                        wait_flag = False
+                                        self.car_state_dict[car_sn]['current_key_point'] = keypoint_sn
+                                        print(f"地面车辆{car_sn}领到替{other_car_sn}补位接驳点{other_current_key_point}的任务!!!")
+                                        self.key_point_state_dict[other_current_key_point]['ready_for_landing'] = True
+                                        break
+                                
+                                if not wait_flag:
                                     break
 
                             if wait_flag:
@@ -838,6 +858,7 @@ class DemoPipeline:
                             path = self.fixed_paths_from_buwei_point_to_key_point[current_key_point]
                     else:
                         path = None
+
                     assert path is not None
 
                     waypoint_index = self.car_state_dict[car_sn]['current_waypoint_index']
@@ -846,12 +867,12 @@ class DemoPipeline:
                     if self.des_pos_reached(car_pos, end_pos, 2.0) and current_car_physical_status.car_work_state == CarPhysicalStatus.CAR_READY:
                         if self.car_state_dict[car_sn]['current_waypoint_index'] + 1 == len(path):
                             self.car_state_dict[car_sn]['current_waypoint_index'] = 0
-                            if path_state == "from_buwei_point_key_point":
+                            if path_state == "from_buwei_point_to_key_point":
                                 self.car_state_dict[car_sn]['path_state'] = "from_key_point_to_buwei_point"
                                 self.car_state_dict[car_sn]['state'] = WorkState.WAIT_FOR_DRONE_RETURN
                                 print(f"无人车{car_sn}成功到达key point({end_pos.x},{end_pos.y})等待飞机着陆")
                             else:
-                                self.car_state_dict[car_sn]['path_state'] = "from_buwei_point_key_point"
+                                self.car_state_dict[car_sn]['path_state'] = "from_buwei_point_to_key_point"
                                 self.car_state_dict[car_sn]['current_key_point'] = (-1,-1)
                             continue
                                 
@@ -926,7 +947,7 @@ class DemoPipeline:
             print("--------------------------------------------------------------")
             print(f"当前用时{time.time() - start_time}秒, 当前得分：{self.score}")
             print("--------------------------------------------------------------")
-            rospy.sleep(0.2)
+            rospy.sleep(0.3)
 
             # 检查是否已经超过一小时
             if time.time() - start_time > 3700:
