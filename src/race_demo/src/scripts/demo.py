@@ -337,7 +337,7 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 100000 > betterTime:
+            if current_time < orderTime or current_time + 105000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
@@ -366,7 +366,7 @@ class DemoPipeline:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 110000 > betterTime:
+            if current_time + 115000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -377,7 +377,6 @@ class DemoPipeline:
         if available_orders:
             return True
         else:
-            print("现在你过去取货也没前途呀，先别着急去了！！")
             return False
         
     def move_drone_on_car(self, drone_sn, car_sn):
@@ -589,6 +588,10 @@ class DemoPipeline:
                 orderTime = bill_status.orderTime
                 betterTime = bill_status.betterTime
                 timeout = bill_status.timeout
+                int_target_pos = (int(round(bill_status.target_pos.x)), int(round(bill_status.target_pos.y)))
+                if int_target_pos in [(146,186),(508,514)]:
+                    self.is_delivering_pointed_cargos[int_target_pos] = False
+
                 print(f"订单ID {cargo_id}, 送达时间 {deliveryFinishTime}, orderTime {orderTime}, betterTime {betterTime}, timeout {timeout}")
                 if orderTime <= deliveryFinishTime <= betterTime:
                     print("提前送达，100分")
@@ -747,9 +750,14 @@ class DemoPipeline:
                     self.car_state_dict[car_sn]['state'] = WorkState.MOVE_CAR_GO_TO_LOADING_POINT
                 else:
                     print(f"车辆 {car_sn} 还没移动到起飞点，等待...")
-            
+                    
             # ----------------------------------------------------------------------------------------
             # 处理4+1接收车 (TODO: 地面动态补位+接驳)
+            for keypoint_sn, keypoint_dict in self.key_point_state_dict.items():
+                print("----------------")
+                print(f"正在观察keypoint{keypoint_sn}, ready_for_landing: {keypoint_dict['ready_for_landing']}, occupyed_for_landing: {keypoint_dict['occupyed_for_landing']}")
+                print("----------------")
+
             for car_sn in ["SIM-MAGV-0002", "SIM-MAGV-0003", "SIM-MAGV-0004", "SIM-MAGV-0005", "SIM-MAGV-0006"]:
                 car_data = self.car_state_dict[car_sn]
                 current_car_physical_status = next(
@@ -841,10 +849,12 @@ class DemoPipeline:
                                         continue  # 跳过自己
                                     other_next_waypoint_index = other_data['current_waypoint_index']
                                     other_current_key_point = other_data['current_key_point']
-                                    if other_current_key_point == keypoint_sn and other_next_waypoint_index > 2:
+                                    other_path_state = other_data['path_state']
+                                    if other_path_state == "from_key_point_to_buwei_point" and other_current_key_point == keypoint_sn and \
+                                            other_next_waypoint_index > 2:
                                         wait_flag = False
                                         self.car_state_dict[car_sn]['current_key_point'] = keypoint_sn
-                                        print(f"地面车辆{car_sn}领到替{other_car_sn}补位接驳点{other_current_key_point}的任务!!!")
+                                        print(f"地面车辆{car_sn}领到补位接驳点{keypoint_sn}的任务!!!")
                                         self.key_point_state_dict[other_current_key_point]['ready_for_landing'] = True
                                         break
                                 
@@ -873,7 +883,22 @@ class DemoPipeline:
                                 print(f"无人车{car_sn}成功到达key point({end_pos.x},{end_pos.y})等待飞机着陆")
                             else:
                                 self.car_state_dict[car_sn]['path_state'] = "from_buwei_point_to_key_point"
-                                self.car_state_dict[car_sn]['current_key_point'] = (-1,-1)
+                                my_keypoint_dict = self.key_point_state_dict[current_key_point]
+                                my_keypoint_occupy_flag = False
+                                for other_car_sn, other_data in self.car_state_dict.items():
+                                    if other_car_sn == car_sn or other_car_sn =="SIM-MAGV-0001":
+                                        continue  # 跳过自己
+                                    other_current_key_point = other_data['current_key_point']
+                                    other_path_state = other_data['path_state']
+                                    if other_path_state == "from_key_point_to_buwei_point" and other_current_key_point == current_key_point:
+                                        my_keypoint_occupy_flag = True
+                                        break
+
+                                if my_keypoint_dict['ready_for_landing'] or my_keypoint_dict['occupyed_for_landing'] or my_keypoint_occupy_flag:
+                                    self.car_state_dict[car_sn]['current_key_point'] = (-1,-1)
+                                else:
+                                    self.car_state_dict[car_sn]['current_key_point'] = current_key_point
+                                    self.key_point_state_dict[current_key_point]['ready_for_landing'] = True
                             continue
                                 
                         next_waypoint = path[waypoint_index + 1]
@@ -896,6 +921,14 @@ class DemoPipeline:
                   (current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY or current_drone_physical_status.drone_work_state == DronePhysicalStatus.LANDING) and \
                   int(usage['current_order_x']) == 564 and int(usage['current_order_y']) == 394:
                     prior_drone_is_waiting_564_394_flag = True
+            
+            prior_drone_is_waiting_490_390_flag = False
+            for drone_sn, usage in self.drone_state_dict.items():
+                current_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
+                if usage['wait_for_landing_car'] and \
+                  (current_drone_physical_status.drone_work_state == DronePhysicalStatus.READY or current_drone_physical_status.drone_work_state == DronePhysicalStatus.LANDING) and \
+                  int(usage['current_order_x']) == 490 and int(usage['current_order_y']) == 390:
+                    prior_drone_is_waiting_490_390_flag = True
 
             for drone_sn, usage in self.drone_state_dict.items():
                 current_drone_physical_status = next((drone for drone in self.drone_physical_status if drone.sn == drone_sn), None)
@@ -925,6 +958,10 @@ class DemoPipeline:
                     if self.key_point_state_dict[landing_key_point]["ready_for_landing"] and (not self.key_point_state_dict[landing_key_point]["occupyed_for_landing"]):
                         if landing_key_point == (193,449) and prior_drone_is_waiting_564_394_flag and \
                                 int(usage['current_order_x']) == 528 and int(usage['current_order_y']) == 172:
+                            continue
+
+                        if landing_key_point == (187,449) and prior_drone_is_waiting_490_390_flag and \
+                                int(usage['current_order_x']) == 430 and int(usage['current_order_y']) == 184:
                             continue
 
                         print(f"现在接驳点{landing_key_point}上已经有接驳车或者已经有正在补位的接驳车，可以让无人机先回来了")
