@@ -588,9 +588,10 @@ class DemoPipeline:
                 orderTime = bill_status.orderTime
                 betterTime = bill_status.betterTime
                 timeout = bill_status.timeout
-                int_target_pos = (int(round(bill_status.target_pos.x)), int(round(bill_status.target_pos.y)))
-                if int_target_pos in [(146,186),(508,514)]:
-                    self.is_delivering_pointed_cargos[int_target_pos] = False
+                # 还是不能加，太难受了
+                # int_target_pos = (int(round(bill_status.target_pos.x)), int(round(bill_status.target_pos.y)))
+                # if int_target_pos in [(146,186),(508,514)]:
+                #     self.is_delivering_pointed_cargos[int_target_pos] = False
 
                 print(f"订单ID {cargo_id}, 送达时间 {deliveryFinishTime}, orderTime {orderTime}, betterTime {betterTime}, timeout {timeout}")
                 if orderTime <= deliveryFinishTime <= betterTime:
