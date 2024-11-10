@@ -337,7 +337,7 @@ class DemoPipeline:
             orderTime = bill_status.orderTime
             betterTime = bill_status.betterTime
             timeout = bill_status.timeout
-            if current_time < orderTime or current_time + 105000 > betterTime:
+            if current_time < orderTime or current_time + 100000 > betterTime:
                 continue  # 订单未开始或已超过最佳送达时间，我不接
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
@@ -366,7 +366,7 @@ class DemoPipeline:
                 continue
             if self.is_delivering_pointed_cargos[(int(bill_status.target_pos.x),int(bill_status.target_pos.y))]:
                 continue
-            if current_time + 115000 > betterTime:
+            if current_time + 110000 > betterTime:
                 continue
 
             available_orders.append((bill_status, orderTime, betterTime, timeout))
@@ -852,7 +852,7 @@ class DemoPipeline:
                                     other_current_key_point = other_data['current_key_point']
                                     other_path_state = other_data['path_state']
                                     if other_path_state == "from_key_point_to_buwei_point" and other_current_key_point == keypoint_sn and \
-                                            other_next_waypoint_index > 2:
+                                            other_next_waypoint_index > 3:
                                         wait_flag = False
                                         self.car_state_dict[car_sn]['current_key_point'] = keypoint_sn
                                         print(f"地面车辆{car_sn}领到补位接驳点{keypoint_sn}的任务!!!")
